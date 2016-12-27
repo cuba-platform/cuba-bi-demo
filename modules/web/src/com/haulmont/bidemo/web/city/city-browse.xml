@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.haulmont.bidemo.web.city.CityBrowse"
+        focusComponent="citiesTable"
+        lookupComponent="citiesTable"
+        messagesPack="com.haulmont.bidemo.web.city">
+    <dsContext>
+        <collectionDatasource id="citiesDs"
+                              class="com.haulmont.bidemo.entity.City"
+                              view="city-browser-view">
+            <query>
+                <![CDATA[select e from bidemo$City e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="citiesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="citiesTable"
+                datasource="citiesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="citiesTable"
+               width="100%">
+            <actions>
+                <action id="create"
+                        openType="DIALOG"/>
+                <action id="edit"
+                        openType="DIALOG"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="country"/>
+            </columns>
+            <rows datasource="citiesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="citiesTable.create"/>
+                <button id="editBtn"
+                        action="citiesTable.edit"/>
+                <button id="removeBtn"
+                        action="citiesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

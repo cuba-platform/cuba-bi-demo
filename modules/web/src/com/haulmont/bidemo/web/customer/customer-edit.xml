@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.haulmont.bidemo.web.customer.CustomerEdit"
+        datasource="customerDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.haulmont.bidemo.web.customer">
+    <dsContext>
+        <datasource id="customerDs"
+                    class="com.haulmont.bidemo.entity.Customer"
+                    view="customer-edit-view"/>
+        <collectionDatasource id="ordersDs"
+                              class="com.haulmont.bidemo.entity.Order"
+                              view="_local">
+            <query>
+                <![CDATA[select o from bidemo$Order o where o.customer.id = :ds$customerDs order by o.date]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="citiesDs"
+                              class="com.haulmont.bidemo.entity.City"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from bidemo$City e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <layout expand="ordersTable"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="customerDs"
+                    width="300px">
+            <column width="250px">
+                <field id="name"/>
+                <field id="email"/>
+                <field id="city"
+                       optionsDatasource="citiesDs"/>
+            </column>
+        </fieldGroup>
+        <label value="msg://Orders"/>
+        <table id="ordersTable"
+               width="100%">
+            <columns>
+                <column id="date"/>
+                <column id="amount"/>
+            </columns>
+            <rows datasource="ordersDs"/>
+        </table>
+        <frame id="windowActions"
+               screen="editWindowActions"
+               stylename="window-actions"/>
+    </layout>
+</window>

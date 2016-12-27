@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.haulmont.bidemo.web.productline.ProductLineBrowse"
+        focusComponent="productLinesTable"
+        lookupComponent="productLinesTable"
+        messagesPack="com.haulmont.bidemo.web.productline">
+    <dsContext>
+        <collectionDatasource id="productLinesDs"
+                              class="com.haulmont.bidemo.entity.ProductLine"
+                              view="_local">
+            <query>
+                <![CDATA[select e from bidemo$ProductLine e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="productLinesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="productLinesTable"
+                datasource="productLinesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="productLinesTable"
+               width="100%">
+            <actions>
+                <action id="create"
+                        openType="DIALOG"/>
+                <action id="edit"
+                        openType="DIALOG"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+            </columns>
+            <rows datasource="productLinesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="productLinesTable.create"/>
+                <button id="editBtn"
+                        action="productLinesTable.edit"/>
+                <button id="removeBtn"
+                        action="productLinesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

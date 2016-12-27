@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.haulmont.bidemo.web.country.CountryBrowse"
+        focusComponent="countriesTable"
+        lookupComponent="countriesTable"
+        messagesPack="com.haulmont.bidemo.web.country">
+    <dsContext>
+        <collectionDatasource id="countriesDs"
+                              class="com.haulmont.bidemo.entity.Country"
+                              view="country-browser-view">
+            <query>
+                <![CDATA[select e from bidemo$Country e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="countriesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="countriesTable"
+                datasource="countriesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="countriesTable"
+               width="100%">
+            <actions>
+                <action id="create"
+                        openType="DIALOG"/>
+                <action id="edit"
+                        openType="DIALOG"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="territory"/>
+            </columns>
+            <rows datasource="countriesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="countriesTable.create"/>
+                <button id="editBtn"
+                        action="countriesTable.edit"/>
+                <button id="removeBtn"
+                        action="countriesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

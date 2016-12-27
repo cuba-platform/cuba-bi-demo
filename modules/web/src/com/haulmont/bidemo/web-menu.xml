@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
-    <menu id="application" insertBefore="administration">
+    <menu id="shop"
+          insertBefore="administration">
+        <item id="bidemo$Order.browse"/>
+        <separator/>
+        <item id="bidemo$Product.browse"/>
+        <item id="bidemo$ProductLine.browse"/>
+        <separator/>
+        <item id="bidemo$Customer.browse"/>
+        <item id="bidemo$City.browse"/>
+        <item id="bidemo$Country.browse"/>
+        <item id="bidemo$Territory.browse"/>
     </menu>
 </menu-config>

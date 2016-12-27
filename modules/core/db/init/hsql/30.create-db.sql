@@ -1,0 +1,8774 @@
+--create Star Schema
+create table BIDEMO_DIM_CUSTOMER (
+  ID varchar(36) not null,
+  NAME varchar(100) not null,
+  city_id varchar(36),
+  CITY_NAME varchar(255),
+  STATE_ID varchar(36),
+  STATE_NAME varchar(255),
+  COUNTRY_ID varchar(36),
+  COUNTRY_NAME varchar(255),
+  TERRITORY_ID varchar(36),
+  TERRITORY_NAME varchar(255),
+  --
+  primary key (ID)
+)^
+
+create table BIDEMO_DIM_PRODUCT (
+  ID varchar(36) not null,
+  NAME varchar(50) not null,
+  PRODUCT_LINE_ID varchar(36),
+  PRODUCT_LINE_NAME varchar(255),
+  --
+  primary key (ID)
+)^
+
+CREATE TABLE BIDEMO_FACT_ORDER_LINE
+(
+  ID varchar(36) not null,
+  PRODUCT_ID varchar(36) not null,
+  QUANTITY numeric(19,3) not null,
+  ORDER_ID varchar(36),
+  CUSTOMER_ID varchar(36),
+  primary key (ID)
+)^
+
+alter table BIDEMO_FACT_ORDER_LINE add constraint FK_BIDEMO_FACT_ORDER_LINE_PRODUCT_ID foreign key (PRODUCT_ID) references BIDEMO_DIM_PRODUCT(ID)^
+create index IDX_BIDEMO_FACT_ORDER_LINE_PRODUCT on BIDEMO_FACT_ORDER_LINE (PRODUCT_ID)^
+
+alter table BIDEMO_FACT_ORDER_LINE add constraint FK_BIDEMO_FACT_ORDER_LINE_CUSTOMER_ID foreign key (CUSTOMER_ID) references BIDEMO_DIM_CUSTOMER(ID)^
+create index IDX_BIDEMO_FACT_ORDER_LINE_CUSTOMER on BIDEMO_FACT_ORDER_LINE (CUSTOMER_ID)^
+create index IDX_BIDEMO_FACT_ORDER_LINE_ORDER on BIDEMO_FACT_ORDER_LINE (ORDER_ID)^
+
+--BIDEMO_TERRITORY
+insert into BIDEMO_TERRITORY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('b95b12ae-5eb6-7ada-3849-af7aa8856d37', 1, '2016-12-23 12:14:24', 'admin', '2016-12-23 12:14:24', null, null, null, 'APAC');
+insert into BIDEMO_TERRITORY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506', 1, '2016-12-23 12:14:35', 'admin', '2016-12-23 12:14:35', null, null, null, 'EMEA');
+insert into BIDEMO_TERRITORY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('eb659257-bbf7-f65b-30d0-77c4dfa8d2cf', 1, '2016-12-23 12:14:43', 'admin', '2016-12-23 12:14:43', null, null, null, 'NA');
+insert into BIDEMO_TERRITORY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('2cbc679c-16f2-2c93-e82b-d60a33815289', 1, '2016-12-23 12:15:02', 'admin', '2016-12-23 12:15:02', null, null, null, 'Japan');
+
+--BIDEMO_COUNTRY
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('44094845-36ae-ac61-7a73-ab54e613cd77', 1, '2016-12-23 12:24:54', 'admin', '2016-12-23 12:24:54', null, null, null, 'USA', 'eb659257-bbf7-f65b-30d0-77c4dfa8d2cf');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('447ef51b-5939-9439-2c90-3f788230ac40', 1, '2016-12-23 12:27:55', 'admin', '2016-12-23 12:27:55', null, null, null, 'Canada', 'eb659257-bbf7-f65b-30d0-77c4dfa8d2cf');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('0f223f9f-0499-a05d-50e7-b4ec2baf1ce2', 1, '2016-12-23 12:30:31', 'admin', '2016-12-23 12:30:31', null, null, null, 'Japan', '2cbc679c-16f2-2c93-e82b-d60a33815289');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('550a31b1-2d4b-9f4c-e5af-f15bc9ae34de', 1, '2016-12-23 12:30:39', 'admin', '2016-12-23 12:30:39', null, null, null, 'Singapore', 'b95b12ae-5eb6-7ada-3849-af7aa8856d37');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('2c35f903-bacc-c6eb-1c71-96fe79c5844a', 1, '2016-12-23 12:34:01', 'admin', '2016-12-23 12:34:01', null, null, null, 'UK', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('17ac717a-b7d8-d496-7f57-002b9137e195', 1, '2016-12-23 12:50:24', 'admin', '2016-12-23 12:50:24', null, null, null, 'Austria', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('923d3173-e6fe-8d86-9b96-e7536cde3849', 1, '2016-12-23 12:55:31', 'admin', '2016-12-23 12:55:31', null, null, null, 'Germany', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('8f09c468-f0ca-8cbe-8173-d2e08a379ebe', 1, '2016-12-23 12:58:37', 'admin', '2016-12-23 12:58:37', null, null, null, 'France', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('f7d54ed8-9f3a-72e6-54f6-bb2937c1a276', 1, '2016-12-23 13:07:00', 'admin', '2016-12-23 13:07:00', null, null, null, 'Belgium', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('e30376ee-ebd6-2f45-81c8-d41a0206d33d', 1, '2016-12-23 13:14:34', 'admin', '2016-12-23 13:14:34', null, null, null, 'Switzerland', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('9f088b63-3da4-6e9d-2ec0-eb10ca2b7d70', 1, '2016-12-23 13:22:30', 'admin', '2016-12-23 13:22:30', null, null, null, 'Finland', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('f3b28b4b-9573-7463-d28f-6ec8fa17bb21', 1, '2016-12-23 13:24:26', 'admin', '2016-12-23 13:24:26', null, null, null, 'Norway', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('0e43223b-75ac-a272-09cc-0ed307de9528', 1, '2016-12-23 13:25:41', 'admin', '2016-12-23 13:25:41', null, null, null, 'Denmark', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('f502e182-9b89-bc58-92a1-e693fb2631fe', 1, '2016-12-23 13:27:31', 'admin', '2016-12-23 13:27:31', null, null, null, 'Ireland', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('44fddd01-e46a-f095-bfd7-e3f56fbeae9e', 1, '2016-12-23 13:31:04', 'admin', '2016-12-23 13:31:04', null, null, null, 'New Zealand', 'b95b12ae-5eb6-7ada-3849-af7aa8856d37');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('30308eed-8298-a7a6-82d3-61859152c3ff', 1, '2016-12-23 13:32:01', 'admin', '2016-12-23 13:32:01', null, null, null, 'Australia', 'b95b12ae-5eb6-7ada-3849-af7aa8856d37');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('3cdc7169-be09-7232-39d0-6469010ea3c4', 1, '2016-12-23 13:37:36', 'admin', '2016-12-23 13:37:36', null, null, null, 'Israel', 'eb659257-bbf7-f65b-30d0-77c4dfa8d2cf');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('3860fa15-d382-0bf3-471c-1087c1b4ee32', 1, '2016-12-23 13:39:10', 'admin', '2016-12-23 13:39:10', null, null, null, 'Russia', 'eb659257-bbf7-f65b-30d0-77c4dfa8d2cf');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('ccc00347-b33f-a97e-f180-dc5f8911574a', 1, '2016-12-23 13:42:21', 'admin', '2016-12-23 13:42:21', null, null, null, 'Portugal', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('c7037e89-0c42-abed-f1b7-0a8a0a1bcc11', 1, '2016-12-23 13:45:16', 'admin', '2016-12-23 13:45:16', null, null, null, 'Netherlands', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+insert into BIDEMO_COUNTRY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, TERRITORY_ID)
+values ('41719585-4165-6692-61df-012e3b6e5464', 1, '2016-12-23 13:46:20', 'admin', '2016-12-23 13:46:20', null, null, null, 'Poland', 'b43ae9ff-4bd6-e8f5-ee05-2c6fd5ed8506');
+
+--BIDEMO_CITY
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('b51cf3a2-68c5-9aab-2210-ac5426d2c3e2', 1, '2016-12-23 15:11:04', 'admin', '2016-12-23 15:11:04', null, null, null, 'Warszawa', '41719585-4165-6692-61df-012e3b6e5464');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('5ba102ec-b4f6-7410-a9e6-47364e206ffb', 1, '2016-12-23 15:12:06', 'admin', '2016-12-23 15:12:06', null, null, null, 'Singapore', '550a31b1-2d4b-9f4c-e5af-f15bc9ae34de');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('544b8676-2e60-08e8-e519-812edd4ca7de', 1, '2016-12-23 15:12:40', 'admin', '2016-12-23 15:12:40', null, null, null, 'Amsterdam', 'c7037e89-0c42-abed-f1b7-0a8a0a1bcc11');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('bad78b99-027f-bad2-7f98-e74254e79d75', 1, '2016-12-23 15:13:55', 'admin', '2016-12-23 15:13:55', null, null, null, 'Lisboa', 'ccc00347-b33f-a97e-f180-dc5f8911574a');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('a3a1cbb8-5d88-a8ab-8185-4b4cb5463084', 1, '2016-12-23 15:14:38', 'admin', '2016-12-23 15:14:38', null, null, null, 'Saint Petersburg', '3860fa15-d382-0bf3-471c-1087c1b4ee32');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('86874fd7-1016-1c25-8278-144ee2ff0179', 1, '2016-12-23 15:17:07', 'admin', '2016-12-23 15:17:07', null, null, null, 'Melbourne', '30308eed-8298-a7a6-82d3-61859152c3ff');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('f512bcd1-be14-b76f-d3f4-0fbe9b55b61f', 1, '2016-12-23 15:17:40', 'admin', '2016-12-23 15:17:40', null, null, null, 'North Sydney', '30308eed-8298-a7a6-82d3-61859152c3ff');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('d25b8ef7-f87b-9468-ec44-1bf8d43f2e73', 1, '2016-12-23 15:19:22', 'admin', '2016-12-23 15:19:22', null, null, null, 'Chatswood', '30308eed-8298-a7a6-82d3-61859152c3ff');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('46256aa9-d3af-e5d3-4455-2a14993d3ac1', 1, '2016-12-23 15:21:13', 'admin', '2016-12-23 15:21:13', null, null, null, 'Auckland', '44fddd01-e46a-f095-bfd7-e3f56fbeae9e');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('a86e110d-f002-9c55-29e7-ada126f3ca58', 1, '2016-12-23 15:23:02', 'admin', '2016-12-23 15:23:02', null, null, null, 'South Brisbane', '30308eed-8298-a7a6-82d3-61859152c3ff');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('6e49a2cf-d337-420c-e229-ab87c45db6ad', 1, '2016-12-23 15:28:10', 'admin', '2016-12-23 15:28:10', null, null, null, 'Glen Waverly', '30308eed-8298-a7a6-82d3-61859152c3ff');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('a62e6f0c-c30d-57c9-38f2-69b234a4da6b', 1, '2016-12-23 15:29:03', 'admin', '2016-12-23 15:29:03', null, null, null, 'Dublin', 'f502e182-9b89-bc58-92a1-e693fb2631fe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('c98e024d-15fb-3a80-923a-bf2e4fffaa80', 1, '2016-12-23 15:35:43', 'admin', '2016-12-23 15:35:43', null, null, null, 'Kobenhavn', '0e43223b-75ac-a272-09cc-0ed307de9528');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('29c253cd-0cfd-b41a-1e44-1623e656d5e4', 1, '2016-12-23 15:37:58', 'admin', '2016-12-23 15:37:58', null, null, null, 'Oslo', 'f3b28b4b-9573-7463-d28f-6ec8fa17bb21');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('0bcdafef-95fa-82df-e9da-81b5481bc6e9', 1, '2016-12-23 15:38:29', 'admin', '2016-12-23 15:38:29', null, null, null, 'Bergen', 'f3b28b4b-9573-7463-d28f-6ec8fa17bb21');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('00a4e70b-573b-bea0-861d-a8217bc98697', 1, '2016-12-23 15:39:06', 'admin', '2016-12-23 15:39:06', null, null, null, 'Stavern', 'f3b28b4b-9573-7463-d28f-6ec8fa17bb21');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('40520e58-4df2-18ee-ca7c-22264051ecc8', 1, '2016-12-23 15:41:30', 'admin', '2016-12-23 15:41:30', null, null, null, 'Oulu', '9f088b63-3da4-6e9d-2ec0-eb10ca2b7d70');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('024307bd-1bc9-e171-cadf-a98c71a6ffd6', 1, '2016-12-23 15:41:55', 'admin', '2016-12-23 15:41:55', null, null, null, 'Espoo', '9f088b63-3da4-6e9d-2ec0-eb10ca2b7d70');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('7042e62e-f8e8-27da-bf3b-b45ec1580fad', 1, '2016-12-23 15:43:01', 'admin', '2016-12-23 15:43:01', null, null, null, 'Helsinki', '9f088b63-3da4-6e9d-2ec0-eb10ca2b7d70');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('69a8df22-c900-d6c4-50a2-2842c1aff555', 1, '2016-12-23 15:46:57', 'admin', '2016-12-23 15:46:57', null, null, null, 'Bern', 'e30376ee-ebd6-2f45-81c8-d41a0206d33d');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('4f3e563e-aeba-9359-80f8-85d23571151d', 1, '2016-12-23 15:47:23', 'admin', '2016-12-23 15:47:23', null, null, null, 'Fribourg', 'e30376ee-ebd6-2f45-81c8-d41a0206d33d');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('0d78e75d-39d6-9990-8c07-cececb2eea3c', 1, '2016-12-23 15:50:02', 'admin', '2016-12-23 15:50:02', null, null, null, 'Bruxelles', 'f7d54ed8-9f3a-72e6-54f6-bb2937c1a276');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('6ec6045b-5c2b-e89b-f0f5-ac21b6be678f', 1, '2016-12-23 15:50:26', 'admin', '2016-12-23 15:50:26', null, null, null, 'Charleroi', 'f7d54ed8-9f3a-72e6-54f6-bb2937c1a276');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('620050ad-87fe-89e1-b111-91bd8fd42d52', 1, '2016-12-23 15:52:54', 'admin', '2016-12-23 15:52:54', null, null, null, 'Paris', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('5a808efd-86b9-e171-f846-f9b50f2f630c', 1, '2016-12-23 15:54:01', 'admin', '2016-12-23 15:54:01', null, null, null, 'Marseille', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('d64cb960-541d-fe5d-c075-417a86a8f49b', 1, '2016-12-23 15:54:47', 'admin', '2016-12-23 15:54:47', null, null, null, 'Reims', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('664da6e2-97d7-44f6-f572-9642715ca79d', 1, '2016-12-23 15:55:32', 'admin', '2016-12-23 15:55:32', null, null, null, 'Toulouse', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('cb9c8bc7-cb5a-a702-b231-0a501a71f65c', 1, '2016-12-23 15:57:20', 'admin', '2016-12-23 15:57:20', null, null, null, 'Versailles', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('33bbe7c0-c450-22e5-7a21-369b873f08ba', 1, '2016-12-23 15:58:21', 'admin', '2016-12-23 15:58:21', null, null, null, 'Strasbourg', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('ab88e857-1ca8-25d8-7219-01aba06cc3c6', 1, '2016-12-23 15:58:52', 'admin', '2016-12-23 15:58:52', null, null, null, 'Lille', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('d22398ad-c2a5-619c-f8e1-82b7520dd7e2', 1, '2016-12-23 16:02:01', 'admin', '2016-12-23 16:02:01', null, null, null, 'Nantes', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('4d031cf4-58a0-611b-3b0f-36481a91f189', 1, '2016-12-23 16:02:20', 'admin', '2016-12-23 16:02:20', null, null, null, 'Lyon', '8f09c468-f0ca-8cbe-8173-d2e08a379ebe');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('1ebe9c77-86a7-a916-4717-f35278e0e0f9', 1, '2016-12-23 16:04:32', 'admin', '2016-12-23 16:04:32', null, null, null, 'Graz', '17ac717a-b7d8-d496-7f57-002b9137e195');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('1debc3f5-51ae-5f7b-1aee-ee811c87a788', 1, '2016-12-23 16:04:54', 'admin', '2016-12-23 16:04:54', null, null, null, 'Salzburg', '17ac717a-b7d8-d496-7f57-002b9137e195');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('18672f9b-01f8-a0a2-5202-fcdb4d7910db', 1, '2016-12-23 16:08:15', 'admin', '2016-12-23 16:08:15', null, null, null, 'Munich', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('156bfc14-8479-a63f-d9d2-bd25d4d4bf98', 1, '2016-12-23 16:08:42', 'admin', '2016-12-23 16:08:42', null, null, null, 'Frankfurt', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('c89a97de-509d-279f-fdde-6984579873bb', 1, '2016-12-23 16:10:51', 'admin', '2016-12-23 16:10:51', null, null, null, 'Aachen', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('908784ad-f2e7-0ffc-c249-edb471456792', 1, '2016-12-23 16:12:59', 'admin', '2016-12-23 16:12:59', null, null, null, 'Mannheim', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('9fa6812a-2287-6f98-9dd7-a8e8735402ae', 1, '2016-12-23 16:13:22', 'admin', '2016-12-23 16:13:22', null, null, null, 'Stuttgart', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('5034e722-d127-0cbb-fbf8-da27a235d712', 1, '2016-12-23 16:17:00', 'admin', '2016-12-23 16:17:00', null, null, null, 'Leipzig', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('105ac490-68a6-4cc1-b993-fb3fb156c57f', 1, '2016-12-23 16:18:07', 'admin', '2016-12-23 16:18:07', null, null, null, 'Berlin', '923d3173-e6fe-8d86-9b96-e7536cde3849');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('c541bbfc-b345-54ea-1582-b30f7b12ca62', 1, '2016-12-23 16:22:21', 'admin', '2016-12-23 16:22:21', null, null, null, 'London', '2c35f903-bacc-c6eb-1c71-96fe79c5844a');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('9755e6c4-c844-289a-cf93-5e797555e966', 1, '2016-12-23 16:22:49', 'admin', '2016-12-23 16:22:49', null, null, null, 'Liverpool', '2c35f903-bacc-c6eb-1c71-96fe79c5844a');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('4af3c6fb-06c2-6214-a6b5-4de6eff4244f', 1, '2016-12-23 16:24:27', 'admin', '2016-12-23 16:24:27', null, null, null, 'Manchester', '2c35f903-bacc-c6eb-1c71-96fe79c5844a');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('5c00d307-855c-df9b-55d4-82de60567c0d', 1, '2016-12-23 16:52:38', 'admin', '2016-12-23 16:52:38', null, null, null, 'Osaka', '0f223f9f-0499-a05d-50e7-b4ec2baf1ce2');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('57ed2e7d-5447-c15e-7153-d946ef85d4a6', 1, '2016-12-23 16:56:53', 'admin', '2016-12-23 16:56:53', null, null, null, 'Tokyo', '0f223f9f-0499-a05d-50e7-b4ec2baf1ce2');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('9069266a-7eff-62aa-74ca-bfa93c4875b5', 1, '2016-12-23 17:29:09', 'admin', '2016-12-23 17:29:09', null, null, null, 'Las Vegas', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('578ab912-173e-2cd0-4a1c-8ed10c584ee0', 1, '2016-12-23 17:29:54', 'admin', '2016-12-23 17:29:54', null, null, null, 'San Francisco', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('2330d0dd-b122-f65c-2f38-3b91f055aa3a', 1, '2016-12-23 17:31:36', 'admin', '2016-12-23 17:31:36', null, null, null, 'NY', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('856a5f5d-5a1d-55b8-f010-1d1b16af6f7a', 1, '2016-12-23 17:34:25', 'admin', '2016-12-23 17:34:25', null, null, null, 'Cambridge', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('e216c693-ace6-3c7f-3663-9852a28c9149', 1, '2016-12-23 17:35:18', 'admin', '2016-12-23 17:35:18', null, null, null, 'Brickhaven', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('a78f3d7d-2d99-8855-6b11-05b6baaadad9', 1, '2016-12-23 17:37:28', 'admin', '2016-12-23 17:37:28', null, null, null, 'Philadelphia', '44094845-36ae-ac61-7a73-ab54e613cd77');
+insert into BIDEMO_CITY
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, COUNTRY_ID)
+values ('80224227-a688-3fc7-d0de-d368ffafd556', 1, '2016-12-24 11:13:31', 'admin', '2016-12-24 11:13:31', null, null, null, 'Herzlia', '3cdc7169-be09-7232-39d0-6469010ea3c4');
+--BIDEMO_CUSTOMER
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('5978ca74-89b1-ee73-1683-f1fbb8a383c3', 1, '2016-12-23 17:50:33', 'admin', '2016-12-23 17:50:33', null, null, null, 'Motor Mint Distributors Inc.', null, 'a78f3d7d-2d99-8855-6b11-05b6baaadad9');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('fb1e6fa4-976e-1d50-28f7-57b4b8f1e73e', 1, '2016-12-23 18:15:02', 'admin', '2016-12-23 18:15:02', null, null, null, 'Microscale Inc.', null, '2330d0dd-b122-f65c-2f38-3b91f055aa3a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('c273b97e-d22a-1fcc-dde9-5264e06cc5a7', 1, '2016-12-23 18:23:28', 'admin', '2016-12-23 18:23:28', null, null, null, 'Classic Legends Inc.', null, '2330d0dd-b122-f65c-2f38-3b91f055aa3a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97', 1, '2016-12-23 18:24:12', 'admin', '2016-12-23 18:24:12', null, null, null, 'Classic Gift Ideas, Inc', null, 'a78f3d7d-2d99-8855-6b11-05b6baaadad9');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('5a8f8b83-7b2c-e874-5aae-e47b36895f19', 1, '2016-12-23 18:24:47', 'admin', '2016-12-23 18:24:47', null, null, null, 'Corporate Gift Ideas Co.', null, '578ab912-173e-2cd0-4a1c-8ed10c584ee0');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('60aeba66-7a7c-0587-7e50-8340235eb803', 1, '2016-12-23 18:25:57', 'admin', '2016-12-23 18:25:57', null, null, null, 'Marta''s Replicas Co.', null, '856a5f5d-5a1d-55b8-f010-1d1b16af6f7a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('ea694608-05b5-5fc7-9878-b5f2aeae167b', 1, '2016-12-24 10:11:58', 'admin', '2016-12-24 10:11:58', null, null, null, 'Online Mini Collectables', null, 'e216c693-ace6-3c7f-3663-9852a28c9149');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('e0e00811-51a0-6001-a9eb-2937e646a389', 1, '2016-12-24 10:12:37', 'admin', '2016-12-24 10:12:37', null, null, null, 'Auto-Moto Classics Inc.', null, 'e216c693-ace6-3c7f-3663-9852a28c9149');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('6a75b14d-e8c8-b755-6988-8abf1264d41c', 1, '2016-12-24 10:13:24', 'admin', '2016-12-24 10:13:24', null, null, null, 'Vitachrome Inc.', null, '2330d0dd-b122-f65c-2f38-3b91f055aa3a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e', 1, '2016-12-24 10:14:09', 'admin', '2016-12-24 10:14:09', null, null, null, 'Cambridge Collectables Co.', null, '856a5f5d-5a1d-55b8-f010-1d1b16af6f7a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('4babf2e2-40bc-7b0c-b4fd-584a5c2f5208', 1, '2016-12-24 10:14:56', 'admin', '2016-12-24 10:14:56', null, null, null, 'Muscle Machine Inc', null, '2330d0dd-b122-f65c-2f38-3b91f055aa3a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d9fbb3ce-f357-92fa-d707-b589b1dd7493', 1, '2016-12-24 10:15:36', 'admin', '2016-12-24 10:15:36', null, null, null, 'Land of Toys Inc.', null, '2330d0dd-b122-f65c-2f38-3b91f055aa3a');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('da6ea650-f063-d278-3364-47d573b97061', 1, '2016-12-24 10:16:44', 'admin', '2016-12-24 10:16:44', null, null, null, 'Mini Wheels Co.', null, '578ab912-173e-2cd0-4a1c-8ed10c584ee0');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f13ca955-e165-eeb7-3310-a645f0fb3538', 1, '2016-12-24 10:17:16', 'admin', '2016-12-24 10:17:16', null, null, null, 'Signal Gift Stores', null, '9069266a-7eff-62aa-74ca-bfa93c4875b5');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d617c944-bdd6-8b58-b89d-a6688c26d447', 1, '2016-12-24 10:18:36', 'admin', '2016-12-24 10:18:36', null, null, null, 'Tokyo Collectables, Ltd', null, '57ed2e7d-5447-c15e-7153-d946ef85d4a6');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('4da3e00d-677d-a581-0364-e80cee433260', 1, '2016-12-24 10:19:01', 'admin', '2016-12-24 10:19:01', null, null, null, 'Osaka Souveniers Co.', null, '5c00d307-855c-df9b-55d4-82de60567c0d');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('99c93564-56a7-4725-769a-c4b606e04237', 1, '2016-12-24 10:19:33', 'admin', '2016-12-24 10:19:33', null, null, null, 'Dragon Souveniers, Ltd.', null, '5ba102ec-b4f6-7410-a9e6-47364e206ffb');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('de3e0eb1-c9cf-361e-4f12-df96f3ea6bab', 1, '2016-12-24 10:20:11', 'admin', '2016-12-24 10:20:11', null, null, null, 'AV Stores, Co.', null, '4af3c6fb-06c2-6214-a6b5-4de6eff4244f');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('e041f479-b1f7-2d72-06d0-68bfd8fb98bc', 1, '2016-12-24 10:20:44', 'admin', '2016-12-24 10:20:44', null, null, null, 'UK Collectables, Ltd.', null, '9755e6c4-c844-289a-cf93-5e797555e966');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d342a2fc-2ed5-1fd3-c718-282015e90acd', 1, '2016-12-24 10:21:25', 'admin', '2016-12-24 10:21:25', null, null, null, 'Stylish Desk Decors, Co.', null, 'c541bbfc-b345-54ea-1582-b30f7b12ca62');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('108f6a93-0619-a4c4-afcb-1afa587c9b60', 1, '2016-12-24 10:24:30', 'admin', '2016-12-24 10:24:30', null, null, null, 'Double Decker Gift Stores, Ltd', null, 'c541bbfc-b345-54ea-1582-b30f7b12ca62');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('bee7c05c-297e-6961-0bb1-6e58bedef538', 1, '2016-12-24 10:26:06', 'admin', '2016-12-24 10:26:06', null, null, null, 'Salzburg Collectables', null, '1debc3f5-51ae-5f7b-1aee-ee811c87a788');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('99e5faad-2f17-eb45-fa56-57f8f815d631', 1, '2016-12-24 10:27:08', 'admin', '2016-12-24 10:27:08', null, null, null, 'Mini Auto Werke', null, '1ebe9c77-86a7-a916-4717-f35278e0e0f9');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('c1372ea2-a89e-9070-8b5b-87e21cea9e40', 1, '2016-12-24 10:27:35', 'admin', '2016-12-24 10:27:35', null, null, null, 'Messner Shopping Network', null, '156bfc14-8479-a63f-d9d2-bd25d4d4bf98');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20', 1, '2016-12-24 10:28:48', 'admin', '2016-12-24 10:28:48', null, null, null, 'Der Hund Imports', null, '105ac490-68a6-4cc1-b993-fb3fb156c57f');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('07c2b7da-8254-5545-a97d-d0e0e271aef9', 1, '2016-12-24 10:30:11', 'admin', '2016-12-24 10:30:11', null, null, null, 'Feuer Online Stores, Inc', null, '5034e722-d127-0cbb-fbf8-da27a235d712');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('ab051234-71cc-64df-6176-c0f81598ba5c', 1, '2016-12-24 10:30:54', 'admin', '2016-12-24 10:30:54', null, null, null, 'Stuttgart Collectable Exchange', null, '9fa6812a-2287-6f98-9dd7-a8e8735402ae');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('8b500fe3-4023-d6c8-2a82-18a4c5a4d407', 1, '2016-12-24 10:31:56', 'admin', '2016-12-24 10:31:56', null, null, null, 'Mit Vergn & Co.', null, '908784ad-f2e7-0ffc-c249-edb471456792');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f8521c87-c884-7783-ffb9-b2e2be829d26', 1, '2016-12-24 10:32:31', 'admin', '2016-12-24 10:32:31', null, null, null, 'Warburg Exchange', null, 'c89a97de-509d-279f-fdde-6984579873bb');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('786ce8b2-31dc-79ba-d7da-f1c7f7617fb8', 1, '2016-12-24 10:32:59', 'admin', '2016-12-24 10:32:59', null, null, null, 'Blauer See Auto, Co.', null, '156bfc14-8479-a63f-d9d2-bd25d4d4bf98');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('11a3a8d9-87d3-2af7-eff5-1ddfba559721', 1, '2016-12-24 10:33:44', 'admin', '2016-12-24 10:33:44', null, null, null, 'Bavarian Collectables Imports, Co.', null, '18672f9b-01f8-a0a2-5202-fcdb4d7910db');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f3322e0c-3ede-c28f-53f0-c790dfd7621b', 1, '2016-12-24 10:34:25', 'admin', '2016-12-24 10:34:25', null, null, null, 'Saveley & Henriot, Co.', null, '4d031cf4-58a0-611b-3b0f-36481a91f189');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('3d763d10-f73f-936f-cca4-d8ef8a6beeb6', 1, '2016-12-24 10:35:18', 'admin', '2016-12-24 10:35:18', null, null, null, 'La Rochelle Gifts', null, 'd22398ad-c2a5-619c-f8e1-82b7520dd7e2');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('3aa71469-0a4c-f28f-43df-ae1bdf597612', 1, '2016-12-24 10:35:46', 'admin', '2016-12-24 10:35:46', null, null, null, 'Atelier graphique', null, 'd22398ad-c2a5-619c-f8e1-82b7520dd7e2');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('92bfb4f7-0840-e917-a7b3-b0546978fece', 1, '2016-12-24 10:36:10', 'admin', '2016-12-24 10:36:10', null, null, null, 'La Corne D''''abondance, Co.', null, '620050ad-87fe-89e1-b111-91bd8fd42d52');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('8b397b48-ceb7-732d-e304-730358b05578', 1, '2016-12-24 10:36:39', 'admin', '2016-12-24 10:36:39', null, null, null, 'Daedalus Designs Imports', null, 'ab88e857-1ca8-25d8-7219-01aba06cc3c6');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('e5309195-e370-a061-92c9-896fa0a3af03', 1, '2016-12-24 10:37:43', 'admin', '2016-12-24 10:37:43', null, null, null, 'Mini Caravy', null, '33bbe7c0-c450-22e5-7a21-369b873f08ba');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('7711cc5d-d6be-d2d0-a057-0bca2891cc9e', 1, '2016-12-24 10:38:52', 'admin', '2016-12-24 10:38:52', null, null, null, 'Auto Associes & Cie.', null, 'cb9c8bc7-cb5a-a702-b231-0a501a71f65c');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('dce5a8a4-8d6d-d713-d6eb-601093b64601', 1, '2016-12-24 10:39:50', 'admin', '2016-12-24 10:39:50', null, null, null, 'Lyon Souveniers', null, '620050ad-87fe-89e1-b111-91bd8fd42d52');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d4323d11-215a-8585-da4c-911960d93af7', 1, '2016-12-24 10:41:13', 'admin', '2016-12-24 10:41:13', null, null, null, 'Alpha Cognac', null, '664da6e2-97d7-44f6-f572-9642715ca79d');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('b772b191-4d19-7ea2-613b-fb45e66d29b0', 1, '2016-12-24 10:41:41', 'admin', '2016-12-24 10:41:41', null, null, null, 'Reims Collectables', null, 'd64cb960-541d-fe5d-c075-417a86a8f49b');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('ad359d5f-c1b0-f758-42fd-4ea2743bc817', 1, '2016-12-24 10:42:44', 'admin', '2016-12-24 10:42:44', null, null, null, 'Marseille Mini Autos', null, '5a808efd-86b9-e171-f846-f9b50f2f630c');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('aac27874-c2d6-5739-5b3f-6d14f9be4879', 1, '2016-12-24 10:43:14', 'admin', '2016-12-24 10:43:14', null, null, null, 'Auto Canal+ Petit', null, '620050ad-87fe-89e1-b111-91bd8fd42d52');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('344468f4-0a88-d699-122e-517a37e1bfdd', 1, '2016-12-24 10:44:30', 'admin', '2016-12-24 10:44:30', null, null, null, 'Royale Belge', null, '6ec6045b-5c2b-e89b-f0f5-ac21b6be678f');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('bf391444-698c-e3cf-f921-cd6204647143', 1, '2016-12-24 10:44:55', 'admin', '2016-12-24 10:44:55', null, null, null, 'Petit Auto', null, '0d78e75d-39d6-9990-8c07-cececb2eea3c');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('81ba59cf-b35a-a1b8-0522-2a3144682a79', 1, '2016-12-24 10:47:55', 'admin', '2016-12-24 10:47:55', null, null, null, 'BG&E Collectables', null, '4f3e563e-aeba-9359-80f8-85d23571151d');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('68fcdd2b-275c-e10e-0d5c-389b3b9cae8b', 1, '2016-12-24 10:48:18', 'admin', '2016-12-24 10:48:18', null, null, null, 'Precious Collectables', null, '69a8df22-c900-d6c4-50a2-2842c1aff555');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('51a9c499-4089-7195-1f9b-532d51407234', 1, '2016-12-24 10:48:58', 'admin', '2016-12-24 10:48:58', null, null, null, 'Toys of Finland, Co.', null, '7042e62e-f8e8-27da-bf3b-b45ec1580fad');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('8d26cdca-b8b0-5385-552a-cb6c20141f2f', 1, '2016-12-24 10:51:15', 'admin', '2016-12-24 10:51:15', null, null, null, 'Suominen Souveniers', null, '024307bd-1bc9-e171-cadf-a98c71a6ffd6');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('bf0e74be-8e4f-97fa-0987-ca8ba885e6f7', 1, '2016-12-24 10:51:42', 'admin', '2016-12-24 10:51:42', null, null, null, 'Oulu Toy Supplies, Inc.', null, '40520e58-4df2-18ee-ca7c-22264051ecc8');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('6e65022a-f424-8a2c-9a6e-8a01bf8c24cc', 1, '2016-12-24 10:52:54', 'admin', '2016-12-24 10:52:54', null, null, null, 'Baane Mini Imports', null, '00a4e70b-573b-bea0-861d-a8217bc98697');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('57f4f83a-e111-26d8-5305-b552cdaa32a8', 1, '2016-12-24 10:54:13', 'admin', '2016-12-24 10:54:13', null, null, null, 'Herkku Gifts', null, '0bcdafef-95fa-82df-e9da-81b5481bc6e9');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('e132066c-47b9-e62a-ae1c-ece912d7e70d', 1, '2016-12-24 10:54:44', 'admin', '2016-12-24 10:54:44', null, null, null, 'Norway Gifts By Mail, Co.', null, '29c253cd-0cfd-b41a-1e44-1623e656d5e4');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('14b72f7e-b4d1-e858-578b-5905d8ea9503', 1, '2016-12-24 10:57:09', 'admin', '2016-12-24 10:57:09', null, null, null, 'Danish Wholesale Imports', null, 'c98e024d-15fb-3a80-923a-bf2e4fffaa80');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('aed0915a-adb5-6f51-1e14-791a61936926', 1, '2016-12-24 10:57:56', 'admin', '2016-12-24 10:57:56', null, null, null, 'Clover Collections, Co.', null, 'a62e6f0c-c30d-57c9-38f2-69b234a4da6b');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('12c46c66-bba1-e8f6-3985-bbf235c50a77', 1, '2016-12-24 11:01:38', 'admin', '2016-12-24 11:01:38', null, null, null, 'Kelly''s Gift Shop', null, '46256aa9-d3af-e5d3-4455-2a14993d3ac1');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('a9793be1-9a82-1d0c-13c3-ec6502dff665', 1, '2016-12-24 11:04:46', 'admin', '2016-12-24 11:04:46', null, null, null, 'Australian Collectables, Ltd', null, '6e49a2cf-d337-420c-e229-ab87c45db6ad');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('2cd9c97e-d128-653b-3cbb-a179f827fbb1', 1, '2016-12-24 11:06:15', 'admin', '2016-12-24 11:06:15', null, null, null, 'GiftsForHim.com', null, '46256aa9-d3af-e5d3-4455-2a14993d3ac1');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('4ee2b66a-07f2-a109-9c44-1af42e2fba70', 1, '2016-12-24 11:07:17', 'admin', '2016-12-24 11:07:17', null, null, null, 'Australian Gift Network, Co', null, 'a86e110d-f002-9c55-29e7-ada126f3ca58');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f729a081-6229-b61a-596d-b381e597b560', 1, '2016-12-24 11:07:44', 'admin', '2016-12-24 11:07:44', null, null, null, 'Down Under Souveniers, Inc', null, '46256aa9-d3af-e5d3-4455-2a14993d3ac1');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa', 1, '2016-12-24 11:08:17', 'admin', '2016-12-24 11:08:17', null, null, null, 'Souveniers And Things Co.', null, 'd25b8ef7-f87b-9468-ec44-1bf8d43f2e73');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('e98cf775-079f-6c55-7fe7-f356b8584517', 1, '2016-12-24 11:10:17', 'admin', '2016-12-24 11:10:17', null, null, null, 'Anna''s Decorations, Ltd', null, 'f512bcd1-be14-b76f-d3f4-0fbe9b55b61f');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('26e3a7ee-30b4-6f9e-960a-9cea33b2c61a', 1, '2016-12-24 11:11:11', 'admin', '2016-12-24 11:11:11', null, null, null, 'Handji Gifts& Co', null, '5ba102ec-b4f6-7410-a9e6-47364e206ffb');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('f853261d-507d-49da-15e6-93a1288189c1', 1, '2016-12-24 11:12:20', 'admin', '2016-12-24 11:12:20', null, null, null, 'Australian Collectors, Co.', null, '86874fd7-1016-1c25-8278-144ee2ff0179');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('a3deb621-6a29-f032-3df6-1023135f3e57', 1, '2016-12-24 11:16:13', 'admin', '2016-12-24 11:16:13', null, null, null, 'Kremlin Collectables, Co.', null, 'a3a1cbb8-5d88-a8ab-8185-4b4cb5463084');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('bff97c55-22c7-3923-67bb-6201f890fb16', 1, '2016-12-24 11:14:20', 'admin', '2016-12-24 11:14:20', null, null, null, 'Raanan Stores, Inc', null, '80224227-a688-3fc7-d0de-d368ffafd556');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d7c4b76b-00d0-25a7-d634-98437ef41b51', 1, '2016-12-24 11:18:41', 'admin', '2016-12-24 11:18:41', null, null, null, 'Porto Imports Co.', null, 'bad78b99-027f-bad2-7f98-e74254e79d75');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('d51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9', 1, '2016-12-24 11:21:34', 'admin', '2016-12-24 11:21:34', null, null, null, 'Lisboa Souveniers, Inc', null, 'bad78b99-027f-bad2-7f98-e74254e79d75');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('6e94528a-cfa1-ca5d-8793-7fefdeaa112d', 1, '2016-12-24 11:23:33', 'admin', '2016-12-24 11:23:33', null, null, null, 'Schuyler Imports', null, '544b8676-2e60-08e8-e519-812edd4ca7de');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('39a551b2-c16f-23be-3354-cd53a421ad96', 1, '2016-12-24 11:24:08', 'admin', '2016-12-24 11:24:08', null, null, null, 'Asian Shopping Network, Co', null, '5ba102ec-b4f6-7410-a9e6-47364e206ffb');
+insert into BIDEMO_CUSTOMER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, EMAIL, CITY_ID)
+values ('7f3d6361-97b3-3f4e-d467-6e331699b936', 1, '2016-12-24 11:24:38', 'admin', '2016-12-24 11:24:38', null, null, null, 'Havel & Zbyszek Co', null, 'b51cf3a2-68c5-9aab-2210-ac5426d2c3e2');
+--BIDEMO_PRODUCT_LINE
+insert into BIDEMO_PRODUCT_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('2e1800bb-f96a-8e25-cc54-bdd31d8e014e', 1, '2016-12-24 11:45:37', 'admin', '2016-12-24 11:45:37', null, null, null, 'Classic Cars');
+insert into BIDEMO_PRODUCT_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('1bcc264c-4e07-1828-21df-f92a0b261b74', 1, '2016-12-24 11:46:09', 'admin', '2016-12-24 11:46:09', null, null, null, 'Motorcycles');
+insert into BIDEMO_PRODUCT_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('89531f41-061b-662b-0302-6e4000e1e77b', 1, '2016-12-24 11:47:13', 'admin', '2016-12-24 11:47:13', null, null, null, 'Vintage Cars');
+insert into BIDEMO_PRODUCT_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('10c74cd7-907d-1b24-5217-8433c13dbda1', 1, '2016-12-24 11:47:51', 'admin', '2016-12-24 11:47:51', null, null, null, 'Trucks and Buses');
+insert into BIDEMO_PRODUCT_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME)
+values ('0fb9f28f-f9e1-6dc4-0a9c-2a0f96a82491', 1, '2016-12-24 13:42:18', 'admin', '2016-12-24 13:42:18', null, null, null, 'Trains');
+--BIDEMO_PRODUCT
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1, '2016-12-24 11:57:42', 'admin', '2016-12-24 11:57:42', null, null, null, '1969 Harley Davidson Ultimate Chopper', 49.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('a8faa867-175b-6478-2762-a86cd5419308', 1, '2016-12-24 12:04:13', 'admin', '2016-12-24 12:04:13', null, null, null, '1952 Alpine Renault 1300', 99.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('1ea06d70-790c-705b-297e-396cbdf244b7', 1, '2016-12-24 12:05:11', 'admin', '2016-12-24 12:05:11', null, null, null, '1996 Moto Guzzi 1100i', 69.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1, '2016-12-24 12:06:00', 'admin', '2016-12-24 12:06:00', null, null, null, '2003 Harley-Davidson Eagle Drag Bike', 91.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('1d45b4cb-c040-09da-ba32-f170b333223f', 1, '2016-12-24 12:07:38', 'admin', '2016-12-24 12:07:38', null, null, null, '1972 Alfa Romeo GTA', 86.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('411f017a-faa3-79d2-ab8e-af5422802870', 1, '2016-12-24 12:09:39', 'admin', '2016-12-24 12:09:39', null, null, null, '1962 LanciaA Delta 16V', 103.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('4d611f42-1d3e-e362-ad93-b5f5439e2182', 1, '2016-12-24 12:10:42', 'admin', '2016-12-24 12:10:42', null, null, null, '1968 Ford Mustang', 95.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('73395d26-c33c-8b6e-9dd5-695b1c51998d', 1, '2016-12-24 12:11:32', 'admin', '2016-12-24 12:11:32', null, null, null, '2001 Ferrari Enzo', 96.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1, '2016-12-24 12:14:00', 'admin', '2016-12-24 12:14:00', null, null, null, '1958 Setra Bus', 78.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('d36cd0e0-b85a-52de-ee71-dae005721bc5', 1, '2016-12-24 12:14:41', 'admin', '2016-12-24 12:14:41', null, null, null, '2002 Suzuki XREO', 66.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1, '2016-12-24 12:19:43', 'admin', '2016-12-24 12:19:43', null, null, null, '1969 Corvair Monza', 89.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1, '2016-12-24 12:20:25', 'admin', '2016-12-24 12:20:25', null, null, null, '1968 Dodge Charger', 75.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1, '2016-12-24 12:21:27', 'admin', '2016-12-24 12:21:27', null, null, null, '1969 Ford Falcon', 83.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('212e2ea3-8125-655f-0947-0622bbb9135c', 1, '2016-12-24 12:24:45', 'admin', '2016-12-24 12:24:45', null, null, null, '1970 Plymouth Hemi Cuda', 32.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('eca29252-b4c8-5fe7-9794-5a09e3b11971', 1, '2016-12-24 12:28:47', 'admin', '2016-12-24 12:28:47', null, null, null, '1957 Chevy Pickup', 56.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('5a5e7359-f5fe-e9f8-781b-981063a769eb', 1, '2016-12-24 12:39:46', 'admin', '2016-12-24 12:39:46', null, null, null, '1969 Dodge Charger', 59.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('ba56ab23-c83b-b03c-53ed-727142aa95c7', 1, '2016-12-24 12:40:33', 'admin', '2016-12-24 12:40:33', null, null, null, '1940 Ford Pickup Truck', 58.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('86012552-ceb6-cbc4-8e4c-49003785e0b7', 1, '2016-12-24 12:55:00', 'admin', '2016-12-24 12:55:00', null, null, null, '1993 Mazda RX-7', 84.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1, '2016-12-24 12:56:07', 'admin', '2016-12-24 12:56:07', null, null, null, '1936 Mercedes-Benz 500K Special Roadster', 24.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('35278d41-cc0d-ca4a-fb43-197455ba2023', 1, '2016-12-24 12:58:22', 'admin', '2016-12-24 12:58:22', null, null, null, '1965 Aston Martin DB5', 66.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1, '2016-12-24 12:59:07', 'admin', '2016-12-24 12:59:07', null, null, null, '1917 Grand Touring Sedan', 87.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1, '2016-12-24 12:59:49', 'admin', '2016-12-24 12:59:49', null, null, null, '1948 Porsche 356-A Roadster', 54.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('60cf86f7-c9dc-dfa0-d62e-157719d57622', 1, '2016-12-24 13:02:08', 'admin', '2016-12-24 13:02:08', null, null, null, '1995 Honda Civic', 94.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('9c9dda65-77a5-7237-dcae-696ed6d107c8', 1, '2016-12-24 13:02:49', 'admin', '2016-12-24 13:02:49', null, null, null, '1998 Chrysler Plymouth Prowler', 102.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1, '2016-12-24 13:03:35', 'admin', '2016-12-24 13:03:35', null, null, null, '1911 Ford Town Car', 33.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('4f9f6841-3da8-43d1-362b-2c620a48521c', 1, '2016-12-24 13:08:35', 'admin', '2016-12-24 13:08:35', null, null, null, '1964 Mercedec Tour Bus', 75.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1, '2016-12-24 13:12:05', 'admin', '2016-12-24 13:12:05', null, null, null, '1932 Model A Ford J-Coupe', 58.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1, '2016-12-24 13:12:39', 'admin', '2016-12-24 13:12:39', null, null, null, '1926 Ford Fire Engine', 25.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('ba110e06-f88e-407a-7fe0-502bbaf29d08', 1, '2016-12-24 13:13:17', 'admin', '2016-12-24 13:13:17', null, null, null, '1936 Harley Davidson El Knucklehead', 24.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('b4652378-d42b-098e-147b-c69502ab6be4', 1, '2016-12-24 13:13:59', 'admin', '2016-12-24 13:13:59', null, null, null, '1928 Mercedes-Benz SSK', 73.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('342918a1-ad61-e141-30f8-c84353b98ea9', 1, '2016-12-24 13:16:56', 'admin', '2016-12-24 13:16:56', null, null, null, '1999 Indy 500 Monte Carlo SS', 57.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1, '2016-12-24 13:17:37', 'admin', '2016-12-24 13:17:37', null, null, null, '1913 Ford Model T Speedster', 61.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('cf633502-f90c-7d41-9b31-005f5e264992', 1, '2016-12-24 13:18:25', 'admin', '2016-12-24 13:18:25', null, null, null, '1934 Ford V8 Coupe', 34.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1, '2016-12-24 13:19:19', 'admin', '2016-12-24 13:19:19', null, null, null, '18th Century Vintage Horse Carriage', 61.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1, '2016-12-24 13:24:58', 'admin', '2016-12-24 13:24:58', null, null, null, '1903 Ford Model A', 68.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('01ad0017-a5d4-7553-1207-c55b220412da', 1, '2016-12-24 13:26:44', 'admin', '2016-12-24 13:26:44', null, null, null, '1992 Ferrari 360 Spider red', 78.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1, '2016-12-24 13:41:37', 'admin', '2016-12-24 13:41:37', null, null, null, '1985 Toyota Supra', 57.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1, '2016-12-24 13:43:03', 'admin', '2016-12-24 13:43:03', null, null, null, 'Collectable Wooden Train', 68.00, '0fb9f28f-f9e1-6dc4-0a9c-2a0f96a82491');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1, '2016-12-24 13:43:41', 'admin', '2016-12-24 13:43:41', null, null, null, '1969 Dodge Super Bee', 49.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1, '2016-12-24 13:44:26', 'admin', '2016-12-24 13:44:26', null, null, null, '1917 Maxwell Touring Car', 58.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1, '2016-12-24 13:45:40', 'admin', '2016-12-24 13:45:40', null, null, null, '1976 Ford Gran Torino', 73.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('61d06624-4623-d0b7-d82d-58fc7f8053d2', 1, '2016-12-24 13:46:32', 'admin', '2016-12-24 13:46:32', null, null, null, '1948 Porsche Type 356 Roadster', 62.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1, '2016-12-24 13:47:08', 'admin', '2016-12-24 13:47:08', null, null, null, '1957 Vespa GS150', 33.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('a5676303-0b48-12c3-3204-04d219559a4d', 1, '2016-12-24 13:47:52', 'admin', '2016-12-24 13:47:52', null, null, null, '1941 Chevrolet Special Deluxe Cabriolet', 65.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1, '2016-12-24 13:48:24', 'admin', '2016-12-24 13:48:24', null, null, null, '1970 Triumph Spitfire', 92.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1, '2016-12-24 13:49:45', 'admin', '2016-12-24 13:49:45', null, null, null, '1932 Alfa Romeo 8C2300 Spider Sport', 43.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('18347234-14eb-1d28-ec41-b51dfacd93e8', 1, '2016-12-24 13:50:23', 'admin', '2016-12-24 13:50:23', null, null, null, '1904 Buick Runabout', 53.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('82d56267-e091-8a0b-2999-71d2521828d3', 1, '2016-12-24 13:51:23', 'admin', '2016-12-24 13:51:23', null, null, null, '1940s Ford truck', 85.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('423147d8-ab6a-cb34-fad4-8481f67bac27', 1, '2016-12-24 13:54:39', 'admin', '2016-12-24 13:54:39', null, null, null, '1939 Cadillac Limousine', 23.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1, '2016-12-24 13:55:12', 'admin', '2016-12-24 13:55:12', null, null, null, '1957 Corvette Convertible', 70.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('069598c8-17b1-51dd-cc2e-c658d46a8100', 1, '2016-12-24 13:55:55', 'admin', '2016-12-24 13:55:55', null, null, null, '1957 Ford Thunderbird', 34.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('c3656ed7-0222-4e5d-910a-042a8e6a2798', 1, '2016-12-24 13:57:10', 'admin', '2016-12-24 13:57:10', null, null, null, '1970 Chevy Chevelle SS 454', 49.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('63130c6e-0b8c-8192-0adf-066f88e2b63e', 1, '2016-12-24 13:57:48', 'admin', '2016-12-24 13:57:48', null, null, null, '1970 Dodge Coronet', 32.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1, '2016-12-24 14:00:07', 'admin', '2016-12-24 14:00:07', null, null, null, '1997 BMW R 1100 S', 61.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1, '2016-12-24 14:01:03', 'admin', '2016-12-24 14:01:03', null, null, null, '1966 Shelby Cobra 427 S/C', 29.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('46b17539-b497-a541-2ce6-b2cd546ded2a', 1, '2016-12-24 14:01:41', 'admin', '2016-12-24 14:01:41', null, null, null, '1939 Chevrolet Deluxe Coupe', 23.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('7e85749e-d841-4cc9-1f57-9e96420116b8', 1, '2016-12-24 14:02:19', 'admin', '2016-12-24 14:02:19', null, null, null, '1960 BSA Gold Star DBD34 1960', 37.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1, '2016-12-24 14:03:18', 'admin', '2016-12-24 14:03:18', null, null, null, '1938 Cadillac V-16 Presidential Limousine', 21.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('feec0e2a-d544-3122-2bcb-a2d232a9c92f', 1, '2016-12-24 14:05:31', 'admin', '2016-12-24 14:05:31', null, null, null, '1962 Volkswagen Microbus', 61.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1, '2016-12-24 14:06:09', 'admin', '2016-12-24 14:06:09', null, null, null, '1982 Ducati 900 Monster', 47.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1, '2016-12-24 14:07:41', 'admin', '2016-12-24 14:07:41', null, null, null, '1949 Jaguar XK 120', 47.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1, '2016-12-24 14:08:28', 'admin', '2016-12-24 14:08:28', null, null, null, '1958 Chevy Corvette Limited Edition', 16.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('91956081-3d03-407d-5a28-e9dd385d1b3d', 1, '2016-12-24 14:10:34', 'admin', '2016-12-24 14:10:34', null, null, null, '1952 Citroen-15CV', 73.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1, '2016-12-24 14:11:52', 'admin', '2016-12-24 14:11:52', null, null, null, '1982 Lamborghini Diablo', 16.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('5c8d9619-00d2-3245-4403-283dfbadd722', 1, '2016-12-24 14:15:28', 'admin', '2016-12-24 14:15:28', null, null, null, '1912 Ford Model T Delivery Wagon', 47.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('37253216-b17a-ee29-aa13-19055172edeb', 1, '2016-12-24 14:16:52', 'admin', '2016-12-24 14:16:52', null, null, null, '1969 Chevrolet Camaro Z28', 51.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1, '2016-12-24 14:25:42', 'admin', '2016-12-24 14:25:42', null, null, null, '1971 Alpine Renault 1600s', 39.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('73ec1bbb-df90-018f-beb3-675f00a19274', 1, '2016-12-24 14:26:23', 'admin', '2016-12-24 14:26:23', null, null, null, '1937 Horch 930V Limousine', 26.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1, '2016-12-24 14:27:07', 'admin', '2016-12-24 14:27:07', null, null, null, '2002 Chevy Corvette', 62.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('693e373f-71c6-f6b2-ec15-c4e175a4d808', 1, '2016-12-24 14:30:51', 'admin', '2016-12-24 14:30:51', null, null, null, '1940 Ford Delivery Sedan', 49.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('f832af0d-966d-cc86-bf80-53de4a09794e', 1, '2016-12-24 14:31:40', 'admin', '2016-12-24 14:31:40', null, null, null, '1956 Porsche 356A Coupe', 98.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('4927283c-2832-39ea-2ca4-1d2c2346a04b', 1, '2016-12-24 14:32:39', 'admin', '2016-12-24 14:32:39', null, null, null, '1936 Mercedes Benz 500k Roadster', 22.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1, '2016-12-24 14:33:50', 'admin', '2016-12-24 14:33:50', null, null, null, '1992 Porsche Cayenne Turbo Silver', 70.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1, '2016-12-24 14:34:27', 'admin', '2016-12-24 14:34:27', null, null, null, '1936 Chrysler Airflow', 57.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1, '2016-12-24 14:42:20', 'admin', '2016-12-24 14:42:20', null, null, null, '1961 Chevrolet Impala', 32.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('b946c700-9ec5-43bb-91b9-353986a13e81', 1, '2016-12-24 14:43:11', 'admin', '2016-12-24 14:43:11', null, null, null, '1997 BMW F650 ST', 67.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('d57288a3-c18f-ddb0-694a-538f5de5cf79', 1, '2016-12-24 14:44:10', 'admin', '2016-12-24 14:44:10', null, null, null, '1982 Ducati 996 R', 24.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('409932e7-538e-114d-27b2-a06dcb650f05', 1, '2016-12-24 14:45:27', 'admin', '2016-12-24 14:45:27', null, null, null, '1954 Greyhound Scenicruiser', 26.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('0e74a083-b633-6de6-b193-bc9cd972f00f', 1, '2016-12-24 14:46:04', 'admin', '2016-12-24 14:46:04', null, null, null, '1950''s Chicago Surface Lines Streetcar', 27.00, '0fb9f28f-f9e1-6dc4-0a9c-2a0f96a82491');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('e3c38013-330b-cc34-6271-2828ee3e0e9e', 1, '2016-12-24 14:47:17', 'admin', '2016-12-24 14:47:17', null, null, null, '1996 Peterbilt 379 Stake Bed with Outrigger', 34.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('d81f34b4-b283-9d48-ff68-8c916a91c5ae', 1, '2016-12-24 14:49:39', 'admin', '2016-12-24 14:49:39', null, null, null, '1928 Ford Phaeton Deluxe', 33.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('08568a78-5956-794b-bac0-fb86c2260b33', 1, '2016-12-24 14:50:09', 'admin', '2016-12-24 14:50:09', null, null, null, '1974 Ducati 350 Mk3 Desmo', 56.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('a86d8bef-3b27-99d6-6c80-d584516c1343', 1, '2016-12-24 14:50:51', 'admin', '2016-12-24 14:50:51', null, null, null, '1930 Buick Marquette Phaeton', 27.00, '89531f41-061b-662b-0302-6e4000e1e77b');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('5b96a227-fe07-9520-b02e-229142f0939e', 1, '2016-12-24 14:51:59', 'admin', '2016-12-24 14:51:59', null, null, null, 'Diamond T620 Semi-Skirted Tanker', 68.00, '10c74cd7-907d-1b24-5217-8433c13dbda1');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('d9791cf2-63bf-2024-5510-f5fbe74925a3', 1, '2016-12-24 14:52:48', 'admin', '2016-12-24 14:52:48', null, null, null, '1962 City of Detroit Streetcar', 37.00, '0fb9f28f-f9e1-6dc4-0a9c-2a0f96a82491');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1, '2016-12-24 14:55:09', 'admin', '2016-12-24 14:55:09', null, null, null, '2002 Yamaha YZR M1', 34.00, '1bcc264c-4e07-1828-21df-f92a0b261b74');
+insert into BIDEMO_PRODUCT
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, PRICE, PRODUCT_LINE_ID)
+values ('0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1, '2016-12-24 14:56:16', 'admin', '2016-12-24 14:56:16', null, null, null, '1982 Camaro Z28', 47.00, '2e1800bb-f96a-8e25-cc54-bdd31d8e014e');
+
+--orders
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0008066e-e6fb-1edf-d7cf-666424a12d6c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c2754f94-a6c1-e136-2194-40b9393e7e4e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '0008066e-e6fb-1edf-d7cf-666424a12d6c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('005918d6-f6d5-2fb9-eeda-0215e80da3f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2408b361-c89d-45e7-2b78-75662e93feec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '005918d6-f6d5-2fb9-eeda-0215e80da3f8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0092a27f-bebe-d828-e4be-03292ac8ed45', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a09239d0-8c6d-2a57-7508-04fec8120cd8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '0092a27f-bebe-d828-e4be-03292ac8ed45');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('00ca8ac7-1843-47b9-001e-b5008df87557', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('46a2ccfe-06da-fddb-b7ab-874a41fc7e78', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '00ca8ac7-1843-47b9-001e-b5008df87557');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('00e1fc4f-7b79-2c50-1128-60e6230c53f6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('747aa965-221a-7cc4-dd7b-1e13a2201810', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '00e1fc4f-7b79-2c50-1128-60e6230c53f6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('01080d8c-3fca-6dc4-b78d-dce0bdf0d734', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8c25f5f6-0a17-e513-0471-b55f98fb5678', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '01080d8c-3fca-6dc4-b78d-dce0bdf0d734');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('015b31b3-acca-7e3b-4f38-b09f33a761ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9fe79b41-f7a0-26bd-234b-eae06aee21ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '015b31b3-acca-7e3b-4f38-b09f33a761ba');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0203a21f-1944-a1b1-49e5-35db73cf7e59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a1efa2c5-b7f3-674a-4ce3-15e75fa3a44a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '0203a21f-1944-a1b1-49e5-35db73cf7e59');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('02166182-7a27-51d4-6f7f-7ed99db64566', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ae160015-25de-749a-0ab1-9979143cc31a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '02166182-7a27-51d4-6f7f-7ed99db64566');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0244de1c-89f9-bffe-2eb8-294e18bd9671', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('afa40375-58eb-7c96-f36e-870e369cf2ef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '0244de1c-89f9-bffe-2eb8-294e18bd9671');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('028dec39-2e3b-1fca-41ab-b5043cc92eef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1f634003-941b-429f-7bed-3f7f7354d106', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '028dec39-2e3b-1fca-41ab-b5043cc92eef');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('02a362e5-a0a2-695d-7b79-e0cde9623420', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('aceae506-ac88-47f8-ba13-27067e33b9e3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '02a362e5-a0a2-695d-7b79-e0cde9623420');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('02b5bef6-2154-bd63-144c-6e2297dbc168', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('69361e7e-f298-301b-c49a-82b7d131d7fd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '02b5bef6-2154-bd63-144c-6e2297dbc168');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('02f0498b-367d-3f68-75b5-54f291625e94', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7b7d218c-c50f-d8d9-3457-69fbbb198fa2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '02f0498b-367d-3f68-75b5-54f291625e94');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('030bd332-a453-d7d8-3526-5c62837d7ea2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bde3262c-30ac-be35-68ab-19cc86ef066f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '030bd332-a453-d7d8-3526-5c62837d7ea2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('045d1761-797e-01b1-2761-efc412605f0a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('84d90206-ac11-27a1-a578-f4b8ea400085', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, '045d1761-797e-01b1-2761-efc412605f0a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('04654d0d-d515-e824-5b7c-77035832b4e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41ad1318-cfaa-dca9-85b0-e2d22a9a6108', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '04654d0d-d515-e824-5b7c-77035832b4e5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('04939dea-352a-b7d1-2c7f-8e764b5e57b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('eedde640-e637-d092-a72e-262d8c2e504f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '04939dea-352a-b7d1-2c7f-8e764b5e57b0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0494b81b-f00b-a92f-4c9e-ff1b674f3bb0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8c32112d-346f-c4b4-5fc4-bbd1f0b591c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '0494b81b-f00b-a92f-4c9e-ff1b674f3bb0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('04e9069a-d3e0-0483-1ada-c1e95b73a9cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dd942e4c-2827-8182-fc6b-49df10a709ac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '04e9069a-d3e0-0483-1ada-c1e95b73a9cc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('05436f92-c0ae-b046-c40d-750bfc0efff9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c5ccdf83-3c9f-a7d7-6147-c47090797e8a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '05436f92-c0ae-b046-c40d-750bfc0efff9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0556b686-8974-5b5f-14d5-2d019e59899a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5f35a6df-a77b-6018-ca72-c3352270558b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '0556b686-8974-5b5f-14d5-2d019e59899a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('05e70c33-67be-6c16-7020-1227999f6897', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e3344ad-fc5b-b04a-2a4b-59026bddf449', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '05e70c33-67be-6c16-7020-1227999f6897');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('05f9f3c6-3a0b-b4bc-9f1d-b7deaace6238', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('827ef7e2-a4de-9e8f-5385-725aa77bf83a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, '05f9f3c6-3a0b-b4bc-9f1d-b7deaace6238');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('06230613-ca06-4f2b-8c01-d9a01f61c5ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b97a98e0-ffdb-4921-4d1f-2b54de8e7a8e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '06230613-ca06-4f2b-8c01-d9a01f61c5ff');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('06926610-6be8-f978-3419-6e89c8ff6e07', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ca4778e9-7128-ce20-d73a-0b55946aa5e4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '06926610-6be8-f978-3419-6e89c8ff6e07');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('069894c3-f524-40b5-23b0-d14c5315cfa6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('11f32ed6-7e48-7646-81c3-227088960b32', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '069894c3-f524-40b5-23b0-d14c5315cfa6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('06fc1420-5d1f-2f84-93c7-b298f674b76a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('39e7c38a-6b24-0786-d23e-6afb0040e6e8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '06fc1420-5d1f-2f84-93c7-b298f674b76a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('07160579-82eb-f3ff-eed8-21acde665fb1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('732df661-b45c-8b07-1ae5-3e43e4a56d88', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '07160579-82eb-f3ff-eed8-21acde665fb1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('07251417-bf06-f7e5-c782-5a287f15bb4b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9a89c7bd-f15a-c34f-7806-615fb4641d44', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '07251417-bf06-f7e5-c782-5a287f15bb4b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('074fb301-1ab4-fb89-5f9e-ab28d334f536', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bd1515af-94d2-162a-da46-11909fa26c45', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '074fb301-1ab4-fb89-5f9e-ab28d334f536');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('077e53e9-576b-1d29-a9ee-ee9f6b8059d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('09a55f23-5f64-df2d-fc24-3aea236f6221', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, '077e53e9-576b-1d29-a9ee-ee9f6b8059d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('078c2c30-8db3-16fb-6055-894fb4a77317', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ce7902ae-d33a-fd26-ea2c-7033767e9be9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '078c2c30-8db3-16fb-6055-894fb4a77317');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('07909b23-97ce-0594-2624-ba5b904a9918', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e91eba1-e006-bc32-fe2c-8da67e40afa4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '07909b23-97ce-0594-2624-ba5b904a9918');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('07d53160-1bce-b0e3-c785-0dd73261e68f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7860da61-5c02-7234-1300-8a6322c9ca06', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '07d53160-1bce-b0e3-c785-0dd73261e68f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0827b6ee-0bfc-5d50-8b59-568660d8f19d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2619807a-aa58-8d0f-4c66-d0af69e965cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '0827b6ee-0bfc-5d50-8b59-568660d8f19d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('08385f16-6c11-1eef-7648-99e5d08ba90a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c2e816cc-aca5-d6c8-794b-7219bd190435', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '08385f16-6c11-1eef-7648-99e5d08ba90a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('086f5122-4efd-6640-fa36-01489d5a86af', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1ad60495-745c-4ece-4651-360b8c722aa6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '086f5122-4efd-6640-fa36-01489d5a86af');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('088c57ac-7099-5abc-4784-d4818bd00b89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5784b57d-73f6-2223-f596-736d25700b18', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '088c57ac-7099-5abc-4784-d4818bd00b89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('08b96c5c-0973-c036-d8c8-0ee4d8a3af8d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f22dc993-db36-ccee-9f49-c38c8f189846', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '08b96c5c-0973-c036-d8c8-0ee4d8a3af8d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('08f6b13b-9893-f3aa-6b62-5768ff37147a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c9df63b6-8a90-67e4-0916-f74db28e0bf0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '08f6b13b-9893-f3aa-6b62-5768ff37147a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0a24f9ba-bd02-1a68-ecdb-287550181d22', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c42b48f9-f955-4a6d-ae1a-588cb12497ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '0a24f9ba-bd02-1a68-ecdb-287550181d22');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0a28a0e6-a493-268e-748b-8338ab33a551', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('56edbe53-577f-f05c-920c-766fafee31d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '0a28a0e6-a493-268e-748b-8338ab33a551');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0a3ecd2a-1424-ed69-cc58-0ee05e36744c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fd92bbf1-e586-cde6-df96-61afc2ac5913', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '0a3ecd2a-1424-ed69-cc58-0ee05e36744c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0a3f6612-6275-1d61-30e1-b72e5ea1476c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('30f9ed1c-716c-540d-b53d-3dfac0df4633', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '0a3f6612-6275-1d61-30e1-b72e5ea1476c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0a51760c-2f87-96e8-6438-9d54d1de62f4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4215d70f-5dd6-d6c7-227e-0bffa9fd589e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '0a51760c-2f87-96e8-6438-9d54d1de62f4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0af2a71f-0c7e-4ef9-cf3d-3c98662208b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f3266c99-f5f0-a0d4-2175-759311d8138e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '0af2a71f-0c7e-4ef9-cf3d-3c98662208b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0b3ea23c-0bf7-ea27-da35-d0c4aa076ab9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('641bc9b5-c43d-4b35-f7b4-ad113f151076', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '0b3ea23c-0bf7-ea27-da35-d0c4aa076ab9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0b972142-cb01-8b33-1c18-391b414128ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('80e2ec72-741a-cd08-0842-f261978ea135', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '0b972142-cb01-8b33-1c18-391b414128ce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0b989176-0edd-11b8-52d3-f319b02bab5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f8305497-2c71-1613-b6ca-ff04afd06afd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, '0b989176-0edd-11b8-52d3-f319b02bab5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0c831324-e1b2-9266-5a3f-ca47484bfc73', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('54554a8b-c8df-0459-57e7-bbc9da336272', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '0c831324-e1b2-9266-5a3f-ca47484bfc73');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0caa931d-2978-6ef5-9e5e-b0afdd9af3bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c8bcac2b-d8d1-0f09-5623-6ed1f6cc6ff4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '0caa931d-2978-6ef5-9e5e-b0afdd9af3bf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0cbb8dd4-a6ac-064d-ceed-25526620d2c1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1302078c-1354-163b-5caa-fafd63c9026d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '0cbb8dd4-a6ac-064d-ceed-25526620d2c1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0ccd251d-cd01-128f-156b-f21bd4d7ea9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a452cd93-6360-8174-acb4-eced79f4ad8a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '0ccd251d-cd01-128f-156b-f21bd4d7ea9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0cd31d4c-17c7-9f35-bd61-20e61fb370e0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9444126c-f695-2852-922a-a5e759773822', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '0cd31d4c-17c7-9f35-bd61-20e61fb370e0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0ce0c403-cfc8-d4c4-f442-a52d19355de7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79b48fac-541a-5c06-0ede-05b61acc5456', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '0ce0c403-cfc8-d4c4-f442-a52d19355de7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d181929-8fb7-bd6b-d129-6cd5167b7757', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c893d7ff-f312-90ee-d4f2-51c5f11bfe8a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '0d181929-8fb7-bd6b-d129-6cd5167b7757');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d466d66-ea55-eca4-f6da-c845751c6a3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fb8942ab-d17c-d9b0-f385-c67d91b347fd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '0d466d66-ea55-eca4-f6da-c845751c6a3b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d613339-0b4b-dd9d-57e4-e1bd562ff0ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('57cced41-1012-f3aa-3756-660501f5e001', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '0d613339-0b4b-dd9d-57e4-e1bd562ff0ba');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d651e9e-fb9c-26c3-7c56-e94b8a8f1d02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('caa44178-1ee1-f1f3-e3bb-86b2704c1944', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '0d651e9e-fb9c-26c3-7c56-e94b8a8f1d02');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d6df9bc-3ed6-20c1-2f99-5cab92b5d370', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ca852e5f-2607-3e3e-a3af-b14531990a11', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '0d6df9bc-3ed6-20c1-2f99-5cab92b5d370');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0d9eeb2e-c825-16aa-c47a-1a3ebc24d66d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1e66ed36-8f75-1884-a5b1-f9d88fa27c19', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '0d9eeb2e-c825-16aa-c47a-1a3ebc24d66d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0db98cdd-8809-74ec-2d22-4f739fbef42a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9fe526a3-d0df-dc74-b8d6-23419c43cabe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '0db98cdd-8809-74ec-2d22-4f739fbef42a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0e4d8a3a-e0bf-3b13-8fb3-0b9b03e079f0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c9f482bd-3ac0-b916-d813-e3bd17e21bfc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '0e4d8a3a-e0bf-3b13-8fb3-0b9b03e079f0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0f68edd3-c781-2622-dd05-49c23763c8ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('94d1ea44-a89c-5fe0-ac87-6d441f266cfd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, '0f68edd3-c781-2622-dd05-49c23763c8ba');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0fb88ff9-86ea-7ad6-59a0-7ed238f2265a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5fd0ee1d-aa93-1a8e-9f9d-cfc3b0d32038', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '0fb88ff9-86ea-7ad6-59a0-7ed238f2265a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0fc0efed-57e9-3abd-e107-20ee3022e01d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('01cc50db-7d3b-9eab-616b-95165b863fda', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '0fc0efed-57e9-3abd-e107-20ee3022e01d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('0ffe830f-f385-8586-ce23-4c0ea8d85c6f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d1b46d7c-7143-c960-9a49-5b01a20eeecc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '0ffe830f-f385-8586-ce23-4c0ea8d85c6f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('10245cc9-41a7-c559-ad15-09b3c98730e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('00ca16f9-9df7-d989-4a22-cf1626474d16', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, '10245cc9-41a7-c559-ad15-09b3c98730e2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('103f077d-41a6-7681-5833-c117262c2e77', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('db0ebd47-90ff-20f7-1e52-db93c4d57a35', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '103f077d-41a6-7681-5833-c117262c2e77');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('107cd16d-75f6-3529-0b8c-f586235806cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('178051b6-21ed-9945-b552-ac7742bbac06', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '107cd16d-75f6-3529-0b8c-f586235806cf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('10e4bf0b-1bcc-c6b7-f070-6078f2e06cfd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c72399e1-aca1-589d-1ac9-ee6a0fca5663', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '10e4bf0b-1bcc-c6b7-f070-6078f2e06cfd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1113131f-a0ed-c977-f9a5-68b8edbf9ade', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e4f6572-9c29-6b8c-7aae-4a13e4db943c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '1113131f-a0ed-c977-f9a5-68b8edbf9ade');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1196b254-6d4e-e06d-eae1-6737429e6683', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b9beb31f-3cb3-ea17-7eb4-fde9d55b0213', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '1196b254-6d4e-e06d-eae1-6737429e6683');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11b612d5-be05-7899-26a1-d31798643102', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('899732f3-ff34-561f-f15c-1939ee3a6b34', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '11b612d5-be05-7899-26a1-d31798643102');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11b91810-3ae3-3ed4-8fd8-5f9c15b594bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5f2981f4-9be2-cbed-a188-46ce5662fa5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '11b91810-3ae3-3ed4-8fd8-5f9c15b594bf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11d1c238-b9ba-3f2b-61d3-4eeb5026e395', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('58fe5287-7872-4a4d-3d99-f8c30b619350', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '11d1c238-b9ba-3f2b-61d3-4eeb5026e395');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11d4471e-9231-bae1-3682-c51e614d4608', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('87027ae4-6b9b-c199-5b78-0b7e64d9e8b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, '11d4471e-9231-bae1-3682-c51e614d4608');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11e4d743-3201-f8ad-c8a4-c97992cba9ab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1a24fe09-5e25-234b-2341-7121b1938b6a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '11e4d743-3201-f8ad-c8a4-c97992cba9ab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11e56093-8d5f-4403-9279-93c2dc0cea7e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('632f8994-8824-9500-322b-aaeb9af9437b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '11e56093-8d5f-4403-9279-93c2dc0cea7e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('11f35bf3-c0f2-e0d6-fd19-3f48f999261a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('53fb9e56-64b3-8949-2f80-ed81ed37ed57', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '11f35bf3-c0f2-e0d6-fd19-3f48f999261a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('12982517-c342-03b8-c70d-4f3b784f2386', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fc43044c-c284-97ec-6cc2-6135f00041f6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '12982517-c342-03b8-c70d-4f3b784f2386');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1329f4bd-7b40-cdb5-9feb-353a3f61abb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('476b85bc-556a-4022-41fe-14ce11ab3cdb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '1329f4bd-7b40-cdb5-9feb-353a3f61abb7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1330673e-bdc7-0605-ac8a-9e05c767dc30', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6d17aee8-bd2a-0b77-2dd0-eac2f35e26e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '1330673e-bdc7-0605-ac8a-9e05c767dc30');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('13355e64-37ee-8328-bc29-dc02fdb83eb4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('62bceb7b-c403-1b74-7606-eeb16d1e53cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, '13355e64-37ee-8328-bc29-dc02fdb83eb4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('13adde74-ecc4-ffbb-019d-3d5f41d52815', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f67a3a32-d1fc-8819-9df0-c63dc816ddb6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '13adde74-ecc4-ffbb-019d-3d5f41d52815');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1466af67-972f-8067-26ad-811975d4524d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1fb04097-b968-17c9-dfb1-bc84621570c1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '1466af67-972f-8067-26ad-811975d4524d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('14b44217-b0ea-dd59-740f-81b22e807cfa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa3b5b07-bb3b-da1f-2c57-edf176b672da', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '14b44217-b0ea-dd59-740f-81b22e807cfa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('14eb935b-8936-a7fa-f29b-e4629003dfa1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3060d458-c999-5da1-5c99-6f35d8051373', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '14eb935b-8936-a7fa-f29b-e4629003dfa1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('14f619a4-7b46-09f2-5328-251f8a189f25', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f97fcdcb-851d-7a13-5062-e5a394aab9a1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '14f619a4-7b46-09f2-5328-251f8a189f25');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1531fe20-7f17-3f42-cfc3-9a23f2b4b586', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b6b63d8d-644e-ed54-3752-bad749e093ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, '1531fe20-7f17-3f42-cfc3-9a23f2b4b586');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('159966c7-13c1-e7d5-dcbb-04d0a3afe02c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7539b277-027b-1b5a-5b6d-ed418f73635d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '159966c7-13c1-e7d5-dcbb-04d0a3afe02c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('15f5e799-cb9a-e1fd-e7b4-94acea11e9af', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d69f82ae-0c1a-3264-f05c-05b9dcdfb929', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '63130c6e-0b8c-8192-0adf-066f88e2b63e', 1.000, '15f5e799-cb9a-e1fd-e7b4-94acea11e9af');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('16749e19-6586-5d30-7857-3448c3e627c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1b1107c2-4f3e-41fa-c84e-11f7727a2088', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '16749e19-6586-5d30-7857-3448c3e627c0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('16792652-967d-95fe-bc84-f91db0f88968', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('836d195f-257a-939c-2542-0ac5469523fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '16792652-967d-95fe-bc84-f91db0f88968');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('16916013-959a-c69d-e6b7-dc23ff956d5a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4e72410c-7fac-b9cc-6ecb-0db12e995d71', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '16916013-959a-c69d-e6b7-dc23ff956d5a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('169251f9-735d-a344-9e59-d9c7ffd13956', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2975b1e1-7c96-1775-36e6-ac20c18591d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '169251f9-735d-a344-9e59-d9c7ffd13956');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('16e25c59-60f4-8546-44b4-cdbf34a17dc2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7efca987-b7c1-3555-04e6-eee0ac35b9fe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4f9f6841-3da8-43d1-362b-2c620a48521c', 1.000, '16e25c59-60f4-8546-44b4-cdbf34a17dc2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('16fe44d3-2adf-5e88-c6de-4708e3381050', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ab56feb3-9d8e-fc58-bfb2-e6379dc9adac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, '16fe44d3-2adf-5e88-c6de-4708e3381050');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('17063122-ac12-622d-3166-08e1d9b7d608', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('42d87f02-ed67-e614-f95b-4d3d8cf3a2cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '17063122-ac12-622d-3166-08e1d9b7d608');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('17887e11-e006-431a-9550-19e0b298f84e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('04ad322e-2746-15af-4529-8783e7d99f60', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '63130c6e-0b8c-8192-0adf-066f88e2b63e', 1.000, '17887e11-e006-431a-9550-19e0b298f84e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('179f8219-1a37-2c90-11a7-8e2cd1371b83', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('80c09f04-33ee-72b1-c939-528d54121731', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '179f8219-1a37-2c90-11a7-8e2cd1371b83');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('17b3500b-55cb-39f5-51aa-2c3d0076f1b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4b86ae28-fa71-2d47-046b-cb3e0512ad67', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, '17b3500b-55cb-39f5-51aa-2c3d0076f1b2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('17ec2a20-c7b9-dedc-433c-caac14613076', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('26174626-9e30-9229-896b-e8871180e5a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, '17ec2a20-c7b9-dedc-433c-caac14613076');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('17f35bf1-0461-5ecd-e44c-f409a1c3e253', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('43e0a91b-c3ec-c674-ac6e-5099614280e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '17f35bf1-0461-5ecd-e44c-f409a1c3e253');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('181ca34c-f83c-5295-19f4-d2d0770cac6b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('562996a5-a64e-b72e-268c-7d932dad590c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '181ca34c-f83c-5295-19f4-d2d0770cac6b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('185e7f5d-6007-1ef5-63ad-e91fa126f3b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7d33a18f-137b-59ec-674a-baf6aa255af4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '185e7f5d-6007-1ef5-63ad-e91fa126f3b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1874935b-2bd3-546a-359c-42085ebe3c73', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('849c793f-6907-0b5b-5299-15f4bdf8d20a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '1874935b-2bd3-546a-359c-42085ebe3c73');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('188388b4-e888-8bd6-7e3c-9467fa7923ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('af70da52-ee79-713b-fad1-65e746d72f85', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '188388b4-e888-8bd6-7e3c-9467fa7923ce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('19616353-8327-6252-514f-2806a370dbd5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3f2ba36a-ffc5-f527-724a-5d7bcbc86674', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '19616353-8327-6252-514f-2806a370dbd5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('196307f5-ffa4-7975-8d30-e596f4ebdcf5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e97437b1-993a-9028-614e-8c7eb54e338c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '196307f5-ffa4-7975-8d30-e596f4ebdcf5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1a35ea84-9af2-9d11-0ba1-0c0221731d20', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3c499fd5-3c06-f636-bbc5-7616bd666837', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '1a35ea84-9af2-9d11-0ba1-0c0221731d20');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1aa251ab-c046-a578-8559-2fe82820dd12', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('53ec5dbc-9f67-a016-0eb9-ef66116baa4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '1aa251ab-c046-a578-8559-2fe82820dd12');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1aa94e07-0093-7e03-b9ca-ef056a2810a2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ee6c3502-0de5-038f-6cf8-d682ba814df4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '1aa94e07-0093-7e03-b9ca-ef056a2810a2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1ad519cd-aee2-882b-a4fd-f0dd3c7c77b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('43a564a9-0266-c1fd-4fb0-8e6ab548620f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '1ad519cd-aee2-882b-a4fd-f0dd3c7c77b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1ae977e7-f4a8-3c19-8da8-d2a1bdd642d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('56d3b67d-2541-cbd6-1590-debe27a0cd98', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '1ae977e7-f4a8-3c19-8da8-d2a1bdd642d8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1b2e4e2d-fc0e-195e-64c5-34011f1e0d22', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f5692359-b3d8-c2c5-a0bc-c5a82686ec64', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '1b2e4e2d-fc0e-195e-64c5-34011f1e0d22');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1b69ddb0-75f8-f67b-dd8b-b9da3b948c4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('74ae21df-19b8-96b1-40a4-513b62b6a2f7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, '1b69ddb0-75f8-f67b-dd8b-b9da3b948c4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1be6bb63-09cd-7c85-4e50-bdc790d6bb68', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a54f1ef9-d9f8-9eac-e6e5-b223ea069fd7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '1be6bb63-09cd-7c85-4e50-bdc790d6bb68');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1be745ca-d7a9-92dd-962d-be6cc8806e47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ef467b78-3a16-2712-ea3b-1739f205f8a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '1be745ca-d7a9-92dd-962d-be6cc8806e47');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1c1b7449-12a6-5902-8dae-9bdb76ab8cdd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('efc5241b-b7cd-ab75-7e5d-10d75e5b776b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '1c1b7449-12a6-5902-8dae-9bdb76ab8cdd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1d1523ad-c873-e244-1c38-3bd57d15bab3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f3a9a476-37ce-9131-b6f1-f91f4935e816', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '1d1523ad-c873-e244-1c38-3bd57d15bab3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1d98ed10-dc61-44ac-1778-26ec8cee29a4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a73eaa74-3103-bef0-3e0c-4cb91b2ac469', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '1d98ed10-dc61-44ac-1778-26ec8cee29a4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1e3200f2-5130-c62f-5125-c9f2119743e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fb423c8c-2d4e-4c24-d0ee-22c7a966a62e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, '1e3200f2-5130-c62f-5125-c9f2119743e1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1ea5b560-56ab-118b-98fe-f0c307f212d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('84108da8-62b8-c395-acc4-c1c09c9a835c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '1ea5b560-56ab-118b-98fe-f0c307f212d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1efd0817-ce3d-6ab2-1844-67f92415c943', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c28e0dd6-fed2-9680-c03f-8629997b87de', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '1efd0817-ce3d-6ab2-1844-67f92415c943');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1f20b08b-235a-e760-c2d4-2866de8068e4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0a3cb1c6-f8ce-333b-bbe8-9e844e1afcc0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '1f20b08b-235a-e760-c2d4-2866de8068e4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('1f22b62d-4864-486e-693c-0328afc5fee1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dce954af-0d89-7926-5b29-67f97f325e5a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '1f22b62d-4864-486e-693c-0328afc5fee1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20097bc0-29b1-22a4-37d8-22fed3b4fb7e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b225eb21-a75f-4c9a-f73a-b1d5c1ef4f52', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '20097bc0-29b1-22a4-37d8-22fed3b4fb7e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20282056-1fa7-6fd8-4c4c-4867272ca71f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0c65a2fc-c8ab-53b8-8565-6a4011966973', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '20282056-1fa7-6fd8-4c4c-4867272ca71f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('203f7154-ada2-6e47-e89f-6e92da7a468d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e0324c14-4fa2-c6f9-1b63-c4565bdc96f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '203f7154-ada2-6e47-e89f-6e92da7a468d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20919dda-71d1-1b65-73b5-2601dfbc1d89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('def9a868-b212-b3b6-ef1b-1d9d70eefb6d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '20919dda-71d1-1b65-73b5-2601dfbc1d89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20b6df9d-f9cd-a995-056c-15a4756aa923', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('00197d8c-5001-af16-2092-98cead085dea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '20b6df9d-f9cd-a995-056c-15a4756aa923');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20dec68f-b9ba-829d-44b6-f20fd10c7097', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5571a791-a6b1-9711-a1c9-170321a5212d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '20dec68f-b9ba-829d-44b6-f20fd10c7097');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20e74fbe-3788-db32-b6ae-63109a84eb4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('033c986b-9e7b-9137-a595-6f6ec32566d2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '20e74fbe-3788-db32-b6ae-63109a84eb4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20f6714b-2ca0-e9cf-9d10-59d32362821c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4298a320-e6ce-6108-3239-73b982203cc3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '20f6714b-2ca0-e9cf-9d10-59d32362821c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('20fb8835-b12c-a5a4-e24f-599210ba449d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cbe009bf-1856-8c1c-7c4b-9c407809478b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '20fb8835-b12c-a5a4-e24f-599210ba449d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('211f9b09-65d8-4333-fb2b-822ea87026bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cfe98545-b9e0-fdb3-d2bd-91f0908d4c02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '211f9b09-65d8-4333-fb2b-822ea87026bf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2120a7a2-2056-3d81-3305-d6e3c3420aad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1c872c69-4a24-02a6-aad7-4cf37e30edbc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '2120a7a2-2056-3d81-3305-d6e3c3420aad');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('212254c9-b686-bd63-a035-e9ee9b162c5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b39ecc3b-68fd-a10c-75b2-d9639ee29ea8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '212254c9-b686-bd63-a035-e9ee9b162c5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('213027fe-dc64-f42e-fcdb-5b0833799c26', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f6628daa-fc89-6441-cbb9-864f2a30c19e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '213027fe-dc64-f42e-fcdb-5b0833799c26');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('216def6c-3920-b55e-9871-86eeec3cff0c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c0bfdb80-a5b6-1015-1899-ff15a1f28a77', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '216def6c-3920-b55e-9871-86eeec3cff0c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('21870484-aaab-6593-0dad-dfa425454aca', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2e2d1201-80ad-d9c5-556e-a4171d994646', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '21870484-aaab-6593-0dad-dfa425454aca');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('21e54081-4fa3-a232-5797-83c523b7445b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0021df92-71a0-9f1f-4413-6d15d326385a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '21e54081-4fa3-a232-5797-83c523b7445b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('22560f82-0829-88f4-df08-9649c7eca7bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c5da46ed-b1b9-7695-4d40-3f0c070cc575', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '22560f82-0829-88f4-df08-9649c7eca7bf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('22563584-ae09-26a9-3320-c1c15fde7696', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4bde49fe-968d-a936-1f2f-adacfae64064', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '22563584-ae09-26a9-3320-c1c15fde7696');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('227cd0df-ab9e-582c-a2c2-f34b40fc38d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f6e12fba-b74d-6ec6-5695-bc75a869cd77', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '227cd0df-ab9e-582c-a2c2-f34b40fc38d3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2285ebd1-e258-0df0-0a7d-5f55cadd1ef2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('96c87249-7ee8-a8a1-039a-3e08f58cbf2f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '2285ebd1-e258-0df0-0a7d-5f55cadd1ef2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('22b8cee7-28b8-00a6-4341-5a0bc7857da0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b3f6b309-405d-97a6-a566-d49dbd8bc002', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '22b8cee7-28b8-00a6-4341-5a0bc7857da0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('22dbbdc4-2b2f-b9e4-79a8-08904df1afce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ab1134e1-d68d-9fe1-5e02-4d7f75851a3d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '22dbbdc4-2b2f-b9e4-79a8-08904df1afce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('22eaad9b-e36e-8d01-db82-acb122ce66c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e87a10f7-1b64-6055-e9b6-f21c3d024e61', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '22eaad9b-e36e-8d01-db82-acb122ce66c7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('23328406-199f-aaaf-9291-3f954c898883', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('63b980f3-d6d0-13be-c7d1-24d1e2994ffe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '23328406-199f-aaaf-9291-3f954c898883');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2337c7db-bed8-4342-dd61-c1557ffcd87f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4186bc08-0c43-ecd9-c055-554b0b5db4a1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '2337c7db-bed8-4342-dd61-c1557ffcd87f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2347bef5-fdbd-5667-0442-7b5e5dee09cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2fa4eaeb-381a-b134-e2bc-59cec004e7c5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '2347bef5-fdbd-5667-0442-7b5e5dee09cb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('235869ba-45fb-b7bb-cc09-40092cef537e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5fbe6a30-c0cf-6710-4277-a80ff2eae315', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '235869ba-45fb-b7bb-cc09-40092cef537e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('23952dc6-028f-bd52-c0a8-f885c49d822f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bfdbfb40-beba-4973-368e-08e3faa207d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, '23952dc6-028f-bd52-c0a8-f885c49d822f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('23b1afef-636c-346d-039e-2609121a428b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b21e43a6-bfb9-626f-58c7-d5695377bdbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '23b1afef-636c-346d-039e-2609121a428b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('23de0e23-56dc-5b72-dab6-8c6a797cf67c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('22a6ef3a-0f86-5ce1-71ba-864f174e34d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '23de0e23-56dc-5b72-dab6-8c6a797cf67c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('23e01532-f148-5b3f-18d4-9f5d69136c3e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('82b34616-c5ed-8d44-ff0f-69cd4fe6970f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '23e01532-f148-5b3f-18d4-9f5d69136c3e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('24186af8-eb56-708b-e7e5-6baf5123b922', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a1056fc3-dd0b-be6c-0c2f-66cad0a0f7d4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '24186af8-eb56-708b-e7e5-6baf5123b922');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2418fbd8-562e-aec8-3421-9461a6c1fd89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0f0a61c9-5619-4f32-e0ec-b465b2216156', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '2418fbd8-562e-aec8-3421-9461a6c1fd89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2449c06d-d403-c618-48c6-ed6bbbe7266d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e1b04289-d4a1-89d4-fedd-4f4033570c8c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '2449c06d-d403-c618-48c6-ed6bbbe7266d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('245cf4a3-b7de-0011-7137-bb572d6c09d7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('99d357b8-f1a7-88fa-249e-774281fba4c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '245cf4a3-b7de-0011-7137-bb572d6c09d7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('250bd5fd-41b5-8fdc-de40-6f7db6c13c6b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7918143f-0803-09fc-d8e2-852710cc6900', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, '250bd5fd-41b5-8fdc-de40-6f7db6c13c6b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('25394830-3b4c-66f5-ad65-eaa6b2123181', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a665cf2a-494e-deef-fdd5-15bacfb60d30', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, '25394830-3b4c-66f5-ad65-eaa6b2123181');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2559d0f4-4f18-0f44-b197-5461d90ddc92', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41049b8c-1a6c-d4b9-c6da-44271d45e421', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '2559d0f4-4f18-0f44-b197-5461d90ddc92');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('25a87b11-3c3b-d367-4b23-9fb1379536c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('132a3044-5321-7d16-426f-a524d818127e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '25a87b11-3c3b-d367-4b23-9fb1379536c0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('260e23a3-df96-58d4-df8d-30fa9305d586', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fc44c834-b680-ea06-5a40-7d90403264b7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '260e23a3-df96-58d4-df8d-30fa9305d586');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26717bb5-e652-0593-7b19-95d6643fd9c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dd17c417-c274-edc5-f76e-2f40090c79cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '26717bb5-e652-0593-7b19-95d6643fd9c3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26884c0e-2233-3651-0eb7-953d390f9f0b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0dd165d6-89c5-5fd8-ab8e-b9314deb229f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '26884c0e-2233-3651-0eb7-953d390f9f0b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26905c47-7597-c5b8-52c2-61c8cabb01e8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e2696b64-6f89-0060-cc90-73d4077e9765', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '26905c47-7597-c5b8-52c2-61c8cabb01e8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26983326-849a-e00c-7b48-220969f238d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('208b9f6c-4afd-575b-abf1-275fb4fc1222', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '26983326-849a-e00c-7b48-220969f238d3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26d6de0b-2141-93f5-24b6-aa399d83e59f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7b8b9200-97f8-2be3-99c5-ee7c767b57b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '26d6de0b-2141-93f5-24b6-aa399d83e59f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26ebd8b6-58e0-d72f-fe5d-d36801383f03', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('597e3e09-203e-f47f-e5a8-8dab1f381be5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '26ebd8b6-58e0-d72f-fe5d-d36801383f03');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26f7d02f-2b3a-b04a-3713-062d766973c5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b280c6bb-e134-0b99-5c19-f0cf4e5b8553', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, '26f7d02f-2b3a-b04a-3713-062d766973c5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('26f8d8b4-4034-cb2a-bee4-22f4c4601c56', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a08ab457-4ec7-7b3a-4674-f1e48ae8b699', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '26f8d8b4-4034-cb2a-bee4-22f4c4601c56');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('273dd411-1220-19f1-0562-5d7389618b92', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b5a1c56e-13b5-0cda-c551-7c012c2aabb6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '273dd411-1220-19f1-0562-5d7389618b92');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('276b4151-323a-c5f0-705f-b52c727bbe3e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0184c488-6da0-0816-ca99-87aceb08b107', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '276b4151-323a-c5f0-705f-b52c727bbe3e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('27860594-e601-71a8-d85b-98089fd61fb9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d309b80e-724c-e0dd-8b42-35e25a97d99f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '27860594-e601-71a8-d85b-98089fd61fb9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('28012bf2-d122-5d0f-8da3-29bb753c64e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('005fa1df-b650-12a7-b8c4-a0587b3e2d45', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '28012bf2-d122-5d0f-8da3-29bb753c64e1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('288143b4-f187-377e-e5ad-853d4d98c09b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4a9dcabc-e688-9ac4-6927-b578edb12ecd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '288143b4-f187-377e-e5ad-853d4d98c09b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('292ae559-0841-d413-79e5-be49938b53f5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('451a4153-c865-c242-14f0-2421ea888926', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '292ae559-0841-d413-79e5-be49938b53f5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('292d7ca0-e372-42fa-c3d7-16ff10515d01', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f2fa33e7-fd32-732f-ebd5-8f99de94e385', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '292d7ca0-e372-42fa-c3d7-16ff10515d01');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('293aa141-700d-7395-3ba4-a1973a972f89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8ac526d1-503b-5bb1-513d-6abe37f9d16d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '293aa141-700d-7395-3ba4-a1973a972f89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2974ab95-e26a-0b8c-8ca8-25c2af55f6b5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3a71173a-a953-6802-5fdc-9f8da795b5a4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '2974ab95-e26a-0b8c-8ca8-25c2af55f6b5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('29b72871-02e1-2530-39f4-2bd613553667', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8f77b7dd-b569-a271-1798-21219778930f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '29b72871-02e1-2530-39f4-2bd613553667');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('29bc4808-c637-bc01-4476-624a75228f76', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bdaf1168-241a-3789-3e7e-f8953d7c68b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '29bc4808-c637-bc01-4476-624a75228f76');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('29ca5681-59d4-04ef-6e41-f08f49a2016f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8cc67b7f-eb43-6eb8-b23b-ada5461f53c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '29ca5681-59d4-04ef-6e41-f08f49a2016f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2a17b151-03e9-0086-2221-38ac38372bd1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2fb55c3e-0c34-2f0b-cd66-fdf1b0259ca3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '2a17b151-03e9-0086-2221-38ac38372bd1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2ac3d8d6-dea4-4dfa-69f9-f38110ca1ddb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b83d1e6d-1f5a-649c-070d-c18196af9728', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '2ac3d8d6-dea4-4dfa-69f9-f38110ca1ddb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2b6a7fbf-6f76-c52f-8825-d85fb707437c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('59a77317-2247-f5d6-7754-d9a20356ff86', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, '2b6a7fbf-6f76-c52f-8825-d85fb707437c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2b7e3e08-931d-9e96-f45e-807e0b1f3dfe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ef9c11be-d243-99d0-8f95-3f172c831105', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '2b7e3e08-931d-9e96-f45e-807e0b1f3dfe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2ba97b3a-edb5-b576-be98-a87484257673', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79754f82-eb3c-7e60-5225-be16261f082d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, '2ba97b3a-edb5-b576-be98-a87484257673');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2bc2b425-cbb7-8c9b-81c1-1987a39e5a30', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('44bccf0d-744a-47b5-c4f1-17be03f40b5a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '2bc2b425-cbb7-8c9b-81c1-1987a39e5a30');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2c001dcb-5157-26e1-70b6-f43a584134be', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('18c775cc-c71b-efa8-bcc8-3af62026a8d2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '2c001dcb-5157-26e1-70b6-f43a584134be');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2c1c1690-010a-9adb-2d79-298ab38d93ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d70a56e0-964e-d7d6-ebd1-5e7450482e12', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '2c1c1690-010a-9adb-2d79-298ab38d93ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2c2bc46b-ad39-4b12-e2a9-a9c9f6a9eedc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('26e0845d-3cd4-3f4a-5ba1-05916ac43847', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '2c2bc46b-ad39-4b12-e2a9-a9c9f6a9eedc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2c45181d-5d32-8484-ac8d-ceb4e7043e18', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d8eb980e-d7d1-aab0-5cb7-2131eff94811', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '2c45181d-5d32-8484-ac8d-ceb4e7043e18');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2c650dd0-2eb0-8ce8-5cfd-3c72e20a2d5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5e21662c-7269-7f1f-87ce-1b18549f3eef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '2c650dd0-2eb0-8ce8-5cfd-3c72e20a2d5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2cc13cb2-e283-a3b8-7abe-55f22e1cd079', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ea9ea3cd-c879-540f-bb4a-c5b321186810', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '2cc13cb2-e283-a3b8-7abe-55f22e1cd079');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2cef2d8c-1906-c3bf-aa48-e4515c25289f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a7ab49b4-e286-166a-4fce-3931dd9c3801', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '2cef2d8c-1906-c3bf-aa48-e4515c25289f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2d322510-0729-42b8-bf5b-7cbad003f2ef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e4125cfe-1e48-9a22-cd20-7e14c568959d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '2d322510-0729-42b8-bf5b-7cbad003f2ef');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2db63e09-e4dc-6304-93f2-9b86d24494db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('61ab462d-114b-b735-9e9d-acb752bf5f50', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '2db63e09-e4dc-6304-93f2-9b86d24494db');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2e5852f5-be19-9f2e-0acb-e2e0e477c033', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('adc2b8c0-bb26-f6a0-2f13-5f1e1be8381f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '2e5852f5-be19-9f2e-0acb-e2e0e477c033');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2ea53bb6-2404-e53f-bf4a-d114949a51b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5e5c10dd-cc71-5322-c811-7a954fa38278', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '2ea53bb6-2404-e53f-bf4a-d114949a51b0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2ebe3caa-3e8a-00e4-a93d-e299ad420acb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('de6476cb-f937-6521-66fc-d78c2b600ed6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '2ebe3caa-3e8a-00e4-a93d-e299ad420acb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2f0927ee-0d50-883c-6109-d5e681a63b8c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('36ff9b41-6bf4-02da-918b-fcd0779c4ef8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '2f0927ee-0d50-883c-6109-d5e681a63b8c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2f44e8e4-69d9-f640-9e4a-20a8b64526b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9ecf2935-3180-d2a9-1c40-dccee24ffb4e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '2f44e8e4-69d9-f640-9e4a-20a8b64526b8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2fd42930-b3f8-cbec-2d22-d0e237838932', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0333a66d-b54f-a353-dff6-a90885ba230e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '2fd42930-b3f8-cbec-2d22-d0e237838932');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('2ff5b1cd-75fb-f8f5-7db4-9fae7a42c811', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7ec80458-46be-4afe-bf70-11bd6999486d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, '2ff5b1cd-75fb-f8f5-7db4-9fae7a42c811');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('308e451b-6cbc-611b-9d9e-ba475f8c64db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('256b6162-5318-d0b9-0da4-baf488cb6b58', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '308e451b-6cbc-611b-9d9e-ba475f8c64db');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3110da08-d71b-b444-0516-f740f1a6a64e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('76cc00ec-6d73-e835-b2ed-225524d3103f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '3110da08-d71b-b444-0516-f740f1a6a64e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('314e3199-dc25-79be-8f08-580f352afc21', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3bdad4e2-6d1e-5ef0-033b-e9323e927a32', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '314e3199-dc25-79be-8f08-580f352afc21');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('314f591a-11ab-6d90-9613-c6f7764a2aa0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('87de9011-f0db-523f-477e-fb723d853bc7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '314f591a-11ab-6d90-9613-c6f7764a2aa0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3162f8de-31d0-fc27-f0ec-a8b54068e2a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('24fdb50a-b866-5cb9-06e9-0af852bb7508', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '3162f8de-31d0-fc27-f0ec-a8b54068e2a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('317abed2-6f6a-36d2-85a2-1a5fc0b13313', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ddc5179f-1fbc-f087-e1d1-c9884b1ba123', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '317abed2-6f6a-36d2-85a2-1a5fc0b13313');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('317d5842-2cd5-8c29-e959-cb8c6f0050aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('66f4e3fa-5816-e558-fcca-dab440cb4e0f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '317d5842-2cd5-8c29-e959-cb8c6f0050aa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('32094e73-9891-4584-ebab-6893c36c7842', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c85bd96a-d70e-b3a0-8ec7-516ca85864c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '32094e73-9891-4584-ebab-6893c36c7842');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3225e868-5b5a-130e-2be9-83cf6b3c7c6a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f7fe9341-173a-8441-80f0-b022ea6e6241', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '3225e868-5b5a-130e-2be9-83cf6b3c7c6a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3230b750-67ca-8e28-a0ad-d579491a7bbb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0904a32e-d592-6b84-c4c9-60e0967cb0d4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '3230b750-67ca-8e28-a0ad-d579491a7bbb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('326a2ca6-bd91-5717-cd73-b37ac857bd9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('105a48f5-8e94-e6e2-a22a-fede6a3818ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '326a2ca6-bd91-5717-cd73-b37ac857bd9f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('32d14ee1-4654-c1d1-7a70-5f8cb44a7ba5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2c0e3248-a013-9d98-e549-27364711e6c2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '32d14ee1-4654-c1d1-7a70-5f8cb44a7ba5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('32d7c46e-2929-4ab5-eb5f-59a9a7a4325a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b153359e-c5f0-2da6-68c8-fefdf174f5b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '32d7c46e-2929-4ab5-eb5f-59a9a7a4325a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('33a07fc8-b65f-bd02-e028-9ff5a80b7beb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f10ef172-7d18-529b-bc51-681e3b90b6b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '33a07fc8-b65f-bd02-e028-9ff5a80b7beb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('33b1cf1d-7cc3-4887-2e85-ce11b0a53f8b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ebb028f6-ac2f-0619-ccb0-419377df223e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '33b1cf1d-7cc3-4887-2e85-ce11b0a53f8b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('33b9eaae-62c1-e367-23e4-3ee11bcaad46', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('903a4071-882e-32c5-55b1-df2511e3e5bb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '33b9eaae-62c1-e367-23e4-3ee11bcaad46');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3497e625-4a01-4925-6ceb-77746e90777e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('11c3d03b-116f-be69-93e6-d0aeb875f6cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '3497e625-4a01-4925-6ceb-77746e90777e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('34bb4bad-7ddf-a933-58dd-2dc5d897fecf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cd89a52e-5050-583c-d407-6d2966a5696a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '34bb4bad-7ddf-a933-58dd-2dc5d897fecf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3501c8fd-c108-5fdc-be51-e1851d7b8c14', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e2822f48-92a5-e77f-5781-71519c8b2282', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '3501c8fd-c108-5fdc-be51-e1851d7b8c14');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3518ae44-eb41-5cbd-0684-23e7b942e601', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('05299374-ee5d-0c73-cd41-fdc3f4aa35cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '3518ae44-eb41-5cbd-0684-23e7b942e601');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3532fcee-6a72-8493-1da1-b3421f8ad1cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2fe4691b-df78-061a-a5b0-63bac09feb46', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '3532fcee-6a72-8493-1da1-b3421f8ad1cc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('354a9113-b13c-b0c2-f78f-cde92a163d07', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('91504895-7048-5c0e-70f9-c062b88dda7c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '354a9113-b13c-b0c2-f78f-cde92a163d07');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('35597f45-7ae4-800c-179f-55fa1940852d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e4ebdfc4-1012-78eb-99b5-2143fb7aacf0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '35597f45-7ae4-800c-179f-55fa1940852d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('359946af-e721-aa8b-a3fc-ea8724f605e4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d81bfae3-0742-bbbd-5207-7cc0bd97ef79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, '359946af-e721-aa8b-a3fc-ea8724f605e4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('35cb583d-217a-8ef3-d5dd-72f1f7c43fd4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7726f968-9132-b5a9-c7f2-9642705baa7a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '35cb583d-217a-8ef3-d5dd-72f1f7c43fd4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('36aa2af3-3d54-d20f-a080-cbb16493a67b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3e7b6112-ac06-e762-0619-cb5470b9b608', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '36aa2af3-3d54-d20f-a080-cbb16493a67b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('36cf311e-854c-5875-6cc7-b497f5ecbb97', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b3af1eb2-cf35-6281-0534-9666949bc003', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '36cf311e-854c-5875-6cc7-b497f5ecbb97');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3732017e-9046-8a7d-41e0-8bf3ef9df422', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e9aeb023-ffc4-3f5b-2615-867817026dc9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '3732017e-9046-8a7d-41e0-8bf3ef9df422');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('374d4206-fc87-f2d2-24a5-e1131e9820c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('77918b25-99f6-f3f1-3d2e-2c750a6d82bd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '374d4206-fc87-f2d2-24a5-e1131e9820c0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('37f64cae-4fbd-ca6c-d3b5-c3b05d710a25', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d818fb07-3eaa-186a-7c45-95b25a80fd35', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '37f64cae-4fbd-ca6c-d3b5-c3b05d710a25');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('389f1c8b-9eae-3e8a-ce6a-0c6637861506', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('be062fa2-bc1b-5c49-377d-bef539577499', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '389f1c8b-9eae-3e8a-ce6a-0c6637861506');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('38cfbc9d-90b2-8997-cb1e-b2165a4cd084', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('76295b79-b24b-affa-b714-ec5298dbbbb6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '38cfbc9d-90b2-8997-cb1e-b2165a4cd084');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('393f1e50-fd11-f70e-c189-cc133b92aa37', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('95132503-749a-5599-1761-df1d9adda8d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '393f1e50-fd11-f70e-c189-cc133b92aa37');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('39844223-1f5b-af8a-414c-972838d07568', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b16f0085-db32-d42c-8635-5b6d59df7c34', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, '39844223-1f5b-af8a-414c-972838d07568');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('398fc3d4-247a-dbd8-478c-730abcab6b6a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e565c22c-4925-e072-189b-5dd17ccce724', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '398fc3d4-247a-dbd8-478c-730abcab6b6a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('39b1136f-5073-ec1f-50e9-cff76b9bc0ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('93a8a605-6b26-a6de-eb51-f87e9724d856', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, '39b1136f-5073-ec1f-50e9-cff76b9bc0ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('39c5a8ed-d91b-0060-1e04-74ee105b0cfa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a495f03e-3514-311a-1f68-2bc0953188c2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, '39c5a8ed-d91b-0060-1e04-74ee105b0cfa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3a3e5776-2025-4b89-6bec-ccaee4f4b0a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41b36620-923e-5f84-94a7-5d4a10ea959d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, '3a3e5776-2025-4b89-6bec-ccaee4f4b0a5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3a5be3d9-2bd5-6119-8eed-dc8100303281', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bb85c6f5-aea3-3200-bc6b-fba23800b141', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '3a5be3d9-2bd5-6119-8eed-dc8100303281');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3ad153af-b6ec-917f-1ac7-eeea7dfcb725', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bb750488-40a0-5801-e4eb-e1a82784eb80', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '3ad153af-b6ec-917f-1ac7-eeea7dfcb725');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3b3346fa-2d3a-9f63-5b1a-949b6ac31424', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0239ee4e-6a5e-afc9-57ae-cb1c5c15746c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '3b3346fa-2d3a-9f63-5b1a-949b6ac31424');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3b4a5071-962d-4fce-1499-a9616e1c8e5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1016df69-27bb-62eb-b279-d8e84b23039c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '3b4a5071-962d-4fce-1499-a9616e1c8e5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3be40127-b86f-d58f-45dd-76b3bea14cd2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9d21ee47-01cb-cbc6-8f8f-e31d6f935e13', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '3be40127-b86f-d58f-45dd-76b3bea14cd2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3be9e46f-3810-d738-588b-35a9b901b366', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c8b41e4b-87ab-e9f6-b0eb-e406f58599cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, '3be9e46f-3810-d738-588b-35a9b901b366');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3c06f9ed-e7e0-b4d4-c7e4-00016feb2fbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3e339ee7-8eaf-4c95-1ea4-7be38fd036ef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '3c06f9ed-e7e0-b4d4-c7e4-00016feb2fbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3c2e4cd4-3ad3-2478-9c86-0e63c7b792d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bcd9e175-fc55-6913-6822-d0f105fdaf1d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '3c2e4cd4-3ad3-2478-9c86-0e63c7b792d0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3ce7a02e-9e4d-a2a7-e6e2-347b5f9ef767', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0edbfb5b-d6b4-1010-a753-11b963d66242', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '3ce7a02e-9e4d-a2a7-e6e2-347b5f9ef767');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3cf71a03-6a73-b9e8-4614-fd46043a227f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3e893968-6b83-0ac9-be06-d2c2ea0193be', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '3cf71a03-6a73-b9e8-4614-fd46043a227f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3d636f51-07f5-af06-9bc1-9bf80b0fdfb8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a438c572-087b-49c0-f3fc-f7099dddad61', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, '3d636f51-07f5-af06-9bc1-9bf80b0fdfb8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3d69f44a-fbe8-9938-f97b-6a6e6784cd16', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fe786a1c-ac0a-b38a-4c72-bb02f047aff5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '3d69f44a-fbe8-9938-f97b-6a6e6784cd16');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3dbcbcb7-cfe1-03d0-0350-59d47e659a25', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38010a11-27ed-9eb6-9a86-e383eeeb9e09', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '3dbcbcb7-cfe1-03d0-0350-59d47e659a25');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3dcd05c9-4ff7-b540-39d9-66263f7b0537', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0cc7b479-3265-32d8-c0cd-af49b1961d50', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '3dcd05c9-4ff7-b540-39d9-66263f7b0537');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3e0ac260-628e-044f-8b31-b7b0242a1399', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b2df4b36-a401-501c-135c-d64eee03beea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, '3e0ac260-628e-044f-8b31-b7b0242a1399');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3eb3b7c4-b5df-ed81-6574-72a9cb983891', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5de63f87-1cd2-99be-b489-4cfec8661610', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '3eb3b7c4-b5df-ed81-6574-72a9cb983891');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3eca8873-c106-6bfb-bc40-934263a1dfe2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('54b53f37-bd5f-b15f-dfa1-6a515c61a3bd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '3eca8873-c106-6bfb-bc40-934263a1dfe2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3edfe61c-bc51-7255-8c62-f2cbd1fae564', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e8947964-6e77-a7d0-58b0-053bb8f41cd0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '3edfe61c-bc51-7255-8c62-f2cbd1fae564');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3f357ea3-b04f-5fc7-3462-e195989f6c1f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed68a7f8-200f-4365-038b-a3b6923d568a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '3f357ea3-b04f-5fc7-3462-e195989f6c1f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3f36de4b-aab4-2f31-f549-c853eb2886eb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('86f59e47-a77d-7256-7e4c-ad3a046fd537', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '3f36de4b-aab4-2f31-f549-c853eb2886eb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3f37f278-878b-04cd-4202-f2180fd3dbd4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('308e20ce-b94c-7c15-0801-8013be83d310', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '3f37f278-878b-04cd-4202-f2180fd3dbd4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3f3face8-7367-bcd3-1b58-10b595e792bb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('210ebaac-74fe-65df-230a-562b1d280f9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '3f3face8-7367-bcd3-1b58-10b595e792bb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('3f606b1e-5eb1-02e8-8541-9b96d1218563', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2e5f7a49-0f28-4cad-53ab-c17cc2a7c8d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '3f606b1e-5eb1-02e8-8541-9b96d1218563');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('40d95dbb-6d2b-b23c-6a25-60a687969276', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bec2eaba-9f92-c9a5-c716-c895ad4932dd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '40d95dbb-6d2b-b23c-6a25-60a687969276');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('41173f40-f26e-08a7-97cf-f0a117b7f335', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d3578a79-4b92-794d-362a-c2c71121d97e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '41173f40-f26e-08a7-97cf-f0a117b7f335');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('415e2d4e-c206-364b-4f9e-b5d18ba7d6f1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8d75b8f8-ebcf-17c0-b46c-e5e4a97f82d5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '415e2d4e-c206-364b-4f9e-b5d18ba7d6f1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('41a0db0a-504e-13de-ace2-7eae71bfb22d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('37e4b0d7-c9d9-d3f2-ffcd-d597157f8754', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '41a0db0a-504e-13de-ace2-7eae71bfb22d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('41b5c1d6-68e5-4694-756a-3368e62500a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('36237a4d-9003-e4b9-dd4a-a9e951c4cbd9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '41b5c1d6-68e5-4694-756a-3368e62500a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('420bebcc-41cf-48d8-43d5-e7b755f16bc6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9b75e7f2-d44b-9de5-3c83-79739d40827a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '420bebcc-41cf-48d8-43d5-e7b755f16bc6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('420deca5-82cc-30ed-480b-d18dffc560c5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('847693dc-be91-f76d-797a-b87aeb4aaf1b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, '420deca5-82cc-30ed-480b-d18dffc560c5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('423683d6-3449-e844-9002-c1aaa311cae8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3d837b3d-0a66-b5a7-854b-174f413f0256', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '423683d6-3449-e844-9002-c1aaa311cae8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4264ef96-6422-a3fb-eb77-6bf4c7f1f1c9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dcc1ee8f-30c2-81a8-b1f4-61f02af4dd38', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '4264ef96-6422-a3fb-eb77-6bf4c7f1f1c9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('42b6a018-890e-ef80-1e6a-79d3d033920d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6532ebba-6528-b7c0-162a-cc7b53f4c836', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '42b6a018-890e-ef80-1e6a-79d3d033920d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('43037239-e05a-3ea6-2cb6-7af27c3e9a1f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7ec6ac1e-a5d0-855a-61e6-064bdccffcaa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, '43037239-e05a-3ea6-2cb6-7af27c3e9a1f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('438c449a-d75e-13dd-011d-d218a128a097', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('16bad38b-1414-2a51-c5fc-d47da2397d29', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, '438c449a-d75e-13dd-011d-d218a128a097');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('43c3999b-29d8-fb10-b9de-6d8ec411dc9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d327c104-d41f-bc47-dac1-fdbd2f8d4fb2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '43c3999b-29d8-fb10-b9de-6d8ec411dc9f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('43cdee27-0af9-fbad-fe0a-37d9fdc01e8d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c985e3b6-2daa-6115-063e-7c97a3c502f9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '43cdee27-0af9-fbad-fe0a-37d9fdc01e8d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('43d0e3c4-8f51-69cb-e073-105ca38325bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('af52ad0a-c887-4e8f-e934-f8bdbb7fe8ac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '43d0e3c4-8f51-69cb-e073-105ca38325bf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('43d5025a-07d8-7562-db6f-6a8543d1737a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('59e53d8e-2669-6f90-3cee-2a29d4b8f0d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '43d5025a-07d8-7562-db6f-6a8543d1737a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('448a1541-f4d4-5d21-ecff-e6c1bfdab3dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7f694da7-abcd-fc37-7887-55f3ccd34809', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '448a1541-f4d4-5d21-ecff-e6c1bfdab3dc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('44df3e5c-fffa-b6ed-4ad9-9b78c46cd314', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2b119c0d-ea7e-559e-1339-b36febcdfa65', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '44df3e5c-fffa-b6ed-4ad9-9b78c46cd314');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('45155a00-6c89-b0a7-73d7-14164cb46baf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0f24136a-9e86-3cf5-2fa5-6c2d46b651f5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '45155a00-6c89-b0a7-73d7-14164cb46baf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('453f8a21-2773-4dae-f8c1-35875667f1a4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('494d4f09-12c7-a354-88d3-f3bc32b64c4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '453f8a21-2773-4dae-f8c1-35875667f1a4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('45bad4a3-528d-cf48-dd19-f3d2766c609a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f1edd0ea-30aa-07d0-99f7-a2039b10fe47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '45bad4a3-528d-cf48-dd19-f3d2766c609a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('45beead1-f012-3af5-34e7-b94571524b51', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6a3cf84b-9408-674a-8df5-66875de57141', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, '45beead1-f012-3af5-34e7-b94571524b51');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('45c85a77-6ba0-95d1-7d97-f7d93c58f739', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bf83d753-8faf-c8f6-a732-16b052eec05c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, '45c85a77-6ba0-95d1-7d97-f7d93c58f739');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('45d782e1-82e6-8f20-98be-c9f9292ac9cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b5b469f8-f979-0522-60c6-c6b7a02641de', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '45d782e1-82e6-8f20-98be-c9f9292ac9cf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('46a37b17-3eae-05ba-048a-59366a1f1c5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c3cb56ae-ee3b-aedb-59c1-676e31975771', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '46a37b17-3eae-05ba-048a-59366a1f1c5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4711dd6b-c902-5e79-dbd1-980975417b23', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c96727db-f693-c779-1319-83824ef056be', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '4711dd6b-c902-5e79-dbd1-980975417b23');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('47c3a07b-279d-8dc8-131a-205462830ca6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f4f1157f-79bc-70ad-99de-df14b6c3edb1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, '47c3a07b-279d-8dc8-131a-205462830ca6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('47f0340a-75a0-6011-6aab-6d13e2e81155', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('37e59e97-3cfd-01ed-369b-685771f1fa5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '47f0340a-75a0-6011-6aab-6d13e2e81155');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('482056d0-8796-95fc-a529-01c5080e9bc8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('594ad8c8-55da-5f3c-70cd-e09dff751510', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '482056d0-8796-95fc-a529-01c5080e9bc8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('48434eb5-cf4b-a038-acc5-8ca0ab134284', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7703b5ad-23c2-e53d-7b20-1bf535ea0826', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '48434eb5-cf4b-a038-acc5-8ca0ab134284');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('487e67b6-51bd-6451-5026-5449e4a2dd02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a61dca8e-0f98-d41a-213c-70665087de42', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '487e67b6-51bd-6451-5026-5449e4a2dd02');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('488718e9-65d7-5b25-959a-303b0dd11df1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('728e2dba-4048-2345-e7d9-8dbf80d65b0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, '488718e9-65d7-5b25-959a-303b0dd11df1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('489e9bc8-33d3-3083-59a0-df39cd33e5ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6d320985-5a7e-9ca6-db23-4f8ff817d7a8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '489e9bc8-33d3-3083-59a0-df39cd33e5ce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('48b0a3a0-2746-f256-df8f-4dd498a3a05b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7b999805-a890-7fd7-7e5a-c0d153c1fa57', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, '48b0a3a0-2746-f256-df8f-4dd498a3a05b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('48ed1c77-75d6-8b24-0750-58cafad71fe4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('87a5f946-b15c-3d65-5bf5-230eff5b8e7d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '48ed1c77-75d6-8b24-0750-58cafad71fe4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('49182747-60fc-b490-5a63-0533fbe3d2e9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('df5503d9-56a2-3574-839c-d74b6c04ec81', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '49182747-60fc-b490-5a63-0533fbe3d2e9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4977a997-d70b-da1f-f327-b9c7a196717a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f64e853e-d0a3-e4b0-e849-dbe39f72b191', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '4977a997-d70b-da1f-f327-b9c7a196717a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('498d2ee8-35cb-ecde-9508-dafda7fd9075', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('56b35e43-766e-7909-267d-e576ea9fe548', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '498d2ee8-35cb-ecde-9508-dafda7fd9075');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('49b9074a-7b59-3ebc-e456-1e52ce47f785', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('12982eee-ceb1-8ecb-2534-eb5dc5f14a35', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '49b9074a-7b59-3ebc-e456-1e52ce47f785');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('49c6c970-664b-c101-3bab-cbe61ee4e992', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0287e72e-cb47-3c65-18a9-3574517623c5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '49c6c970-664b-c101-3bab-cbe61ee4e992');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('49cc7fdb-f976-a60b-087c-b2a9d83a2906', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d40143fc-35b6-f22a-7df9-8592f6cae2c4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '49cc7fdb-f976-a60b-087c-b2a9d83a2906');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4a02cedb-a3c9-22d3-1591-3a82982fdbd1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79060c8e-0fe5-5363-038f-d05f8b204ad8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '4a02cedb-a3c9-22d3-1591-3a82982fdbd1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4a07d39f-4cab-e4e6-39b8-0cdf8befa833', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('97a38a9a-ea8f-e4dd-893c-6aec270b42d7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '4a07d39f-4cab-e4e6-39b8-0cdf8befa833');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4aa1f66f-58d2-0763-203b-1ffa5d0ac53c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b2be713c-6e80-b446-79f6-f20e4eba313f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '4aa1f66f-58d2-0763-203b-1ffa5d0ac53c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4b190ac9-7614-bfe4-629f-16363f16a779', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c1bc32f6-3dc4-a622-ded2-5c07f008f7be', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '4b190ac9-7614-bfe4-629f-16363f16a779');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4b3c4c55-3b21-47d6-cc56-25630e3eb3aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('03ce228a-5cb8-ff35-7577-bf4d6e16b7cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '4b3c4c55-3b21-47d6-cc56-25630e3eb3aa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4b7605a9-134e-107a-5d77-d1d6911f4ffa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0b77d659-f2df-a521-993c-26a120f6294a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '4b7605a9-134e-107a-5d77-d1d6911f4ffa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4babee9d-ccde-f489-fd37-75e663a6d50e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6a89d650-d050-a5fc-46e7-7a24b725c511', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '4babee9d-ccde-f489-fd37-75e663a6d50e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4bb04109-6dcf-f5e8-7bf0-f12b9db7c357', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1b1e9892-c5d8-21c8-1be5-655dd874bbd1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '4bb04109-6dcf-f5e8-7bf0-f12b9db7c357');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4c29e5f6-3ef3-a033-6234-ec1dfbaed370', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('343b089c-d245-69aa-6f88-fd03e65cfe72', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '4c29e5f6-3ef3-a033-6234-ec1dfbaed370');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4c69c729-97fc-b7ea-b5c1-8702ac9cd39f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8ad2f6d5-af26-9f68-34d5-f51b664be3cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, '4c69c729-97fc-b7ea-b5c1-8702ac9cd39f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4ddc90a8-b9b0-b7e1-d7e0-6be83f96293b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d1c68b0b-9ffb-9cc7-e026-a1e1d1632428', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '4ddc90a8-b9b0-b7e1-d7e0-6be83f96293b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4df6e5ad-949a-1495-8e36-68b2ba739a62', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('30c934d6-bcca-5e71-ed4f-02339ef951fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '4df6e5ad-949a-1495-8e36-68b2ba739a62');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4dfc86d9-2207-d006-464c-88821ec6ff0f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e16469fc-3812-0b11-6880-388c5426d088', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '4dfc86d9-2207-d006-464c-88821ec6ff0f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4e059e1e-645e-e05a-c437-5425dd1b33e7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('37fcbdbb-c5f7-c500-3920-2f36e9334a41', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '4e059e1e-645e-e05a-c437-5425dd1b33e7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4e2f6165-d398-e27e-08c6-899d93ec3679', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('692f460a-7d5d-d76e-ecc9-276230dc5f63', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '4e2f6165-d398-e27e-08c6-899d93ec3679');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4e925ce5-21a1-82df-a1d1-f445912c1aca', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ec46c342-3669-d82f-f93a-73059fa01d95', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '4e925ce5-21a1-82df-a1d1-f445912c1aca');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4e9477c9-4791-ac3f-e85a-420bdfc5b6d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ab0241f8-03e2-2e63-c678-f5700ecfd63d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '4e9477c9-4791-ac3f-e85a-420bdfc5b6d8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4f61ded1-6a85-85ce-13d1-4757469fd912', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('78549172-f813-545d-3297-8ebf841c83ca', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '4f61ded1-6a85-85ce-13d1-4757469fd912');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4fa2941a-8524-d6e8-13a4-f82a03e99768', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('315e149a-d257-c46b-c759-b9c806217ea6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, '4fa2941a-8524-d6e8-13a4-f82a03e99768');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4fa8863c-0806-8f51-7666-b64146084e1a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('df5cfdba-0782-9934-1710-67a4f165c006', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '4fa8863c-0806-8f51-7666-b64146084e1a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('4ff9ecec-954e-5afd-aa24-4b1a8a97755a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9018eb2b-56ff-e542-75dc-4101f3bec3f7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, '4ff9ecec-954e-5afd-aa24-4b1a8a97755a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('50298fd6-62cb-fc11-3c1f-bac7d91e5128', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('190de367-2357-9d9a-8256-85b54e8c0eb6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '50298fd6-62cb-fc11-3c1f-bac7d91e5128');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('504fecb6-1610-f016-1470-84af3085eeab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b4d1fa73-980d-8b20-a45c-600d4a933b61', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '504fecb6-1610-f016-1470-84af3085eeab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('50ba3565-705a-70fb-fa75-962ee477d879', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('996918d0-535e-2989-dc8a-3dcbc4cce589', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '50ba3565-705a-70fb-fa75-962ee477d879');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('512c3a1f-60a3-0948-3c64-98b58f76d9ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('03c8348d-0f66-b847-b6f3-05a6d7da9279', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '512c3a1f-60a3-0948-3c64-98b58f76d9ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('52059c1b-4ce0-51d6-fbfe-285941a99de9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7f80681b-14ff-9830-e34a-f553c6c7b221', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4f9f6841-3da8-43d1-362b-2c620a48521c', 1.000, '52059c1b-4ce0-51d6-fbfe-285941a99de9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('52779118-cb6a-5f6c-9147-43bffa9f67cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9abf8ccb-318a-4dcf-1b52-f2245276ac33', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, '52779118-cb6a-5f6c-9147-43bffa9f67cc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5281ce21-691c-ebbe-7019-a6cf98b02abc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('184c13d3-53ea-4a36-beb1-335f9d33407f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '5281ce21-691c-ebbe-7019-a6cf98b02abc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('52892293-ac7f-72ae-4344-d94d5ac9c83c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e5fff8bd-6591-172f-1aef-fb645fb42ff6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '52892293-ac7f-72ae-4344-d94d5ac9c83c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('529ac357-bdd6-e0f5-e4ab-928c8fae47a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('335edcde-49cf-7828-8e6d-67c853fbc065', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '529ac357-bdd6-e0f5-e4ab-928c8fae47a0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('52f27806-a75a-6474-625e-4568d27d96b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fbd4e759-5426-acba-b542-f4f9165e32fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '52f27806-a75a-6474-625e-4568d27d96b0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('534e2ae6-54cc-ec7e-3877-28a6f10b8a0b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('42b6b953-ff95-e786-db77-98848b854980', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, '534e2ae6-54cc-ec7e-3877-28a6f10b8a0b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5381f4a1-e1f5-d6bf-f422-3b841b20641d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5197bfb9-94b3-4833-7b77-dbe5a12a603e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '5381f4a1-e1f5-d6bf-f422-3b841b20641d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('539fe3ca-ad42-6205-a5c6-2501f9f15393', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('23886fe2-67f3-b4d5-a4d8-2072e1079e3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '539fe3ca-ad42-6205-a5c6-2501f9f15393');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('53f4e434-c9b2-ac42-432d-df2bd51ede9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('71ac668f-d52b-706a-74fe-583b293bd030', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '53f4e434-c9b2-ac42-432d-df2bd51ede9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('54667a80-b8a5-c695-984b-563257b17529', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f85ba713-3f00-9d2a-0084-5a56c6cfc9d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '54667a80-b8a5-c695-984b-563257b17529');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('547b33e0-8cc9-76e5-1a40-7bc0374fc2ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2ae203e8-1bfb-cc25-74da-279953a3fb47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '547b33e0-8cc9-76e5-1a40-7bc0374fc2ce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5523bf9a-ecf4-af19-3831-e3b6947b4237', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9346733b-ce23-27ac-8dea-283eefa40d35', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, '5523bf9a-ecf4-af19-3831-e3b6947b4237');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('55413476-802e-1030-ded7-8ac8ec8d567b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1fcd6d68-ff2f-c65f-17be-4414bec03087', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '55413476-802e-1030-ded7-8ac8ec8d567b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('55736cb0-6f3a-61c2-7048-7d629c57ab62', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f1cd430d-a6c2-e9e4-4f8f-3b2898f7678a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, '55736cb0-6f3a-61c2-7048-7d629c57ab62');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('55963142-5ac4-ff89-ce3d-233e0dc6ec79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6a2b8598-7477-7f65-749d-0b021699a213', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '55963142-5ac4-ff89-ce3d-233e0dc6ec79');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('559ff4d8-7436-f848-fdf1-1fe74eb81ed0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('48f48567-84c4-9cd3-51f7-1e1ae2b1fca7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '559ff4d8-7436-f848-fdf1-1fe74eb81ed0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('55deb438-a42d-a021-ec1c-d2605fc22b96', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('823487a7-561c-46a9-0bbe-df4d3c026a53', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, '55deb438-a42d-a021-ec1c-d2605fc22b96');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5645d9d7-9901-b21f-f2a9-7fa8d48a3abe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2dc777dd-e664-3327-04aa-2d192360e901', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '5645d9d7-9901-b21f-f2a9-7fa8d48a3abe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('566ad761-b7d8-4d13-6564-2b7f6916c68b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2c892b8e-5cea-c835-10fb-ec07c90e9d33', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '566ad761-b7d8-4d13-6564-2b7f6916c68b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('567ed10d-f6d8-3038-381a-edb389d9064c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('522556bc-db73-49f5-0f6d-e45d40c1d3c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '567ed10d-f6d8-3038-381a-edb389d9064c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('569ee1ca-9016-031f-c646-391672b1c7b6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1e835a19-0c34-a180-6a7e-586e8a22f28f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '569ee1ca-9016-031f-c646-391672b1c7b6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('56b30c58-cdfa-68d6-c7ef-0703efe1b3e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3bdca150-7b1b-f46a-aea9-0fd9ebdccb26', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '56b30c58-cdfa-68d6-c7ef-0703efe1b3e2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('573dcf93-658d-e239-2fe0-43041ebf55e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('11dff6fd-9bd1-4e40-dad9-068c14d4f1e4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '573dcf93-658d-e239-2fe0-43041ebf55e5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5781a5f8-a93f-5485-38c8-041c42efae36', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8ac35069-b23f-c08c-b705-765389a5d622', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '5781a5f8-a93f-5485-38c8-041c42efae36');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('581ea2a8-6993-42cb-1c1d-0ee4d9ab906d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9c77de1b-157d-d876-e424-a141270e56e6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '581ea2a8-6993-42cb-1c1d-0ee4d9ab906d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('584abbb9-e3d6-810c-d49a-234ecfb1ad31', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d392a2e0-df84-572c-f4f5-66c8da7bf847', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '584abbb9-e3d6-810c-d49a-234ecfb1ad31');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58711339-97e1-b040-1699-1f82e69283eb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c9c127ee-7e6b-9993-b5a6-49a1e3f847b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '58711339-97e1-b040-1699-1f82e69283eb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('587dfd1b-a9c6-ba90-0fe5-236d1eebf948', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38520f89-0142-23c6-a4aa-c686a5dfa27e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '587dfd1b-a9c6-ba90-0fe5-236d1eebf948');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58aa0861-78bb-8833-65b5-18a2bd44bb77', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a52a7c23-a592-ba3c-b455-d56e14a4d4d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '58aa0861-78bb-8833-65b5-18a2bd44bb77');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58af069b-ccc9-1d53-0ecf-1e4a203d8ee2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed3ce9ce-f1f2-f776-70f8-5dde0281a400', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4f9f6841-3da8-43d1-362b-2c620a48521c', 1.000, '58af069b-ccc9-1d53-0ecf-1e4a203d8ee2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58b16722-361c-5116-dd93-d6886c4045e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4fd63c84-f3d7-c8ef-eefa-23edd16b6f2a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '58b16722-361c-5116-dd93-d6886c4045e5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58b69875-8beb-af23-16eb-9c4e51f4c00c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b0160eee-a2ce-a748-e777-26edbbc8cab2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '58b69875-8beb-af23-16eb-9c4e51f4c00c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('58f0151e-52b3-43ac-4ac5-10abcced0641', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6c0d5a2e-c948-9cf8-7d04-0f0ae60771ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '58f0151e-52b3-43ac-4ac5-10abcced0641');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5947ad8e-c83a-3d1a-c8f1-9dbc2ebb9373', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('909a3345-4141-74a0-b634-9bce43add84e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, '5947ad8e-c83a-3d1a-c8f1-9dbc2ebb9373');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('595d20cf-66e2-f9d0-1145-587800a1ee2a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e5c69f5-d138-a8a4-83ee-caa4a64b5cc9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '595d20cf-66e2-f9d0-1145-587800a1ee2a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('59a5fd26-b34f-cf2d-3b47-8b7a7693c30e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0ae331b1-1c62-e1a6-a18c-31c57eb602ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '59a5fd26-b34f-cf2d-3b47-8b7a7693c30e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('59f3ba7d-7843-8239-97c9-56af8742df9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('25478c78-63b1-b3e4-afe3-e828bfb43571', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '59f3ba7d-7843-8239-97c9-56af8742df9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('59fce13b-e11a-43c2-7a99-72f9584c5ae3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c850ff7e-8580-5a30-0a63-f541db71f3fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '59fce13b-e11a-43c2-7a99-72f9584c5ae3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5a210757-d428-18af-d4e6-0e4aa9a61ccd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8e237e96-2c91-a9f8-32e8-a2199574d631', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '5a210757-d428-18af-d4e6-0e4aa9a61ccd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5a2fae0c-7a50-0d71-7fa8-3619fb14e6d4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b5063855-9feb-559b-4f7d-b2bb30507b4c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '5a2fae0c-7a50-0d71-7fa8-3619fb14e6d4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5a61c584-ea3e-69ce-5b5a-bf3f8880324c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9ab70ab2-0214-90fa-9d43-06d503bdc558', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '5a61c584-ea3e-69ce-5b5a-bf3f8880324c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5a70137e-b27d-9233-cfcb-f391c2112e7f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9bb1d753-23f5-5e6d-be18-b6c6e0cbff22', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '5a70137e-b27d-9233-cfcb-f391c2112e7f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5a818f4a-5ced-adc1-af5a-986975ebaa92', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('60bc6a66-1a9d-77a9-eccb-40eac93b7e9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '5a818f4a-5ced-adc1-af5a-986975ebaa92');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5b006f9f-7dbb-5d72-f82b-febf9e86711b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4495f750-db98-7fdd-f2fa-95c9544bb99b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '5b006f9f-7dbb-5d72-f82b-febf9e86711b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5b17db19-ca82-a10a-0ef0-c39c9a4a9ae7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c35d24a9-9d22-2fc8-122a-df08eedf0223', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '5b17db19-ca82-a10a-0ef0-c39c9a4a9ae7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5b5e85a7-6089-901f-c10c-584a84860f9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c3be2d2c-9b79-736e-a971-4995afe209d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '5b5e85a7-6089-901f-c10c-584a84860f9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5b620dd2-1ca1-cb15-e808-418ed814df89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('32b2d1b0-f54e-8a0e-a33f-9123ddde9f74', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '5b620dd2-1ca1-cb15-e808-418ed814df89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5b721e37-b57c-fede-8166-b9e8a5eec9cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('33a344db-efb3-e275-45bc-f611a7ff9a27', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '5b721e37-b57c-fede-8166-b9e8a5eec9cb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5ba27ea1-6c07-7752-1414-db3a70587a59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('395cca8e-e5b1-67ed-b218-fcbe2feca086', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, '5ba27ea1-6c07-7752-1414-db3a70587a59');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5bbf9079-be19-76a2-ae5f-023c3abff562', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d66193de-1ef3-6853-a653-9c8b7b661d5e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, '5bbf9079-be19-76a2-ae5f-023c3abff562');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5c1713e2-144c-ed1e-4742-df846bd3d293', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a3cbf65f-65f2-6213-9f49-b272da54cb62', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, '5c1713e2-144c-ed1e-4742-df846bd3d293');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5c681d4f-106b-e4eb-ef72-d12073410852', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a7141ac7-5d44-3d24-6185-b94dc425bb23', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, '5c681d4f-106b-e4eb-ef72-d12073410852');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5c85c1db-33b4-9630-c1d2-1522f95cabb1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('22608256-59bf-42cd-4160-3db694b53dc8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '5c85c1db-33b4-9630-c1d2-1522f95cabb1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5cb85e25-c165-361b-84ad-445847fd8ce2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bfccf9f6-c389-d1e2-2ea9-77ecf2eb4309', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '5cb85e25-c165-361b-84ad-445847fd8ce2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5d58a645-55cd-7ce7-417b-3830a76c9e16', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2b07cac8-5b34-372f-fef4-c2ace920754d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '5d58a645-55cd-7ce7-417b-3830a76c9e16');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5dbfbf20-b122-8682-11c3-4aa50c20c506', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9124ad10-497a-f253-d680-a1770bdef28a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '5dbfbf20-b122-8682-11c3-4aa50c20c506');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5de3a27b-1dce-5cee-0ce8-21e4d51cce80', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b0816e06-05e0-2c2a-fcb4-aece56b22914', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '5de3a27b-1dce-5cee-0ce8-21e4d51cce80');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5e38563b-218b-201b-a326-d0444d417d57', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('effb84a7-9402-0eaa-d2fb-7396f68e2ae2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '5e38563b-218b-201b-a326-d0444d417d57');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5e395d91-a223-214a-d6de-676117dce865', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e8857299-d491-d94d-e6af-17250dadeaff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4f9f6841-3da8-43d1-362b-2c620a48521c', 1.000, '5e395d91-a223-214a-d6de-676117dce865');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5e68e62b-b07a-a3f7-7d5f-5f3be64aad27', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d534a632-81c0-0d6e-122c-b0bf3ad2c30d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, '5e68e62b-b07a-a3f7-7d5f-5f3be64aad27');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5f0e1f19-11b5-f757-86e9-f888b827fa0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5a8ec2a7-9d55-333b-9f84-8c021f66d11c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '5f0e1f19-11b5-f757-86e9-f888b827fa0e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('5fbd8d39-39b3-c020-af86-5ea988256d62', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4e01ea32-3220-6e95-02d0-ba572660c877', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '5fbd8d39-39b3-c020-af86-5ea988256d62');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('60692c42-8407-10ff-7140-4cecb528f863', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4e0a7dd6-8f17-28de-4d6c-e79560a90bc0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '60692c42-8407-10ff-7140-4cecb528f863');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('60753f30-587a-18a6-6d27-172bce37efec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c1c30c93-f2f8-5685-457c-bf6713309acd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, '60753f30-587a-18a6-6d27-172bce37efec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('60bcd430-3c0f-ecc6-6378-8854883b2d59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('86b73134-79ca-376e-7f84-b5586388591c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '60bcd430-3c0f-ecc6-6378-8854883b2d59');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('60ef0492-fafd-67e5-13f8-d6623864e211', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('006992be-a409-d727-32a5-5800d618f343', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, '60ef0492-fafd-67e5-13f8-d6623864e211');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('60f6429d-1a5d-faca-f155-85079dcbadce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7cb68d11-a624-5bda-ca27-d700fec481a1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '60f6429d-1a5d-faca-f155-85079dcbadce');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('611fd14f-3c56-8978-523f-f92d51f26067', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6991a46f-2dfd-2b40-f3fc-dc6a2182e5dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '611fd14f-3c56-8978-523f-f92d51f26067');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('61509539-57ac-903b-7b72-ef643c4c1f0b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c30e2ff2-6634-0207-5874-fc169328fb55', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '61509539-57ac-903b-7b72-ef643c4c1f0b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6153f832-07ce-ee34-7bf6-72de0ce8cd51', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e3b3520b-4b2d-c614-0892-cad125cfd4d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, '6153f832-07ce-ee34-7bf6-72de0ce8cd51');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('61766e3b-8f6c-5d84-1804-13049d59d6f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6a65b15e-fca2-c515-d61a-3704acd389c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '61766e3b-8f6c-5d84-1804-13049d59d6f8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6190066c-dde1-e5fa-3b02-79db76c74759', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a235183d-b96a-49de-f528-1ad8901a9a30', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '6190066c-dde1-e5fa-3b02-79db76c74759');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('61eac258-34da-0974-d4fc-34d7c50251c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8cfbfc6e-4f49-5a1c-afe6-dc639b0add11', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '61eac258-34da-0974-d4fc-34d7c50251c7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6212d20f-3977-6cf7-8145-38903d6fec7f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3e47faea-f19b-02fd-ab67-3af703a17f78', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '6212d20f-3977-6cf7-8145-38903d6fec7f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('625ca507-d58e-f3d2-146b-125536076d91', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9af64951-b1b9-6c7c-e87c-93c36f8b5178', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '625ca507-d58e-f3d2-146b-125536076d91');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('625d6f9d-66e2-c577-0f0b-b09ac9544adb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79347f18-8a73-8110-2525-c664fedb96a9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '625d6f9d-66e2-c577-0f0b-b09ac9544adb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6267e740-9e71-67c8-2761-ef2f5f147ce4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2f459eff-24ec-2bfb-44ac-baee1eb99590', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '6267e740-9e71-67c8-2761-ef2f5f147ce4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('627a007d-f0a9-b20a-abe8-0e356c9039fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('831bc8dd-31d3-e6e5-c0ca-7e7592db95bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '627a007d-f0a9-b20a-abe8-0e356c9039fc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('631165c1-4719-2b01-cc27-4c88b2df38a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('90b6d23e-9e5d-e332-eb3c-bbd2cf7a85c9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '631165c1-4719-2b01-cc27-4c88b2df38a0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6331d6c1-2fa1-5b3a-b4a1-44edbc1cd414', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('20713e02-d007-3965-c9e2-52c46e41fbb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, '6331d6c1-2fa1-5b3a-b4a1-44edbc1cd414');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('63661f9f-394d-0529-7bbb-843e1111b662', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a564ccf3-ba24-d425-ef46-538a4994cba7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '63661f9f-394d-0529-7bbb-843e1111b662');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('63711bbe-dafa-4b41-47a2-58be7dbf6a45', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ef84df74-e778-f6b1-f8b5-cad709ebe900', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, '63711bbe-dafa-4b41-47a2-58be7dbf6a45');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('63960aca-c2fd-cd2a-4f95-af9dd09dedf0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5a64f498-ff45-c4a0-74b3-ccc2e641dc6c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '63960aca-c2fd-cd2a-4f95-af9dd09dedf0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('64121d1b-141a-2914-a100-797e2e333462', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa4d3945-4231-fc0f-c026-1b0d4452bc0f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '64121d1b-141a-2914-a100-797e2e333462');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6496b686-e722-a385-9e14-da65d533b6b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('58b6374e-f4d3-c2a9-91b6-bf52b1964e1c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '6496b686-e722-a385-9e14-da65d533b6b8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6516037a-4e6f-6921-5f3b-5fec0dcc627f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('35906e79-fceb-c84d-95fe-3acf841abf92', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, '6516037a-4e6f-6921-5f3b-5fec0dcc627f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('651a69f4-ff0a-0485-98f4-9d894c4762ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('74fd7274-aa7b-644f-55cf-96968f0053db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, '651a69f4-ff0a-0485-98f4-9d894c4762ba');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('65253bce-0922-9df3-78fa-2a1875933ae2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('78b272dc-1b0f-7cc5-cbe4-51ae3f375b00', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '65253bce-0922-9df3-78fa-2a1875933ae2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('65867335-c520-adee-1425-e7a722b2f919', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c1bda17e-434d-24a1-5f01-77cdd163f241', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '65867335-c520-adee-1425-e7a722b2f919');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6696d694-d127-6dfd-4520-22ee352ab7dd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a0de327c-0461-32c7-a97f-332f64870458', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, '6696d694-d127-6dfd-4520-22ee352ab7dd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('66b05bb6-f97b-7633-bfea-3d8d24ed0ccd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('45ed3e14-e356-205e-442b-95e907488072', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '66b05bb6-f97b-7633-bfea-3d8d24ed0ccd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('66f040fb-b93c-15c1-28ee-d0ef4c7b7799', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4bb95b1c-9fe6-bc1f-8023-ba8849f51935', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, '66f040fb-b93c-15c1-28ee-d0ef4c7b7799');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('66ff676f-0e7f-65c3-9a20-206752419916', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('833e06aa-dda5-bc12-a981-9bb4c68c57ed', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '66ff676f-0e7f-65c3-9a20-206752419916');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67269eb8-15b7-99f3-b48b-3efa8e4b130b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0fb59f0b-07d0-62ef-eeca-10bb24334583', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, '67269eb8-15b7-99f3-b48b-3efa8e4b130b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67382583-9f7e-5395-d16b-cde9fcb9fa35', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('863a2bf8-57d7-81f3-7044-b9a5ed567643', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '67382583-9f7e-5395-d16b-cde9fcb9fa35');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('673c8623-0d2c-bea1-a382-e586675f6553', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d55d994a-69bb-0281-48e7-79e21f7d68f4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '673c8623-0d2c-bea1-a382-e586675f6553');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('678e812f-4b76-854b-f435-44f61a3665f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c1e97c46-0521-583b-eeab-e3bd82af3f29', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '678e812f-4b76-854b-f435-44f61a3665f8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67a65fc9-a28f-18e4-8207-6dd72d4e7978', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d7dd8f9c-aea9-fa39-cec9-5615fe21b712', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '67a65fc9-a28f-18e4-8207-6dd72d4e7978');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67aed118-1f8d-e6b4-658f-78c302db00d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5291b003-a983-0ea1-1a28-d96a328e04eb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, '67aed118-1f8d-e6b4-658f-78c302db00d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67bcab13-1e85-6108-20a7-5e84dc3627c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('932f8910-60ac-6d89-a25d-80915d9056f4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '67bcab13-1e85-6108-20a7-5e84dc3627c6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('67c14940-c92e-9b03-faa0-4d63c7f4c4a2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e2a54148-2036-a82a-df3b-68cd4ac5b119', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, '67c14940-c92e-9b03-faa0-4d63c7f4c4a2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6863d3f3-a482-457b-d730-07153f982e90', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('915e256a-1008-86c0-67e8-17cce5bb07c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '6863d3f3-a482-457b-d730-07153f982e90');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('698969c2-de25-9903-3f32-340a514b97e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('003204fd-2753-5eb6-798a-a7613a68a65b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '698969c2-de25-9903-3f32-340a514b97e2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('699da8cf-e899-58ac-a935-e5ea2d8f403a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('21b7af13-51d0-44e1-36fe-141afd1a1615', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, '699da8cf-e899-58ac-a935-e5ea2d8f403a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('69a8edff-8c14-8f56-6734-e5b3ab208074', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('467abe97-6d6c-69ca-de64-b80e15be973c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '69a8edff-8c14-8f56-6734-e5b3ab208074');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('69c59d13-66d4-bcc7-b4a3-904c6d512b5d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('da64b1d2-5c94-a6a1-7773-61500906e526', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, '69c59d13-66d4-bcc7-b4a3-904c6d512b5d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6ac2ea9c-374e-3e5f-7861-99af7773f225', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('19414069-0358-64e1-7cc5-7eea26533194', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '6ac2ea9c-374e-3e5f-7861-99af7773f225');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6b13793b-47a9-e28d-f874-49c42073b488', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b0d05ab1-5a20-9e47-3463-6089c28d95eb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '6b13793b-47a9-e28d-f874-49c42073b488');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6b43aff4-cf7c-ae8f-b9ae-734a8ce2e7b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('29c88e47-7885-8571-47a1-401abeefa51b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '6b43aff4-cf7c-ae8f-b9ae-734a8ce2e7b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6b71ccff-b4fa-be6d-1d0d-7f655e66b154', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ce725074-2f79-78a7-431e-bc6248708c6f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '6b71ccff-b4fa-be6d-1d0d-7f655e66b154');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6bb4ccd4-e7f5-df0f-aec5-88284ef334a2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9258fe14-f507-bed6-1907-6f2476ab50b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, '6bb4ccd4-e7f5-df0f-aec5-88284ef334a2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6bea5731-1275-1969-c81c-2a4af288431f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('94d42c8e-e212-d461-35c8-7090742b3c7c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '6bea5731-1275-1969-c81c-2a4af288431f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6c1344ee-924d-a0ae-e513-45ffd2df007f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('12cccc0c-69a0-d0fc-3e59-a139e879e79d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '6c1344ee-924d-a0ae-e513-45ffd2df007f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6c15066e-bad1-f572-6d87-55195b0343a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a9ca8ff1-5ec9-43b8-b4e0-eef2fd7c0c47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '6c15066e-bad1-f572-6d87-55195b0343a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6c895515-53f8-c4c0-08fc-ee61d73441ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a073273f-5094-d8c7-2bbc-3d32871d0aed', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '6c895515-53f8-c4c0-08fc-ee61d73441ff');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6c95dad4-cd02-25c0-0cb9-0f7aec81fb4e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ba48f2e8-d7f8-1304-a915-2a36e365b218', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '6c95dad4-cd02-25c0-0cb9-0f7aec81fb4e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6cddbcc9-8a6e-4f1c-e317-a5c457a37399', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c9a7173a-a902-a277-c4b1-374863f5677d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, '6cddbcc9-8a6e-4f1c-e317-a5c457a37399');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6d5bca96-376b-6dc3-0189-5047def4b3b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8329ae03-f66e-599d-2dbb-00d74cbcf807', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '6d5bca96-376b-6dc3-0189-5047def4b3b1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6deaf8b0-de91-3151-5ebc-838da5dd10a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a93be595-b67e-dd11-f2f6-b3fea8d64a5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '6deaf8b0-de91-3151-5ebc-838da5dd10a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6e2bf8fe-9aa8-a795-c836-a5ee5f436dbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8b05ad99-c767-25c5-8a4d-2c9e026c0066', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '6e2bf8fe-9aa8-a795-c836-a5ee5f436dbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6e8cc632-6b42-8b79-ac32-8c5efe65b892', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8740943e-20b7-2e01-d10e-d421b807cacc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '6e8cc632-6b42-8b79-ac32-8c5efe65b892');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6e916670-2b68-d5fb-3e3e-be4426b74b15', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e7324f7c-cc51-e2c7-a5f0-796746691d53', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '6e916670-2b68-d5fb-3e3e-be4426b74b15');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6ea360d2-95c6-b290-7985-03f92758c0c1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41a06327-9b16-ecb1-3e94-0d7547889324', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '6ea360d2-95c6-b290-7985-03f92758c0c1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6f0d104f-4ea0-2fd5-83db-5bec22eeff21', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('06dfa15a-98d1-bfd6-cd41-3aab5469e741', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, '6f0d104f-4ea0-2fd5-83db-5bec22eeff21');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6f6e409a-de94-18ea-ece5-50df4df4c4a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2b908581-babb-5880-637c-89db512198da', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '6f6e409a-de94-18ea-ece5-50df4df4c4a7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('6fad88be-e805-c808-fff5-44dfcb526581', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1593dcdc-6360-44da-fb4d-b3d7f3cb1490', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, '6fad88be-e805-c808-fff5-44dfcb526581');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('702a98eb-a1ae-ab26-f14b-ac7c66dcb9af', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2ffccf50-967b-8c47-4eb9-9ee4363e25f1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, '702a98eb-a1ae-ab26-f14b-ac7c66dcb9af');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('705acffa-a685-3f0c-0045-3315b33adf8b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41af5ca3-0c2d-17a0-5a68-7d6e7c211b5e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '705acffa-a685-3f0c-0045-3315b33adf8b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7069571d-b68b-edfb-b288-651821e40034', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('01a0c05e-c1e9-05c0-c958-66fa1717b617', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '7069571d-b68b-edfb-b288-651821e40034');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('70b3872c-2883-c49f-119b-5e80ab3a582a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5039083a-20a7-1df3-a2fb-e3a3cf050890', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '70b3872c-2883-c49f-119b-5e80ab3a582a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('70dea062-4cae-1b48-861b-0b7bf6a31b90', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1938bcf1-1d9d-61d3-dabc-d969e5fb72ed', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, '70dea062-4cae-1b48-861b-0b7bf6a31b90');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7128280e-fa4e-b767-c6c0-70feab77f568', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4e4af862-81a7-1497-462b-7e3ab1390005', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '7128280e-fa4e-b767-c6c0-70feab77f568');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('719cff72-b154-90f7-44f3-4ccfb409ac23', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9aceb9c9-facd-85e7-55df-90ea28a8a95d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, '719cff72-b154-90f7-44f3-4ccfb409ac23');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('71e37d98-1c94-c505-b541-c494f5ff5614', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('45b1c705-23b1-9de0-4a47-aab7d4ca8646', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '71e37d98-1c94-c505-b541-c494f5ff5614');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('722ef674-77aa-02e5-5c44-72eccb68c5e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b5c11b35-cf4a-5c1a-112d-9e7748b30fb4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, '722ef674-77aa-02e5-5c44-72eccb68c5e1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('727d7b98-af90-cff0-e5ad-689c0af76502', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a9e30b5c-d45b-6cdd-fe53-9e5cc67b8ef5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '727d7b98-af90-cff0-e5ad-689c0af76502');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('72c559c5-4d79-b774-895a-903f273cf917', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d460c677-3017-d67e-9743-61202eb3ca6c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '72c559c5-4d79-b774-895a-903f273cf917');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('72ccb8f7-0cf4-093e-9f8c-931492a3683b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c5053699-2a6b-35b1-4376-17223dd11189', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '72ccb8f7-0cf4-093e-9f8c-931492a3683b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7322b5c3-1ad1-b8c3-ce3e-aa8f5aa75604', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f62cb86a-27de-79bd-1154-988d95a993ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '7322b5c3-1ad1-b8c3-ce3e-aa8f5aa75604');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7400f9ea-1807-f2a2-a307-d1c2b719454f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6afd94de-d053-f708-d0c6-251ae697d045', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '7400f9ea-1807-f2a2-a307-d1c2b719454f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7412fdc8-adeb-b6f6-c7ad-910dcea419a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('15816dba-8c95-0857-f32b-89bec4f6760b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, '7412fdc8-adeb-b6f6-c7ad-910dcea419a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('74d21369-146a-09a5-d1d2-146fe01df56c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d8f6f9ad-4392-83f0-85a9-05d48687c2c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, '74d21369-146a-09a5-d1d2-146fe01df56c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('751ebb2d-2756-c9d9-bffc-3657167036a9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ad31a00d-523b-aeb5-6048-1159b787c076', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '751ebb2d-2756-c9d9-bffc-3657167036a9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7520b912-b62d-6b5e-b7e2-232d30e72501', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f6e6d300-55d0-b518-00dd-235c8ea6a559', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '7520b912-b62d-6b5e-b7e2-232d30e72501');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7562721b-f1db-3648-e0b5-447530b92655', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ddcb331d-4c67-7440-7f2b-9ee2680990af', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '7562721b-f1db-3648-e0b5-447530b92655');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('762e764d-4261-7f0e-22ed-6a5d537eb087', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4c4ce45d-4a3a-7c3b-a8de-29f4cc7c7617', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '762e764d-4261-7f0e-22ed-6a5d537eb087');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('765da6b1-a050-49d9-2507-99428bbdee68', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1fe0e6a3-9d85-f077-d839-1323108d1912', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '765da6b1-a050-49d9-2507-99428bbdee68');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('76720cb1-556a-b810-5cdd-0ac3f1374aee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ce820143-82c1-29c2-14bf-6bd92decea0c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '76720cb1-556a-b810-5cdd-0ac3f1374aee');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('76d60512-4806-ba51-cb41-1d8afe22309c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c59c8927-9730-dbe5-58b9-4bef779aafc4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '76d60512-4806-ba51-cb41-1d8afe22309c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('771c93ee-41d3-fc91-30c4-a66aa18585a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a8afc68a-ade1-2197-4030-1758ee48f885', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '771c93ee-41d3-fc91-30c4-a66aa18585a7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('775394cf-6665-1428-dae4-72b4c67d339c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a8b8556b-8c05-72e9-7d1b-7d367ac08736', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '775394cf-6665-1428-dae4-72b4c67d339c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('77f6bce4-9e6d-4877-6f99-8486b4fa55ee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('eebb3d1c-ffb7-4ea6-58ac-9aafcbfb7105', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '77f6bce4-9e6d-4877-6f99-8486b4fa55ee');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('78ebde26-34ad-7fdf-0c5c-ff1caaaeff91', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3524d146-f731-7099-6e42-73e5f314c804', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '78ebde26-34ad-7fdf-0c5c-ff1caaaeff91');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('790387a6-7f17-bcd4-7332-f5c4df29f947', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed495278-e155-d053-9b48-99c8afbbac82', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '790387a6-7f17-bcd4-7332-f5c4df29f947');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('79879f76-6b08-b904-5082-7e52d58d16e3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9e96efa2-e054-32cb-13ee-ecfd492cb155', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '79879f76-6b08-b904-5082-7e52d58d16e3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('79a87f1a-bf85-9bbe-c077-7409cc13f1ee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79be5247-99ac-cbb8-462c-79c90c14cc60', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '79a87f1a-bf85-9bbe-c077-7409cc13f1ee');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7aae8bfd-0794-9178-4659-4c1d038bfd68', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('42b30fc3-d073-2de5-b277-d91c0d63d271', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '7aae8bfd-0794-9178-4659-4c1d038bfd68');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7af19f16-e8ed-4a95-9870-bcecb242e991', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f330a07b-c320-6cbb-51b5-d9d1cce776cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, '7af19f16-e8ed-4a95-9870-bcecb242e991');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7bb21d19-b2c4-1c6e-7491-d7faf03c9bb5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ad443b60-51c0-2df5-8b39-3f60dfb51c4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '7bb21d19-b2c4-1c6e-7491-d7faf03c9bb5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7bb76e82-b8de-5a7a-3d13-33a7a287c6cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('564c3508-d743-d007-3a8d-e7953b1a6ad5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, '7bb76e82-b8de-5a7a-3d13-33a7a287c6cc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7bd26024-ad19-cf02-a290-735c1cff4c29', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ce2f5b4c-0355-3dd4-36b1-e5d6b2a126b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '7bd26024-ad19-cf02-a290-735c1cff4c29');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7c90efba-05ff-11e2-bcf6-5b528740018e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('218f3f63-d175-ace7-e96f-a3ff711cb7f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '7c90efba-05ff-11e2-bcf6-5b528740018e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7cbb0381-1db3-452b-37a7-fd91c8f3dddf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('73ed1975-2144-eabe-9320-7b73e5558045', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '7cbb0381-1db3-452b-37a7-fd91c8f3dddf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7cebe048-265c-062f-5a98-1818c9a1516c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cd6888e1-4358-a67c-fb28-578f5a08e66d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, '7cebe048-265c-062f-5a98-1818c9a1516c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7cee0024-2772-eeed-a968-7d15175eca76', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d41b7954-ff8d-e069-539d-eb4d1eaa7021', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, '7cee0024-2772-eeed-a968-7d15175eca76');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7cf0f768-09e7-3a77-5940-e5ac7468af8b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b8d61b49-5eba-8081-eac0-dcd2aa115996', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '7cf0f768-09e7-3a77-5940-e5ac7468af8b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7d3e138a-cc28-d0b3-3e6d-8ee69dd472f2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d5d4991e-d45c-aec8-5cfa-837b769098f6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '7d3e138a-cc28-d0b3-3e6d-8ee69dd472f2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7de43ea4-38ae-0390-d517-38917a45cee3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c9a8f802-f9fb-4e84-2ebd-ff399659b582', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '7de43ea4-38ae-0390-d517-38917a45cee3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7de8ee67-d4c4-c201-6fd0-5633a67c5762', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c3c28e33-8bba-b974-8470-ccad1a853114', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '7de8ee67-d4c4-c201-6fd0-5633a67c5762');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7ded58d3-431b-17f3-92f3-c45a1fcb85c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('411fe66d-a3fb-4f0a-9886-f89fd3bc4101', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, '7ded58d3-431b-17f3-92f3-c45a1fcb85c8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7e6e8f00-716b-d99b-bdb0-eeec1d4943e8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4aad8724-1745-69f9-cea0-7e02331580b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '7e6e8f00-716b-d99b-bdb0-eeec1d4943e8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7ed066f4-7ccc-7a41-e3f4-f72617e5eff3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('af9cac71-8d95-3481-e0ef-bec92e599938', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, '7ed066f4-7ccc-7a41-e3f4-f72617e5eff3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7f3101f3-54de-ef4b-04c3-5396192df229', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('005b9836-8820-ddd3-1d70-e58f732f09c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '7f3101f3-54de-ef4b-04c3-5396192df229');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7fb57c9c-032c-a3d4-8a3a-45148f9b0eb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ddc9a4a1-01c3-c088-0567-51fb48bc401c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '7fb57c9c-032c-a3d4-8a3a-45148f9b0eb7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('7fc4aaef-9172-8012-6f5a-89ec617e1023', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('87b4bce7-ceab-98b4-fb5e-ea1c821d2ab5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '63130c6e-0b8c-8192-0adf-066f88e2b63e', 1.000, '7fc4aaef-9172-8012-6f5a-89ec617e1023');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('80045cbc-b467-b99d-8464-c11e32b391d4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b6cef6d4-bf1a-1c0c-d8c7-b26b6176ac2b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, '80045cbc-b467-b99d-8464-c11e32b391d4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('800a965b-2e0a-2b1d-dc4f-436196ca5f95', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3cc5032c-1568-9d2f-0f5d-7b40e175c054', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, '800a965b-2e0a-2b1d-dc4f-436196ca5f95');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('80146fa3-a5eb-628a-5352-6ef4f91e3d80', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('001759e9-9a13-4b5a-50aa-b38f93a0290a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, '80146fa3-a5eb-628a-5352-6ef4f91e3d80');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('80723200-acbf-8ceb-7020-0830cc639d63', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3990daed-2578-d22d-9529-de59457e51a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '80723200-acbf-8ceb-7020-0830cc639d63');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('816cdb7f-d327-dac8-51ae-0ad878c04afd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('aed54f52-84ed-df11-4d8b-b4d3d5756742', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, '816cdb7f-d327-dac8-51ae-0ad878c04afd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8170a676-10c1-8632-467f-26fb29da1c50', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d6136e39-f610-8970-d272-ae893d66b800', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '8170a676-10c1-8632-467f-26fb29da1c50');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('81d08f50-db9e-6ca9-b7f8-9e9cfaed28a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7fd9cc4c-a5e1-b5c0-ff8a-e21830a93211', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '81d08f50-db9e-6ca9-b7f8-9e9cfaed28a5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('81ec0839-3dd6-1b99-46fb-9f286aa0d452', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed13a14f-2b2a-4001-99ff-d2d06fd5c691', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '81ec0839-3dd6-1b99-46fb-9f286aa0d452');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8259fb56-5e88-7f42-5fd7-029f6b00652e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('278deda7-3869-e5e6-2174-7a9a414e53b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '8259fb56-5e88-7f42-5fd7-029f6b00652e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('826e9529-bf71-8627-7426-75cad688cd34', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('efed4f04-e2b2-1517-5ed3-cff4baaab440', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, '826e9529-bf71-8627-7426-75cad688cd34');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('82b93877-749c-e57d-7053-91fc06d545da', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('736c2cd6-5702-bc17-1790-503419e5b55f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '82b93877-749c-e57d-7053-91fc06d545da');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('82bc66f2-cce9-97e5-22a0-bdf2a571faf3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('90d68023-b085-7518-96d0-354858abd1c5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '82bc66f2-cce9-97e5-22a0-bdf2a571faf3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('82d947f1-97c7-8b3e-4bef-9a0bf740cf02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('743fa468-0c7d-02b2-cc34-da3fb6a67560', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, '82d947f1-97c7-8b3e-4bef-9a0bf740cf02');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('82dd93ac-0959-c5f4-f8de-3d899f8193b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9638ce33-9a7e-3fbd-3764-8e256743229b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '82dd93ac-0959-c5f4-f8de-3d899f8193b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('831a810e-db37-b455-b4a8-8fb8644df51e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7da8cd92-def1-fd4d-3e0e-2626283908e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, '831a810e-db37-b455-b4a8-8fb8644df51e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('836a3710-a5c6-084f-8592-626f8b005706', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ca7f8c6f-f30c-f182-ed54-76342ccc30ae', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '836a3710-a5c6-084f-8592-626f8b005706');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('83a48fda-5241-ee70-db2c-c3c4c8ae2032', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5a2d4b47-8132-f968-bf87-d48e620666f7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, '83a48fda-5241-ee70-db2c-c3c4c8ae2032');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('83d5735b-ec71-6038-f09f-ea3eda0d00d4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f59d88fd-0690-cada-eed3-b62d4c488db0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '83d5735b-ec71-6038-f09f-ea3eda0d00d4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('83db0eee-93f8-c4d0-3f8b-bbaf0fce4a47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed14175e-841c-1606-b3b3-eb77b3537f0a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '83db0eee-93f8-c4d0-3f8b-bbaf0fce4a47');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('84d24fb7-6523-2ec4-41a2-9619a52cd117', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7bbbf78e-c990-0a5a-f566-6d6eaa5984ab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, '84d24fb7-6523-2ec4-41a2-9619a52cd117');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85344a49-5ec0-83b7-5f62-5ff850959489', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f16f5f3a-d8b3-672a-a101-c1621b08f39c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '85344a49-5ec0-83b7-5f62-5ff850959489');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85673824-221d-9a5c-6ad4-e688424faf66', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4552ee6d-6c24-d3e9-5b99-098608d1cb72', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '85673824-221d-9a5c-6ad4-e688424faf66');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('857663ca-bd32-054c-900d-165a6e550b6c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cb88df89-b05f-ea2d-b585-196cbe1e1d3a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '857663ca-bd32-054c-900d-165a6e550b6c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85840f75-c7ed-8105-aab3-db9ea0970960', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2886e674-5466-a1ef-8d78-0ac2e3126e16', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '85840f75-c7ed-8105-aab3-db9ea0970960');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85da0c2c-4497-d5a3-e2d3-977da97f6b05', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('58880540-2ff9-7be8-69b2-b83383e67095', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '85da0c2c-4497-d5a3-e2d3-977da97f6b05');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85e1b2c1-566e-927c-c7a3-c8d82d4e6a6c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9fde991a-a188-7d23-7a34-56064c6b9580', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, '85e1b2c1-566e-927c-c7a3-c8d82d4e6a6c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('85fa5497-fb85-d426-bb40-707827f2b3fe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f3940e84-1492-1a96-0421-672652c4b4c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '85fa5497-fb85-d426-bb40-707827f2b3fe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('861c8f05-e09c-cf7c-fd7f-33b2af4d5275', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('25244cf8-4263-a385-f02d-d7b33a344114', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '861c8f05-e09c-cf7c-fd7f-33b2af4d5275');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('86390bb8-2776-2854-13a2-b82230c3d5bc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0a5d491c-9f3b-c422-6039-165b1bc056a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '86390bb8-2776-2854-13a2-b82230c3d5bc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('868b963f-e633-d805-6456-a0fa82b51155', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2c4cb553-2e6e-be5d-8535-c531f245a1af', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '868b963f-e633-d805-6456-a0fa82b51155');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('86bc6e0b-a7e0-3478-9ec7-3f79f0c0afb8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a6063c9c-ed4d-177f-3c9c-594d93dc7cdf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '86bc6e0b-a7e0-3478-9ec7-3f79f0c0afb8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('86db2b9b-9345-8218-3307-996c427508ad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f95fc7a1-e64f-a2cf-8ed7-33b24899eb18', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '86db2b9b-9345-8218-3307-996c427508ad');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('86eb8ef0-6ada-e0b6-55f0-d7407664ddfc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('07837732-775a-a5db-bac8-ab6f7285ea38', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, '86eb8ef0-6ada-e0b6-55f0-d7407664ddfc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8706bec1-354b-6a81-e1f4-1d0344dcb9ea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('af199ee1-1831-950b-39f5-0e46ce53a3bd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '8706bec1-354b-6a81-e1f4-1d0344dcb9ea');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8730f70b-c5d9-8bce-d43c-23bff773feab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('df1d55c3-85e7-69f0-ad7f-8e9316aef421', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, '8730f70b-c5d9-8bce-d43c-23bff773feab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8755b698-722c-ec94-d3af-c9aca5a34353', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fd788aba-c7a8-1ee7-e2ff-5c20e6328de5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, '8755b698-722c-ec94-d3af-c9aca5a34353');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8759916b-aff2-233f-d10b-eb93c1c2367d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5aced4d4-2da6-d202-27e4-73800570ed78', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '8759916b-aff2-233f-d10b-eb93c1c2367d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8804303c-09fe-f94f-f34f-44fad28b5e50', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('31e70d6e-85d2-1c5b-01b2-88b941636fbc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '8804303c-09fe-f94f-f34f-44fad28b5e50');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('88ca8e08-8568-4041-0ddd-7d135755e612', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cccc02a4-cc10-f182-6fc2-0a6d3f3b9e39', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, '88ca8e08-8568-4041-0ddd-7d135755e612');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('893c0ffd-5721-b8b6-8087-84926fb3f430', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('078d8a86-a980-e23c-9577-97e2218f411f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '893c0ffd-5721-b8b6-8087-84926fb3f430');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8983e086-5403-6bf7-3058-ee879ec91acf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('84566533-fd97-95f9-66a2-cf538477fefa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '8983e086-5403-6bf7-3058-ee879ec91acf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('89c37909-ec1d-d78c-3dea-95957485cd0a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0d45ada1-200c-88cb-c532-7f69a8d19fc5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, '89c37909-ec1d-d78c-3dea-95957485cd0a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('89f5da1c-f19e-21fd-f862-0adabeafefac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('636d7c49-2e12-d2fd-23e8-0c267ca0f87c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, '89f5da1c-f19e-21fd-f862-0adabeafefac');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8a1d5c04-aab1-3957-1d56-591556845d9a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4cbf034d-cc41-88e3-e027-a0eaf97904d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, '8a1d5c04-aab1-3957-1d56-591556845d9a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8a201411-b242-3591-27b9-3925c19a7f78', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e415566-843c-c909-e096-b5da519df813', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, '8a201411-b242-3591-27b9-3925c19a7f78');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8a52f9d5-316a-b4e3-58ca-af4075deec05', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d4375a91-954c-3379-6394-4165d98f96b9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, '8a52f9d5-316a-b4e3-58ca-af4075deec05');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8abef87e-4b98-e849-b73a-9cdab2c66556', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('153cb5e4-2a55-4dcc-14f9-5cec8311a31e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, '8abef87e-4b98-e849-b73a-9cdab2c66556');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8ace2815-6a99-5082-19a4-938411e53721', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1d3ee7f3-0343-f2f0-7470-17f01d87fcb6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, '8ace2815-6a99-5082-19a4-938411e53721');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8ae12f9a-e86e-11c0-2835-89d97abbce69', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9a8c7d9a-d4d8-a784-b8c3-d3b793766505', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, '8ae12f9a-e86e-11c0-2835-89d97abbce69');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8c366709-a1f2-62dc-75a1-35b13e588c75', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0ebc3a05-b03b-8800-4b2c-12cf79e50ff3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, '8c366709-a1f2-62dc-75a1-35b13e588c75');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8c91e808-bc3c-a70b-a5f5-5ac9d92c983f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('07555bda-12d8-c84b-b43c-be8f50881a81', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, '8c91e808-bc3c-a70b-a5f5-5ac9d92c983f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8cbd82fa-275b-692f-1676-08be62e19db5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1027eec8-ee9b-9fb5-602d-1004b1068a84', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, '8cbd82fa-275b-692f-1676-08be62e19db5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8cf1cb86-47ec-b2ee-53c8-dcf7870c9808', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5fe5b74f-48a9-95b3-6e10-3cefb2489dcc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, '8cf1cb86-47ec-b2ee-53c8-dcf7870c9808');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8d1040c4-4158-81a3-da97-0bd5eef9c36a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('95c24fd3-8db7-c56d-7fc6-3ff49d28f043', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, '8d1040c4-4158-81a3-da97-0bd5eef9c36a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8d6e4e86-83a0-15ca-68ba-e3e4f00ebf4f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('364a3e34-bbf4-63ea-5d50-8974245de011', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '8d6e4e86-83a0-15ca-68ba-e3e4f00ebf4f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8d735bf3-d499-ee41-c4fe-5259622dd40a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d10889f7-938b-7fd9-a805-143fde1e0fe2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, '8d735bf3-d499-ee41-c4fe-5259622dd40a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8dddb3ca-e60b-5c6d-b590-83d24316de8b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3c1c84b4-c639-9183-9cbd-6ac452c816e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, '8dddb3ca-e60b-5c6d-b590-83d24316de8b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8dfb18b5-273f-b28c-6656-86214a6e1a0f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('16ac7a68-0644-82c7-5d58-ef0a8a5ca137', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, '8dfb18b5-273f-b28c-6656-86214a6e1a0f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8e15f2df-a503-7c8c-2151-dee2788df7f3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b9575d73-14c3-9c79-e6c3-b99955d3cf7d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '8e15f2df-a503-7c8c-2151-dee2788df7f3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8e5029c3-68b4-60e8-9447-805450a7aee7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e20ed78-3bf0-1c71-0f99-ceccc02caff7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '8e5029c3-68b4-60e8-9447-805450a7aee7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8e51b99d-dfbc-957b-aaba-c9c50dbaa427', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fe301365-ace1-7022-ab93-607af9a8af8c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '8e51b99d-dfbc-957b-aaba-c9c50dbaa427');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8f2e90bd-2623-58ef-20e9-27d041ee5f0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b94acdf8-0ad7-712b-07ff-99c12f10eccc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, '8f2e90bd-2623-58ef-20e9-27d041ee5f0e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8f3c5c1e-bc65-80bb-ea95-f067fa824dbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4b162196-44e4-aaec-40c9-ab1e4e3c60dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, '8f3c5c1e-bc65-80bb-ea95-f067fa824dbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8f4a4a1b-2b80-20b8-30d1-0ddce7035406', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('919409a7-079f-11ec-5721-936fbd8568cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, '8f4a4a1b-2b80-20b8-30d1-0ddce7035406');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('8fe74819-10b9-5820-ebf6-1c5824970b4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('27e88e49-82bf-f204-2f87-ea9bd3910189', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '8fe74819-10b9-5820-ebf6-1c5824970b4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('903e137b-f314-9af7-48a7-26c39ac3f448', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('15e46f94-ca3f-af15-545f-9a5d18e27b4f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, '903e137b-f314-9af7-48a7-26c39ac3f448');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('906eafc0-60a9-9e01-76b9-fb8aba9f94d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('94ffc779-cc8f-a1ef-083a-a30f06c14225', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, '906eafc0-60a9-9e01-76b9-fb8aba9f94d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('90dd92e4-0903-3deb-acb3-eb671944ed3d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cfed1fc5-4a90-f2e3-2315-b510e30a7810', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '90dd92e4-0903-3deb-acb3-eb671944ed3d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('90ee061e-099b-17bc-4c15-595c9b2a0d61', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('833e479f-54d4-6969-ee6a-0f7ad21beff7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, '90ee061e-099b-17bc-4c15-595c9b2a0d61');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('910336a0-9135-c295-dae7-dba5c1d049de', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('21e269e6-636f-8512-5718-a7f72bfb8313', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, '910336a0-9135-c295-dae7-dba5c1d049de');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('917b52a2-bb77-e58e-4310-b5ecffaa232b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('af625184-3c10-a50c-656b-24940b101e3a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, '917b52a2-bb77-e58e-4310-b5ecffaa232b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('917cc91e-d9b4-f831-cfc6-cc7945f03ebd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3ab5ca28-56c6-08b7-5e7f-ba0485b54089', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, '917cc91e-d9b4-f831-cfc6-cc7945f03ebd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('923c80d1-474a-0506-f9a3-29e1c0c0fd56', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('63abda12-f755-1e69-a134-31f5e43f9f7f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, '923c80d1-474a-0506-f9a3-29e1c0c0fd56');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('93336549-9bc0-ec2e-a49f-c3b03a986dfc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('640c7329-01dc-18bf-368b-ab9264f5e420', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, '93336549-9bc0-ec2e-a49f-c3b03a986dfc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('935b47e6-83c6-37fa-2c2d-a61660bfe6ab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2043c04b-a1a4-c673-a275-682c581e6ee1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, '935b47e6-83c6-37fa-2c2d-a61660bfe6ab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('93c255c7-0b24-d75a-dcdb-eb57926a2ea0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e89171ef-11a0-18f2-f9ff-6c6113e40efa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, '93c255c7-0b24-d75a-dcdb-eb57926a2ea0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('93f61855-6bca-62b7-823a-643295e87ec8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5fff2217-41e5-14fc-3fd7-1422e1d171f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '93f61855-6bca-62b7-823a-643295e87ec8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('94042570-0320-9c8f-7df4-5e67888afd28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f470389b-59d8-3498-42b5-95ce8f94b474', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '94042570-0320-9c8f-7df4-5e67888afd28');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('942a3d2e-9278-9a95-d0f1-ac7d75e4d593', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8d8756d2-5bb2-a66a-5995-907d24f7fd68', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '942a3d2e-9278-9a95-d0f1-ac7d75e4d593');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('949642e3-09dc-34cd-f175-ea20ee923154', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4fb53a5b-cacd-b2e6-3430-ae89954c1b3d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, '949642e3-09dc-34cd-f175-ea20ee923154');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('94f5356f-70a4-387d-5300-f3622907ec0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa443e92-0cf4-fa9a-e65f-024da5e29606', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, '94f5356f-70a4-387d-5300-f3622907ec0e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('951438ce-f08e-768c-1601-a77ee685798e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1002192f-842d-0e2d-8467-4a966ed17137', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, '951438ce-f08e-768c-1601-a77ee685798e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9518ccc4-c6d4-7ab9-99bd-f1be3cf96d69', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('41039908-c168-2fe1-7ef4-5fb51d955ecd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, '9518ccc4-c6d4-7ab9-99bd-f1be3cf96d69');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('951f1dd7-289a-0a48-b2a7-f4afe3007e43', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cd6c4b72-3dcb-dbdf-1ec2-3760bce1d9c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '951f1dd7-289a-0a48-b2a7-f4afe3007e43');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('953b13de-468e-7357-c361-3cb3a92446df', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1d4d6cc2-2d22-7d4e-d340-b96a60237852', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, '953b13de-468e-7357-c361-3cb3a92446df');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('95719d39-7007-3c1f-17a1-2e81f2a10f29', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ea0f2de5-de70-5008-0e96-d85c0707e715', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, '95719d39-7007-3c1f-17a1-2e81f2a10f29');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9575bbd2-6b14-3b70-3867-edfbc621d312', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ffaa05ff-2131-f0d2-d308-06230f213239', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, '9575bbd2-6b14-3b70-3867-edfbc621d312');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9590630d-0617-2ae9-ed97-829aa742ba77', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('893cdd6a-2d09-2432-dd21-6911363bdc6b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '9590630d-0617-2ae9-ed97-829aa742ba77');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('95dd1b5e-b57e-af20-a708-46443808c1aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d24d5ff2-2737-d376-6b32-09e22dbe7247', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, '95dd1b5e-b57e-af20-a708-46443808c1aa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('96d477d0-b1b8-ae30-db58-6d024d69ada5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cee2a941-6a8b-0ef2-7a3a-63c3c170bc07', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, '96d477d0-b1b8-ae30-db58-6d024d69ada5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('97098c13-aa8a-cf64-0daf-a1fcd3506236', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('eab4c4fe-b9eb-8175-53d9-a74ce1f47d03', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '97098c13-aa8a-cf64-0daf-a1fcd3506236');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('97867c95-2b76-f029-800c-324fb6b35f82', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cc25cea6-53ef-773c-53f5-155b144aaa10', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, '97867c95-2b76-f029-800c-324fb6b35f82');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9796ca2a-3eb6-e2b1-6980-0998003e81c2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5bda6b59-f43d-3a9a-0aaf-5b60c5ac7375', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, '9796ca2a-3eb6-e2b1-6980-0998003e81c2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('98300664-e0bc-dadb-1f68-4bd662d88a5f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7657c115-66b9-2243-56d8-cc09799406e5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, '98300664-e0bc-dadb-1f68-4bd662d88a5f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('984d49b8-4d1e-f864-9a28-5af78a709df4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('55297465-8f23-de35-c5fb-6ad760759607', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '984d49b8-4d1e-f864-9a28-5af78a709df4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('98df23d9-e1e0-e180-ee2a-113d2faf124a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4859a237-e715-1b27-e7db-6d0dbd544eb5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '98df23d9-e1e0-e180-ee2a-113d2faf124a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('98e52f03-38f0-969f-7e13-ed8d6b0301ed', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c0048595-a58b-3530-d24a-5b385a948ac8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, '98e52f03-38f0-969f-7e13-ed8d6b0301ed');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('98ef9901-770b-c14e-582d-82d04310098f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('18199850-2f27-3942-0900-a0d749c73135', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, '98ef9901-770b-c14e-582d-82d04310098f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9933f1bb-5a75-5f0d-f134-952f42e0796c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ada766c3-a147-4408-7cc9-bfaa520d17aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '9933f1bb-5a75-5f0d-f134-952f42e0796c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('99b5e38a-09d2-ccd3-70df-1fa8a9309673', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('64b48acc-b3af-da3e-9175-5b349f15cae3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '99b5e38a-09d2-ccd3-70df-1fa8a9309673');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('99dd8fde-be15-b631-6ffe-15d8418e34dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fb316b5d-df92-d62e-2da6-de88b0f36b3c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '99dd8fde-be15-b631-6ffe-15d8418e34dc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9a3f93e3-c94a-d332-9e18-79c07f002ac2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a2132920-1755-1af7-82e4-2df3146df8b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, '9a3f93e3-c94a-d332-9e18-79c07f002ac2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9a505e63-b0ed-ad53-7be1-5ba1aaf5780c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a9cfd458-0140-f57c-5b6b-6d7930a5ec3d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, '9a505e63-b0ed-ad53-7be1-5ba1aaf5780c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9aaa8c8b-103c-c237-256a-0290d3e60088', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1f34cd21-3bb0-3c44-0f3f-80bcf7947aac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '9aaa8c8b-103c-c237-256a-0290d3e60088');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9b37ddc1-b763-dfed-44e3-f7568c3a612f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4947aded-a2db-4de4-08aa-8f4348162de7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, '9b37ddc1-b763-dfed-44e3-f7568c3a612f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9b5d1858-ccc1-d7c3-f095-b3de41c872e8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d02a8b8b-27d6-c3be-7cb2-a9226d901dbd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, '9b5d1858-ccc1-d7c3-f095-b3de41c872e8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9c3ec542-1aa7-a466-0d0e-bb58c4968dc5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9fbc2651-ccbf-1379-7374-fd763ffef9a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, '9c3ec542-1aa7-a466-0d0e-bb58c4968dc5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9c54f3bf-3239-91c4-8759-c929c78a13d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f341436c-268d-b422-6cb0-a983bd9baf28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, '9c54f3bf-3239-91c4-8759-c929c78a13d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9c8ce6de-9649-cf57-0248-b1086863b331', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8966c53b-7dd6-7067-afd7-fa27f4453c8a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, '9c8ce6de-9649-cf57-0248-b1086863b331');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9cc7e223-204f-4bed-cb6c-f9913b553e8e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('34447cb7-1f5b-2469-bcbe-ede130392774', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, '9cc7e223-204f-4bed-cb6c-f9913b553e8e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9ce0666e-098f-756a-ea80-08b07c7f345a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9c186247-6bd5-5011-0826-01bfa6dc4ea6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '9ce0666e-098f-756a-ea80-08b07c7f345a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9d38b90d-bfc7-fe5d-4b30-d9b3e371946b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0a013a34-b68d-8889-1270-f2ae8929304c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '9d38b90d-bfc7-fe5d-4b30-d9b3e371946b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9d5bb451-b652-4e1d-b0cd-68a3567412f1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('aaa1e367-b312-fe97-b386-47addd968d26', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, '9d5bb451-b652-4e1d-b0cd-68a3567412f1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9d6af014-f285-9c63-146d-06de2b9411bd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('016b14cb-f22d-6e40-020b-588d1b32e71a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, '9d6af014-f285-9c63-146d-06de2b9411bd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9d8e4e7d-43d6-5561-b26d-cfeee63dd0d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2f44fef2-bccb-d8f8-2e3e-b879117f0118', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, '9d8e4e7d-43d6-5561-b26d-cfeee63dd0d6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9e0d08ac-06f1-70a1-19c1-e7a8bcfceeb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('67de888d-3ebb-925b-1cc7-2ce7017018ac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, '9e0d08ac-06f1-70a1-19c1-e7a8bcfceeb7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('9e350f16-a51b-59f0-4518-7a65f0af27c2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a73c0a65-2275-31e3-3a49-77471fbc83ef', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, '9e350f16-a51b-59f0-4518-7a65f0af27c2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a009dc6d-665e-32a9-e87b-979d5ede0e70', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('05317093-7765-2bb9-dd9a-77a2c6695226', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'a009dc6d-665e-32a9-e87b-979d5ede0e70');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a0242daf-a371-31db-82b8-6ff2d8d80f84', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fe6e4fbd-bf33-f8b3-155c-4a83ed20ef95', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, 'a0242daf-a371-31db-82b8-6ff2d8d80f84');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a09cdcfd-f124-c959-38d4-79ced1a3b4fa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('59958f06-339a-f55b-fcf6-3aab0fda14bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, 'a09cdcfd-f124-c959-38d4-79ced1a3b4fa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a0d71486-d7ba-ffba-22cd-f429b440587d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6fa1030c-12b8-6439-c560-726ca08eb2d9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'a0d71486-d7ba-ffba-22cd-f429b440587d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a1284a2b-0656-01ac-29ee-e0cd3aa8f83b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0598b311-b441-bc48-9a0b-05ed5272fcb3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, 'a1284a2b-0656-01ac-29ee-e0cd3aa8f83b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a1bb1729-b8c8-62fc-040d-3814dbce7bc8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9fa42a9f-6d3d-2bbd-2504-de533491ea63', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'a1bb1729-b8c8-62fc-040d-3814dbce7bc8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a1cd0331-2217-9961-98d2-e5cf71d88260', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d0fdfd7a-78a8-0bb8-e407-b9de55371abc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, 'a1cd0331-2217-9961-98d2-e5cf71d88260');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a1de1d88-0beb-c161-c08d-1811e1acd916', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('95237f15-8e57-36b2-79fd-4eba083cb8d3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, 'a1de1d88-0beb-c161-c08d-1811e1acd916');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a240ea42-2584-5076-48ae-5a2d1be5116b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7e0743a5-318b-a3a9-dd7f-96c930ef9016', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, 'a240ea42-2584-5076-48ae-5a2d1be5116b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a2738356-9700-e684-1a23-77dc777d7531', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('66fb7ec8-fc24-fc6c-daae-708ef906e33f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, 'a2738356-9700-e684-1a23-77dc777d7531');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a2ad034f-ab20-a83f-6b45-60cfb0b38fa7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e340cad2-a5ab-13f8-41fb-625e7653ee8c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, 'a2ad034f-ab20-a83f-6b45-60cfb0b38fa7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a3415803-5c63-220d-5ae8-5c9f53910756', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e3b3f6c6-428c-4069-cfd9-5cc26e229583', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'a3415803-5c63-220d-5ae8-5c9f53910756');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a360f9cb-b0c8-0a26-32b1-dacb9e8b9fc9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f8dc4366-945e-c4f1-a3fb-05f6e652f5f0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, 'a360f9cb-b0c8-0a26-32b1-dacb9e8b9fc9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a36c601b-cce1-6eaf-16ad-78ab8f5572e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2bc7f146-468a-108f-b311-ef9b72e12d59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, 'a36c601b-cce1-6eaf-16ad-78ab8f5572e1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a3ebbf51-3001-f328-4a48-c17aa630eec9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ae7d7cdb-1d95-280b-74a0-34294d6044ab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, 'a3ebbf51-3001-f328-4a48-c17aa630eec9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a3fed9d4-5465-8efe-a98a-5364e12d3d37', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b56773d5-b354-2173-1308-c042ce64b026', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'a3fed9d4-5465-8efe-a98a-5364e12d3d37');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a4eaf91b-34c2-bb51-4bbc-5c3935db5f4f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('80998ce7-9ba8-8f23-5ef7-8a9f77b07515', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, 'a4eaf91b-34c2-bb51-4bbc-5c3935db5f4f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a4f63599-84d3-d9ab-601a-1151ee0b9934', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e2d3d956-1d7f-6ccb-c014-e5efb6b9cd79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, 'a4f63599-84d3-d9ab-601a-1151ee0b9934');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a5378d29-01a2-9d61-a45d-820be7d27d54', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8deb7c62-db48-2f7b-85d3-fc4e207004de', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'a5378d29-01a2-9d61-a45d-820be7d27d54');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a53c0229-df7e-ddbf-0abc-340691f7b126', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('442b10c5-22ad-dc3b-f243-db5577041c6a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'a53c0229-df7e-ddbf-0abc-340691f7b126');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a549c3a7-2acb-1e0e-b125-76e559279dee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f610afb4-dc96-657e-61ee-500528d1d91b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, 'a549c3a7-2acb-1e0e-b125-76e559279dee');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a552f9fa-fc7b-d77f-9435-de69a3a6f82c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('833495b1-0c03-1997-6691-989171257df8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, 'a552f9fa-fc7b-d77f-9435-de69a3a6f82c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a59b975f-1229-86ca-bfb5-22c2656b0e82', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('69d09f44-fc93-5e75-15be-c9e793f6d98a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, 'a59b975f-1229-86ca-bfb5-22c2656b0e82');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a5c97e16-0a9e-2ba3-be24-9ed1d1b3f30b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('da6f8427-c2fa-cce4-4600-194230b12f01', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, 'a5c97e16-0a9e-2ba3-be24-9ed1d1b3f30b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a5ca2b54-41f1-6111-1d9a-b0f7e37654ca', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('98b889f5-14de-565b-b0ae-811881dcc75e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, 'a5ca2b54-41f1-6111-1d9a-b0f7e37654ca');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a5cafe1b-1371-c03f-f1e2-ddebf928a1b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ad06c308-9027-0983-e463-e66d6aa1f1f9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'a5cafe1b-1371-c03f-f1e2-ddebf928a1b1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a611446b-545b-feb9-b67f-7a82a81a7dd3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4ae8f5a9-c403-04a9-cc12-093baf1db13a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'a611446b-545b-feb9-b67f-7a82a81a7dd3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a6391590-7bb6-ae95-8fc2-e64967976325', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a4443ecc-e715-6c64-f889-746ff7086d41', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, 'a6391590-7bb6-ae95-8fc2-e64967976325');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a65d5878-9180-b1c9-7316-5819a25e349c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4cb392d2-871a-80ec-7bc8-fc9da3a5e1ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, 'a65d5878-9180-b1c9-7316-5819a25e349c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a6a4a9ca-fcf7-e2aa-3ccc-a851bb94ae96', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c1830273-f2b9-d758-3ff2-df94e49988d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4f9f6841-3da8-43d1-362b-2c620a48521c', 1.000, 'a6a4a9ca-fcf7-e2aa-3ccc-a851bb94ae96');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a6aff7a6-101f-b229-ba3c-a3a12ecab14c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5144ae05-c2f5-be20-7a18-55572c782802', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'a6aff7a6-101f-b229-ba3c-a3a12ecab14c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a70097ce-886b-72fe-943c-3332b5aa9cf0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('98993cd2-c180-1631-776a-41032cb04227', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'a70097ce-886b-72fe-943c-3332b5aa9cf0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a73a0624-2d9b-d9de-8517-8cf227d6cd5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dbe14a60-e3c0-8dc5-c0a9-fc131cdb65ee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, 'a73a0624-2d9b-d9de-8517-8cf227d6cd5c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a7dbd2de-fe5b-424c-c06f-876cd9c66c7a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('254a85c2-ba15-3f12-9f3b-bfe5e09f77dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, 'a7dbd2de-fe5b-424c-c06f-876cd9c66c7a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a8252ecd-7c65-a1c4-ed9c-3130a12b986b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('97ca14a9-8684-3a77-f2e1-f36610d5f5f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, 'a8252ecd-7c65-a1c4-ed9c-3130a12b986b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a85c5e7b-02f1-f633-3220-196dd08555c1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed3cddf9-0ea8-26f1-ab59-12b46aabbb95', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, 'a85c5e7b-02f1-f633-3220-196dd08555c1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a8760bbf-e832-2b29-03b4-7c322b63c982', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38fa1ba9-2bcb-000a-2d16-49f778b9bc45', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, 'a8760bbf-e832-2b29-03b4-7c322b63c982');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a8d53721-1756-77d1-2ff7-b20703d2e04e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c8188072-e818-965a-3869-1f21ac56d941', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, 'a8d53721-1756-77d1-2ff7-b20703d2e04e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a9cd26b0-8b3d-6d55-4dca-9838395751a4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1ae981d2-a095-56aa-7eed-c798e5007d5f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'a9cd26b0-8b3d-6d55-4dca-9838395751a4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a9cdbd34-5381-ab51-6fd2-285a9f2d8258', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('33989a2a-cb59-6e0d-0379-d63d4e91f175', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'a9cdbd34-5381-ab51-6fd2-285a9f2d8258');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('a9e229c1-82ae-0790-cdab-35efb7703cbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('014f97fa-7a57-75e7-cb7e-978533edb35f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'a9e229c1-82ae-0790-cdab-35efb7703cbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('aa91c4cc-f1ef-f568-c929-499284756f1b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('24b357bb-bfc1-4983-d21a-e169d9dcd2d7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'aa91c4cc-f1ef-f568-c929-499284756f1b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('aab52c0e-c3c7-4b82-1fcf-78f5bc4a0df6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5878d8cd-44ae-55ca-3d4e-242fdceca39e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'aab52c0e-c3c7-4b82-1fcf-78f5bc4a0df6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('aae21934-ca0b-9d54-4cad-b9659060a092', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e0778ba9-ae20-57f3-a578-11e07521c399', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, 'aae21934-ca0b-9d54-4cad-b9659060a092');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ab3fe862-a0cf-1db8-1ab4-f351e449dd89', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3fcf3211-b058-10df-bc93-978d2e4c1d8c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'ab3fe862-a0cf-1db8-1ab4-f351e449dd89');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ab510b8e-f7f1-4883-ff43-53db474f98fa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b45eaeda-bc9d-07f3-7dcb-d8cd7e7582d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, 'ab510b8e-f7f1-4883-ff43-53db474f98fa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ac485684-46a5-a4be-9e68-c2d3c3cac4b5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1cf6190a-d8f1-5c06-daea-497a212d16a4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'ac485684-46a5-a4be-9e68-c2d3c3cac4b5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ac7803af-c0f2-eef3-9436-b649d703261a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, '39a551b2-c16f-23be-3354-cd53a421ad96');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('077583af-d863-bc43-9946-5ad1d86bf521', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, 'ac7803af-c0f2-eef3-9436-b649d703261a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('accaa6f3-58ac-2890-b140-65328c656339', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3a0afa46-6bf4-f062-3914-f9a861dcf275', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'accaa6f3-58ac-2890-b140-65328c656339');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ad1929cb-a483-b4e5-63e6-72160f82f337', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ba67af62-a519-170c-d7b2-8e53b6bb4722', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'ad1929cb-a483-b4e5-63e6-72160f82f337');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ad455954-fd57-868b-4530-f5a23a19be74', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c47be359-3fc6-5a71-be16-95e438a3fafe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, 'ad455954-fd57-868b-4530-f5a23a19be74');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ad65520d-26ac-8f57-4d6b-101f3fec31ed', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0dec2df3-8d23-006c-9b9d-b174f5eb15de', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'ad65520d-26ac-8f57-4d6b-101f3fec31ed');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('adba33c6-072b-672e-2753-014db56bb105', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('426359d9-ff87-b19f-c4d1-37f9236a14a3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, 'adba33c6-072b-672e-2753-014db56bb105');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('addc27f6-ab7d-cf6a-269d-32ab201c3afd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2520eb71-223b-47ad-68d7-2202275dd062', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, 'addc27f6-ab7d-cf6a-269d-32ab201c3afd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('adf2e945-5485-e385-26de-15ffe6766580', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('950caeca-8458-7aa9-7b50-c3666170a8bf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, 'adf2e945-5485-e385-26de-15ffe6766580');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('adf9f0b1-206d-69cd-b159-34f88912c114', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('53acb0a6-5fc3-c1e9-15b7-c91b392547ad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'adf9f0b1-206d-69cd-b159-34f88912c114');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ae899c00-b341-e38a-f1e5-53209d88815e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ba2e6bc9-c78c-a93f-cb98-7f228e835ad8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, 'ae899c00-b341-e38a-f1e5-53209d88815e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('af34f4bb-447e-89dc-6c3f-17ced26a2bb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('35ad937a-6d7e-7819-32a3-4f97bd2f1b49', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'af34f4bb-447e-89dc-6c3f-17ced26a2bb7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('af89f103-7901-ce22-ac05-172d60b536f1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('88af9dbf-1b42-ea3c-226e-f56e9ebd55ff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e3c38013-330b-cc34-6271-2828ee3e0e9e', 1.000, 'af89f103-7901-ce22-ac05-172d60b536f1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b00ba8b7-c549-d237-ff85-c1a004ee9277', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ee713ec8-59fd-ed1b-ce1c-0fd5f5a912cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'b00ba8b7-c549-d237-ff85-c1a004ee9277');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b097b21e-2c17-3818-4e6a-ada83061e8fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b02c847b-7e52-c936-97e3-0bed6a138442', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, 'b097b21e-2c17-3818-4e6a-ada83061e8fb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b0a3d338-43a1-bbd6-eae7-0f4816582237', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8b650da5-e490-7388-0ac5-d1d339d25ff0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'b0a3d338-43a1-bbd6-eae7-0f4816582237');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b0ce4b4f-0d9f-f655-12fb-83ee8f307dfd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fc482698-f665-6bd6-9760-cc809612e095', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'b0ce4b4f-0d9f-f655-12fb-83ee8f307dfd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b110febb-20a8-f621-44f5-213e7aab63d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('72458207-7bb2-c49b-8746-fbf0a6cd6346', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'b110febb-20a8-f621-44f5-213e7aab63d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1118821-60dd-7dda-e58c-949c34524f98', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1162aa56-62e3-e0b2-8a47-eb66f3916f7f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, 'b1118821-60dd-7dda-e58c-949c34524f98');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b113b5bd-7175-5dcb-6b7a-827ff5e8407b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('73e323f9-9657-1349-d860-fbe412b09497', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, 'b113b5bd-7175-5dcb-6b7a-827ff5e8407b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b142f78f-c175-4d7b-1418-0666f4254570', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bc840678-9f43-7409-2425-f6a51afb665b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, 'b142f78f-c175-4d7b-1418-0666f4254570');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1716930-68ef-2989-c5b3-11ee503d32a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('88531c74-5397-698f-3ef1-79173ed42a22', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, 'b1716930-68ef-2989-c5b3-11ee503d32a5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1b86513-01c2-63a3-c20a-7db97da353b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('443d539f-7603-fcd9-58b9-de6f5bf8b5d7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'b1b86513-01c2-63a3-c20a-7db97da353b8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1db478c-aa19-19b9-d731-881dd503a5cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8a1e5f5e-5abd-8a35-a653-d811e40a5a29', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, 'b1db478c-aa19-19b9-d731-881dd503a5cb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1def002-64dc-2a3d-f7cb-b59a987f34b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('45601e8c-0814-4247-f9c1-6e07ebb50029', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'b1def002-64dc-2a3d-f7cb-b59a987f34b2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b1e63455-35bf-7cbf-8f0b-a1d38396ff83', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f16aeb53-f1ef-b6cb-de10-e309067ca117', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, 'b1e63455-35bf-7cbf-8f0b-a1d38396ff83');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b20ed404-a9fa-0d0e-2196-985d775ce19d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a1dd4745-b474-bb26-ff3b-f5aa3377532b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, 'b20ed404-a9fa-0d0e-2196-985d775ce19d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b21d2765-2b32-120b-c943-a68ae67ce2cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4039231d-1ae1-0b12-de50-0d8581c2bb88', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, 'b21d2765-2b32-120b-c943-a68ae67ce2cd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b24e7887-b835-dbe0-e203-c149e149809e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'f729a081-6229-b61a-596d-b381e597b560');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('733a6057-549d-da64-ca26-65f8802827c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'b24e7887-b835-dbe0-e203-c149e149809e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b266771d-e382-dace-b82e-d46de22d57b5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cb56db76-c9ee-94da-48cd-5f38f04315b3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'b266771d-e382-dace-b82e-d46de22d57b5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b30b851d-73a4-f7ca-18d8-f3aedd35a9e1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5143fe49-992e-4cba-b3c2-f1bb9bc36f36', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, 'b30b851d-73a4-f7ca-18d8-f3aedd35a9e1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b314ff98-403a-9fe2-f285-7c57707d6dc3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fea08634-340e-d689-ea39-837731b3fcdd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, 'b314ff98-403a-9fe2-f285-7c57707d6dc3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b321298b-41db-fb5c-0531-942afc0c0a38', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d7e8bdf8-04cc-188f-7a16-41ea6eeaaaf3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, 'b321298b-41db-fb5c-0531-942afc0c0a38');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b34408b7-f1be-c6f9-3c88-6240beef7233', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0f109dab-19d3-8817-82d6-e4cc503f4652', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, 'b34408b7-f1be-c6f9-3c88-6240beef7233');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b36de495-b4df-f820-216b-8632a308339a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6c9d8d44-fc37-1f85-b4ba-35aff4962dde', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d20b867-c75c-c7f9-31fa-b61e93184e0c', 1.000, 'b36de495-b4df-f820-216b-8632a308339a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b3caaf64-5a9f-366e-1dbc-b551b3596602', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('32a2d9ce-d15b-8c67-6c1d-c1ece6f7ba1a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'b3caaf64-5a9f-366e-1dbc-b551b3596602');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b48cda91-fe8d-8576-5afa-db0460e67388', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3c8cc38c-6ca8-666e-2d66-a8e4ae34e4df', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, 'b48cda91-fe8d-8576-5afa-db0460e67388');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b4ca21d5-11cc-9b4d-b139-2f5aa6377f2e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a09fbaf5-3019-7876-eb19-e4282f463d85', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'b4ca21d5-11cc-9b4d-b139-2f5aa6377f2e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b54d1fc5-6816-3ed6-6c38-e0dc25e2acc8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cddf8a7f-519e-189a-692c-2464d44a46c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'b54d1fc5-6816-3ed6-6c38-e0dc25e2acc8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b58e2d1f-8d2d-00c4-01dc-ff439c71c691', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b4fd31de-9ee9-cf55-be46-910d5f7408c9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'b58e2d1f-8d2d-00c4-01dc-ff439c71c691');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b5e4cc26-871f-fd46-63bf-8707ec968c4e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('07455e3e-a74d-9e4f-407a-eef4ce875f37', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, 'b5e4cc26-871f-fd46-63bf-8707ec968c4e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b60834af-3bd4-2fbc-f80b-c8345ffc8d4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('699f6d40-40b2-f353-ff1c-b7ab119534e9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'b60834af-3bd4-2fbc-f80b-c8345ffc8d4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b61f9b1f-79f7-b1af-4212-ed81d3e5bf56', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bc309a8c-3517-4152-f564-426aecb88daf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'b61f9b1f-79f7-b1af-4212-ed81d3e5bf56');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b6273935-c24d-18b0-eb68-22f1cd3a2ff6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8d6fa80d-2d59-107f-0433-d43e8df22517', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'b6273935-c24d-18b0-eb68-22f1cd3a2ff6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b62d41a3-2771-1468-8383-c4c92b55002b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('70c9e12a-8f4a-c4ef-3bba-693f95e1bd04', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'b62d41a3-2771-1468-8383-c4c92b55002b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b669b9b8-2e4a-5b51-8c6c-bea770749bd1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dfbb90ea-276d-e399-c89d-3900bc2c1f24', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, 'b669b9b8-2e4a-5b51-8c6c-bea770749bd1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b66f7e63-5ac4-5fa3-2187-f78487042936', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c054d266-75a8-b074-4e2a-309463ea3fcb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, 'b66f7e63-5ac4-5fa3-2187-f78487042936');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b6beb069-e6e2-074a-dc2c-5d14fcebcf11', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('000f202e-fe0b-2e3c-c556-e36f35b4164b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'b6beb069-e6e2-074a-dc2c-5d14fcebcf11');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b6e4d1fd-b01d-943b-b02c-cb877d1c9fe1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c29c272b-beb2-b008-e377-f9d748a0facb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, 'b6e4d1fd-b01d-943b-b02c-cb877d1c9fe1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b73d9b3c-4de4-6339-d9ea-fc6bd62f1252', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4a408883-5e8e-f788-1054-35b6025108b3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'b73d9b3c-4de4-6339-d9ea-fc6bd62f1252');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b82c84d9-cba3-5b48-b2b0-ff9f21b168f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa92bfd2-c8b9-6521-0b57-638cca2ff20b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, 'b82c84d9-cba3-5b48-b2b0-ff9f21b168f8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b876da2e-8324-7bbc-3b26-b64d291edc68', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4fff1863-fa60-6b39-75c7-82747b4766c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, 'b876da2e-8324-7bbc-3b26-b64d291edc68');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b88c792e-9a1a-bda0-4fb6-2fb6663aab15', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('55109e2f-43bb-682a-fdcc-1fcdec00f57a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, 'b88c792e-9a1a-bda0-4fb6-2fb6663aab15');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b88f4b97-4b2e-83f1-781d-f769f457a0aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('395db27b-8afd-22de-0d3a-18d21530515d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, 'b88f4b97-4b2e-83f1-781d-f769f457a0aa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b8a5bb7f-6336-b447-2ef4-c5efa8543440', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2c606d2d-763b-6f3d-e52a-d65f3be8c581', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, 'b8a5bb7f-6336-b447-2ef4-c5efa8543440');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b8ac4850-d6b1-8892-4b93-e272c8c4181e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c5f658b3-e286-bd9d-74ae-fafa3366416e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, 'b8ac4850-d6b1-8892-4b93-e272c8c4181e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b8c3e4f4-39fb-c880-65f0-1124e6d147fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7870032a-ae5f-fe66-cc8d-74ff4b740aff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, 'b8c3e4f4-39fb-c880-65f0-1124e6d147fb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b94eace3-6bc2-a4d3-97e3-28b726fec333', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('970aebf0-c596-77a7-02b0-a1acf054aca6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '46b17539-b497-a541-2ce6-b2cd546ded2a', 1.000, 'b94eace3-6bc2-a4d3-97e3-28b726fec333');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b9728b53-976d-bf9b-6d01-d4a5decd412b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c0cfcb45-19b6-2e8a-2ef9-a54bfc294ddb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3d29af8a-5edf-6178-f94b-f8efe6dc1df8', 1.000, 'b9728b53-976d-bf9b-6d01-d4a5decd412b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b973df80-2a3a-9619-3b54-816245c4165b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c8ec5f21-7894-edac-e5be-baedb2f05e8f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, 'b973df80-2a3a-9619-3b54-816245c4165b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b9b3ba79-f6d0-9237-a418-5d3a81bbc5dc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cc6fb6c9-6319-758e-44c9-6dd048cd1fc0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, 'b9b3ba79-f6d0-9237-a418-5d3a81bbc5dc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('b9f4afca-cc33-71ae-d21f-b86b51e14528', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a430b921-dc26-72b0-97b8-6ed0b11d5717', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'b9f4afca-cc33-71ae-d21f-b86b51e14528');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ba25c1ab-48b8-b325-3838-c0e96dd8f85a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 25.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('640b76d5-8b08-b321-e34b-aba803f7efe9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1c10fd4e-b180-861b-cac8-babdd8b91fe6', 1.000, 'ba25c1ab-48b8-b325-3838-c0e96dd8f85a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ba544b0c-33d0-01b5-b8f8-64ddedd33444', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6f2871d1-6400-b6b1-a26f-2d500b0bdd90', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, 'ba544b0c-33d0-01b5-b8f8-64ddedd33444');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('baaaaded-100d-85c8-acd3-ffc0394da018', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('21462cef-7242-0be1-6b4f-d438bd33dbac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'baaaaded-100d-85c8-acd3-ffc0394da018');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('badc9cd1-ba0b-ad00-41ad-93b6c8de226a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('818a8f7a-cb5a-8f9e-f39a-3942e7ea18a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'badc9cd1-ba0b-ad00-41ad-93b6c8de226a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bb4f5139-266e-41f1-5780-edc1cc2868d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f96644f3-f7ad-1116-0753-1508b996ca0c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, 'bb4f5139-266e-41f1-5780-edc1cc2868d6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bb594bf8-a5bb-51fc-ba02-008426ab941b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('232e6a8c-da61-6da9-c26e-d77b8af0ef33', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, 'bb594bf8-a5bb-51fc-ba02-008426ab941b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bb874ffb-cf7c-00eb-c3bc-a014806b2431', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f7d61afd-9a1a-411c-4289-b60cd2711ea3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, 'bb874ffb-cf7c-00eb-c3bc-a014806b2431');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bcb7883a-e156-e5b5-2b63-6d578f48e434', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d40364bc-50d7-9111-8340-7e769a777ab3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, 'bcb7883a-e156-e5b5-2b63-6d578f48e434');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bcc82a57-b2e2-ee8f-2ca7-8d68a2605ae6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('88d02cda-06dc-be93-0a98-53c2672495f4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'bcc82a57-b2e2-ee8f-2ca7-8d68a2605ae6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bd1d7b55-740d-e13f-3360-26c5a088b812', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d7654e01-5f96-f1d0-6bec-dd74d575ff08', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, 'bd1d7b55-740d-e13f-3360-26c5a088b812');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bd43a77d-0904-5d30-f56a-841b3323bd93', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('848571e3-eb17-7292-0200-5ad778eb5e65', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'bd43a77d-0904-5d30-f56a-841b3323bd93');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('bd596761-f454-b40f-3ab2-f8f4519eec4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7f57a1fa-b504-f06a-4434-ffa6e24cafe2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'bd596761-f454-b40f-3ab2-f8f4519eec4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('be127af3-d0b2-1bed-bc9c-72c86db698cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9f0dad06-e371-2354-0869-fe7dd82a57e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, 'be127af3-d0b2-1bed-bc9c-72c86db698cd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('be814156-c3c6-fcf1-0039-f769d818c7c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('790ddcb3-f110-95e1-b418-e692e03cf622', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, 'be814156-c3c6-fcf1-0039-f769d818c7c6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c00e758e-a7d8-ba5b-88ce-855a0a158e1c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5b1a1126-5ac6-3470-b63b-bd7745eae4b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, 'c00e758e-a7d8-ba5b-88ce-855a0a158e1c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c018baab-4b14-e314-4c06-14123425afe0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f6171f34-fac5-df44-c76c-bfde14676310', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, 'c018baab-4b14-e314-4c06-14123425afe0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c01ead05-f219-d1c6-a132-0078724834b3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('49d9cb3d-81fe-eca7-26db-44f5fd8bb51c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'c01ead05-f219-d1c6-a132-0078724834b3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c030d6d4-4749-2b70-7833-bb5098897aa8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('943c746d-4a23-70c4-cbe4-1f527072a06f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, 'c030d6d4-4749-2b70-7833-bb5098897aa8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c04e1ff2-ecc9-4390-820c-d5824ecabaa8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('800a9951-c9ba-441c-8dc4-ba93be56f971', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, 'c04e1ff2-ecc9-4390-820c-d5824ecabaa8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c0a718e1-f5d8-a92e-ba10-0365e9ee138a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('59fcaad0-7c02-cc27-556e-568bc0814af4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, 'c0a718e1-f5d8-a92e-ba10-0365e9ee138a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c0bb788c-a984-7ea1-c234-a65f66b9e0a1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 29.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('811e4480-cd97-14bb-5421-4472f3114163', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '8107bf2d-b4dc-8e91-87ab-5e50aa297ae9', 1.000, 'c0bb788c-a984-7ea1-c234-a65f66b9e0a1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c0df8bab-0f60-b51e-b890-1225d1507b9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ab83af6e-e6dc-95fe-b1b7-8fbd7541184f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, 'c0df8bab-0f60-b51e-b890-1225d1507b9f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c123c8fd-bdd9-b85a-7dc1-0ecae4e1850a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ef02da3e-f656-7acc-b62f-caf3664ad806', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, 'c123c8fd-bdd9-b85a-7dc1-0ecae4e1850a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c1e570b5-c25a-db6a-092a-efee1ad39912', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4f2cf0d9-ca04-1040-c13a-3543dfb4794e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, 'c1e570b5-c25a-db6a-092a-efee1ad39912');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c21aada1-5bbb-acca-aded-5968c3d6f4a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0e81283a-1708-8953-ae85-036763f8232f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, 'c21aada1-5bbb-acca-aded-5968c3d6f4a0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c21f8a42-a75e-0bdd-a1fe-617b08709222', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fcf0577c-6287-a43f-902d-a59f62429c9d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'c21f8a42-a75e-0bdd-a1fe-617b08709222');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c26c44c6-597c-9385-5c3f-00d24186fc60', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4bd8adb8-7fdd-6b92-e590-bbf382f656c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'c26c44c6-597c-9385-5c3f-00d24186fc60');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c2762a80-b669-f83a-bf06-c828d1bd90b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8daef690-4cf7-5d17-2ccf-f72d582fc76c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'c2762a80-b669-f83a-bf06-c828d1bd90b8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c33f9208-91fd-4365-15e2-7ecaaa3796f0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('37f1b731-7b6d-6c7b-28b8-b456690a9162', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, 'c33f9208-91fd-4365-15e2-7ecaaa3796f0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c346e3ef-7185-6b1d-f02d-64d9c886af83', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4af4ea8f-12ef-ee10-7b56-eb63b8a2a012', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, 'c346e3ef-7185-6b1d-f02d-64d9c886af83');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c3b2d0b9-587d-7e8d-730c-cd408aab0759', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('93172714-0e83-2a70-fc14-2567e923b6bb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, 'c3b2d0b9-587d-7e8d-730c-cd408aab0759');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c42b51d3-5b4e-31e5-c77b-300adee7ddf7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5a814084-a773-58be-5954-e060dfb5a1b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'c42b51d3-5b4e-31e5-c77b-300adee7ddf7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c42f0a9b-ca33-6146-ed94-b2936861204a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3503fe37-03c8-adcd-eeed-98ee23ef3b56', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'c42f0a9b-ca33-6146-ed94-b2936861204a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c47c0cd2-a87d-8ed9-d954-ba7c254224a6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1033d65b-9147-115b-bba2-1a88384c1dec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, 'c47c0cd2-a87d-8ed9-d954-ba7c254224a6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c492646a-60da-d44c-5006-dbbd1cc46954', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d543e0fb-f3a4-14ee-90c3-05ce522da562', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'c492646a-60da-d44c-5006-dbbd1cc46954');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c4ccb22d-5ad1-d6d7-9b85-59cd15d1f6cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7f528bf4-0abe-4bd0-ec94-ed104fb0938f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, 'c4ccb22d-5ad1-d6d7-9b85-59cd15d1f6cc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c51bbdd5-78d9-8070-0b9a-02483fcfd4e9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3b55fc08-f804-7b62-e21f-91652b839ad3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '91956081-3d03-407d-5a28-e9dd385d1b3d', 1.000, 'c51bbdd5-78d9-8070-0b9a-02483fcfd4e9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c5231e44-0a28-44b3-eb58-5068436e0581', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3e244a9a-f332-19c0-4088-3531473963c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, 'c5231e44-0a28-44b3-eb58-5068436e0581');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c52c56c3-3576-0717-0e06-ecac78128992', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3f623d20-6da1-cdff-bc9d-cb6c1e2d0708', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'c52c56c3-3576-0717-0e06-ecac78128992');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c56b5bb8-5eb7-6b3b-ebbd-11009fa8b798', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('73735ef7-601b-2e9f-e75a-b406b536373e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd57288a3-c18f-ddb0-694a-538f5de5cf79', 1.000, 'c56b5bb8-5eb7-6b3b-ebbd-11009fa8b798');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c56ec3f4-3ce8-17af-a704-3ca9a69c11d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c93b0659-2e5c-72d5-c1a0-739a17c200c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'c56ec3f4-3ce8-17af-a704-3ca9a69c11d0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c5af4956-823b-11dd-77d0-ff4333fef133', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ad9c82cc-ce16-0297-7295-230c454ac3f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0f78a02f-38f3-78ff-f4f6-247fa9acf6be', 1.000, 'c5af4956-823b-11dd-77d0-ff4333fef133');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c5c00d81-82cc-3846-4e1d-8c6423dc1488', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'f90c56dc-3f0e-dcaf-7c13-eb73bf3abe97');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a7145c42-9829-def5-a547-8598e4489690', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'c5c00d81-82cc-3846-4e1d-8c6423dc1488');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6009221-e919-ca55-5723-fe9ff8c6f9b6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0aaf44c2-e275-8590-5a85-10d73deea2d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, 'c6009221-e919-ca55-5723-fe9ff8c6f9b6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6584a97-ec53-c093-fde5-95a778f210f4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6e85a4bc-5c84-5a43-2f9f-eecb8c3899db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, 'c6584a97-ec53-c093-fde5-95a778f210f4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6682c81-0820-3db0-25ba-156f9b1f37fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f1586f6e-2507-279b-861a-7d37d6f0c17d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'c6682c81-0820-3db0-25ba-156f9b1f37fb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6c013b5-287c-309e-9194-5804eca17ea0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5eff749b-8d4c-6d72-def9-5b1b432d2553', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'c6c013b5-287c-309e-9194-5804eca17ea0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6e5e98d-c586-a210-9d20-2ddd5ef5284b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d94e1d52-88c8-49b4-fe94-07f2e600686d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5ad5cce9-ddc5-01f3-36c5-96e4e0e7ed37', 1.000, 'c6e5e98d-c586-a210-9d20-2ddd5ef5284b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c6f94038-42a7-fc39-7fa7-f0944e29302b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d3b940a3-0904-f0c7-4a63-eff68fbc27b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, 'c6f94038-42a7-fc39-7fa7-f0944e29302b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c730c4ff-0e83-5b07-a7ed-9a179e25227d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed14082c-345b-5278-e5d9-56930fb5b4f0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, 'c730c4ff-0e83-5b07-a7ed-9a179e25227d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c7baf71c-8cfe-1263-b70b-4464bed65c0c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d0b9c240-5d7d-25a7-ca69-43a6dd9537c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'c7baf71c-8cfe-1263-b70b-4464bed65c0c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c7ca5fe6-89a7-369a-c585-cb70a928702a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c889a289-f9e3-91dd-8fd3-a2ac4adf7091', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, 'c7ca5fe6-89a7-369a-c585-cb70a928702a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c81026c4-3d88-82a5-2088-63b57e0cc916', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f057065e-db18-8e7b-4a5a-36a85b1867c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'c81026c4-3d88-82a5-2088-63b57e0cc916');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c872570e-b6b3-3e35-077f-bd5bbbbb2e1c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d995ad17-3e3f-385a-255d-24c9cc5e3cc8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, 'c872570e-b6b3-3e35-077f-bd5bbbbb2e1c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c8799a22-3fd4-d566-d7d3-9f505604652d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('37cf00f9-d5f1-9b78-649c-8db9238be23c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, 'c8799a22-3fd4-d566-d7d3-9f505604652d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c8ae1444-a45b-15ce-13be-692fc2435fea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8eb2c40c-667c-4b03-1f48-279ce0a82894', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'c8ae1444-a45b-15ce-13be-692fc2435fea');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c8b589e4-0435-3574-5bb4-b64932e73070', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ff559c78-fd3b-eebb-a7e9-9ccbc9947183', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'c8b589e4-0435-3574-5bb4-b64932e73070');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c8b62dfd-e934-b209-1730-cb99f4a462a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('68f7e94c-e1d4-010d-dc04-7372b7bc3687', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '145c9aa3-ecd8-8bc0-eda8-8fe0c86bdbb3', 1.000, 'c8b62dfd-e934-b209-1730-cb99f4a462a5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c909627e-349c-1265-663b-cc1804833525', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6291d47d-e319-3695-5e0d-7fb3c3b59e36', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'c909627e-349c-1265-663b-cc1804833525');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c918a035-40a1-ea42-014e-91daa53fac4b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('266a76ae-17fc-b717-4aeb-36a2a160660b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4c60ae43-d6f8-4efb-1ee4-6639a8b67d6b', 1.000, 'c918a035-40a1-ea42-014e-91daa53fac4b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c984a155-8a71-ad2d-9f5f-41ea8aa738ea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c0375593-9ef8-ae26-7e13-0e1270ace10e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'c984a155-8a71-ad2d-9f5f-41ea8aa738ea');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c98872a9-1043-6e9d-33b6-ab268fb584d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c0cfb4dc-d7cc-12ec-c492-8da7800ade97', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'c98872a9-1043-6e9d-33b6-ab268fb584d0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c9d006b9-ebaa-426b-9e4f-a3f90701fd4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7a321b10-1075-965e-2fb9-b128c4e23bb4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, 'c9d006b9-ebaa-426b-9e4f-a3f90701fd4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c9d828b8-d8c0-0f50-1624-f96659493f28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38d4adcd-2aa9-980c-0319-fc84dffcfb24', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, 'c9d828b8-d8c0-0f50-1624-f96659493f28');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('c9d9f2c5-63d9-43c8-20e4-cfc3cafb88ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4708f760-f9c1-a85b-e5fe-0e9bff411c62', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, 'c9d9f2c5-63d9-43c8-20e4-cfc3cafb88ba');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cafa1e75-2cb6-8f0c-1e00-370a28229302', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d8252b32-67e9-2adf-f18f-47798e0d7dfd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, 'cafa1e75-2cb6-8f0c-1e00-370a28229302');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cb4d5b26-3fb0-321a-f2c3-57f68a0e868f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('16664202-1be7-f32f-92c0-580bc2f659fe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, 'cb4d5b26-3fb0-321a-f2c3-57f68a0e868f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cb99dd2d-6d88-5f5b-0fbb-22a66b57f3a5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6c1403fa-60bd-37af-9ff0-03f7704fcad7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, 'cb99dd2d-6d88-5f5b-0fbb-22a66b57f3a5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cbc26640-ad97-24e4-a38f-324c1024d7a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e3c17030-c36a-b1b1-2091-ee4aac4c9a4b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f98ef3b7-047d-854f-6c81-51035a9e7d3d', 1.000, 'cbc26640-ad97-24e4-a38f-324c1024d7a7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cbcda840-e8f7-85ff-6d40-c5ca0b143c59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('412a117b-0c3e-5030-f30f-af8300421a17', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, 'cbcda840-e8f7-85ff-6d40-c5ca0b143c59');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cbe52b87-ac58-8db5-3266-56127751da27', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3774f48a-bb56-cb86-6f53-e83799d4b6fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, 'cbe52b87-ac58-8db5-3266-56127751da27');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cbee39b4-398b-b6d4-271c-06917bd4e289', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8428cb65-12bf-323a-eacd-cb970b40aab2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, 'cbee39b4-398b-b6d4-271c-06917bd4e289');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cc1a050c-8be5-4887-5f18-bdabf433ea3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('18586ab4-b69f-c8ae-e4e1-3891495c6316', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, 'cc1a050c-8be5-4887-5f18-bdabf433ea3b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cc717eaf-119b-3b5c-6010-8e363a9ec166', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5db06edb-18cc-ce49-3633-c6a5483417a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'cc717eaf-119b-3b5c-6010-8e363a9ec166');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cc95fa19-6092-ae69-c980-38ace22ca78a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('78ac59ea-f3c8-7312-b125-5df9892d2cf5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'cc95fa19-6092-ae69-c980-38ace22ca78a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cdbb2467-8afb-9baf-37d7-96f415cffc96', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '108f6a93-0619-a4c4-afcb-1afa587c9b60');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3b84a297-9747-fcfb-52b1-4924e134c19c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'cdbb2467-8afb-9baf-37d7-96f415cffc96');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cdf29b35-c8c3-fdb9-188a-fbc28981b526', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ea2442f8-1ff7-a666-6081-837f33e3434a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, 'cdf29b35-c8c3-fdb9-188a-fbc28981b526');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ce4a116e-d85e-6b00-0503-64eb055ba3ac', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1150397a-caf3-aed9-f680-77f8742d4caa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'ce4a116e-d85e-6b00-0503-64eb055ba3ac');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ce62cccb-a592-6eba-2ae7-f9d4e1c0d9ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('70e9675a-90a9-43fe-1b0b-24eed60d764a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, 'ce62cccb-a592-6eba-2ae7-f9d4e1c0d9ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('cf1611d3-a990-abad-7579-3d9a552ea230', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ad545a59-821d-c6fe-6df9-00aeab24529d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba110e06-f88e-407a-7fe0-502bbaf29d08', 1.000, 'cf1611d3-a990-abad-7579-3d9a552ea230');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d03b2022-1bfe-9ac4-a2b1-ae6241ae2444', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cbb63fe0-6ea1-cfb5-acde-b90d7477a657', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, 'd03b2022-1bfe-9ac4-a2b1-ae6241ae2444');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d0ba630e-0baa-6b1a-9e36-fb9c33c4e6b4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b0a45830-5979-9a3e-e8b5-5851940ad284', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'd0ba630e-0baa-6b1a-9e36-fb9c33c4e6b4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d1330ae7-942c-a6b7-3c3f-bd17b9f3d3a0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa700ca6-b85e-c6e5-8499-9bc34b655fb7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'd1330ae7-942c-a6b7-3c3f-bd17b9f3d3a0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d1712cec-e012-f4a0-808b-8c750efdf8b1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3617725e-d222-cba3-cbe6-2f9960f0ae7e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'd1712cec-e012-f4a0-808b-8c750efdf8b1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d17a7998-1540-1bef-5c65-87a1546afec0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '5978ca74-89b1-ee73-1683-f1fbb8a383c3');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fdfccde6-1f31-83e3-5795-86c2483c225e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, 'd17a7998-1540-1bef-5c65-87a1546afec0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d198ed07-00da-22b2-1ed5-5e417df71c34', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1836f0c8-4a50-3dba-dbdc-e0e20a96fbaa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'd198ed07-00da-22b2-1ed5-5e417df71c34');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d19ca423-87ee-0d82-39a0-e91be5ae91b0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9a33400a-d8c7-0c5d-88cb-7d92b18e13c4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'd19ca423-87ee-0d82-39a0-e91be5ae91b0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d3c3071e-321c-6be7-e37c-e72b48429f9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('35afe819-e062-57bf-74a0-60f65c0c74a9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, 'd3c3071e-321c-6be7-e37c-e72b48429f9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d3dc0319-4cb8-65bd-7971-e79b55aff033', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7014886d-a824-ae5d-ad17-166f5a257738', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, 'd3dc0319-4cb8-65bd-7971-e79b55aff033');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d408aa15-00cf-2b9d-92c1-ce6a1072c2ad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('72ea1bdd-e48b-e4c0-79b4-9c06efa87ab2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, 'd408aa15-00cf-2b9d-92c1-ce6a1072c2ad');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d413e4ab-43a3-bdd0-4143-2575615faddb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c7090f59-23bf-0a60-b36a-754481889350', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'd413e4ab-43a3-bdd0-4143-2575615faddb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d4577747-7e98-5be7-648e-13e56e1b9e3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('58d3fe12-1cd7-5bc2-9b42-4697068672d6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, 'd4577747-7e98-5be7-648e-13e56e1b9e3b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d484af97-0cc0-7816-ddd3-fab0a8585be1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7a3ef92b-8861-609d-74c5-54a5f13697cc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'd484af97-0cc0-7816-ddd3-fab0a8585be1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d58653e4-c0c3-d15f-0e8f-ac46f08a5f24', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'ad359d5f-c1b0-f758-42fd-4ea2743bc817');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cf30a658-72db-a4dc-b1c5-b1b5d6feaf81', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'd58653e4-c0c3-d15f-0e8f-ac46f08a5f24');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d5a12ed6-8f08-e7e5-849a-41bee8f2ef59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('042b1fc3-6e1a-a892-78bb-b37b0c4c14f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, 'd5a12ed6-8f08-e7e5-849a-41bee8f2ef59');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d5df0352-a5c4-aa00-5e6e-365136f7ada0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3669c473-a7fb-8487-883a-6cd6d0c333ca', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, 'd5df0352-a5c4-aa00-5e6e-365136f7ada0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d61d2160-96eb-f458-1c53-29e775045b3c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('51bd7a74-7133-0c05-c6d6-97a76c8d5e70', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'c3656ed7-0222-4e5d-910a-042a8e6a2798', 1.000, 'd61d2160-96eb-f458-1c53-29e775045b3c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d62ac20e-e298-6091-674d-2cb891dfc4fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('84538c34-15e3-f6cd-f6cd-d94a3cd5b447', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, 'd62ac20e-e298-6091-674d-2cb891dfc4fc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d62f4b57-5d47-580d-7f76-5202827e4e47', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dff8d115-2244-a0b9-72ed-e2b44c4c2313', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, 'd62f4b57-5d47-580d-7f76-5202827e4e47');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d635e48f-c321-0442-0887-2cc08d9b7396', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('19acfe10-10ee-7388-153d-e43568ddbb32', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'd635e48f-c321-0442-0887-2cc08d9b7396');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d6671a9d-6014-b81d-e16e-464eba0be50c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6c561e22-4b1e-9e98-8694-b482e6b70b04', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, 'd6671a9d-6014-b81d-e16e-464eba0be50c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d698ff03-aa55-90a4-2a1d-e0a7067dfbd0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ed2d0d50-3a3c-63f5-20fe-ee2eb2e988a1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'd698ff03-aa55-90a4-2a1d-e0a7067dfbd0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d6c957c0-b07a-b7ef-b137-538481ffdd2d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('50ecf1f6-4d71-b85b-d219-dd15f981e41d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, 'd6c957c0-b07a-b7ef-b137-538481ffdd2d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d6ca780f-80b9-7b8f-465a-694fdda1d584', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5ebf792e-7e19-810c-3b9c-6f1df8173dbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, 'd6ca780f-80b9-7b8f-465a-694fdda1d584');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d706fa6f-8e5a-52cf-01d9-08a7da8af277', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38a953c4-8e8c-a7d3-c15e-f673a5fdff23', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'd706fa6f-8e5a-52cf-01d9-08a7da8af277');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d73eca57-fdb1-10e1-d4d3-7dd09d9857d1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('38e5011d-a077-5fd2-b00d-2f6f6c227de0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '342918a1-ad61-e141-30f8-c84353b98ea9', 1.000, 'd73eca57-fdb1-10e1-d4d3-7dd09d9857d1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d7ba9b29-5819-dae9-acbf-d9bf396c80dd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9f817379-e0a8-5879-c0d3-026e5326c3a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, 'd7ba9b29-5819-dae9-acbf-d9bf396c80dd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d7c17f80-46ce-85e7-eaad-d93254ff735f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e79265c6-face-1e24-9143-e3f0209db3d2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, 'd7c17f80-46ce-85e7-eaad-d93254ff735f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d7cb7158-971a-d991-96a4-b0a7bf6ac722', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d47a7677-08d2-2d92-1769-833ccd28be79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, 'd7cb7158-971a-d991-96a4-b0a7bf6ac722');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d812c2e2-f6b2-2405-784d-c47ad0864437', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c23c656f-6961-2847-8e47-09231849cdb5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, 'd812c2e2-f6b2-2405-784d-c47ad0864437');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d8929a30-dcd9-70f5-e4ba-6639f97bb8ae', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('bfea66e7-1099-436d-32ff-0836a4905492', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '069598c8-17b1-51dd-cc2e-c658d46a8100', 1.000, 'd8929a30-dcd9-70f5-e4ba-6639f97bb8ae');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d8fd7c98-ec4e-5f32-c71d-b3b931d379ad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('eaf6a7f4-d510-d44c-eeb4-745b74fb5e03', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '340f6578-d07b-3d1c-1765-19ef81fd2b5d', 1.000, 'd8fd7c98-ec4e-5f32-c71d-b3b931d379ad');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d90a3cc5-a11c-115b-a262-38371cee2a84', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('07c305a3-5955-aca9-75eb-76648de45689', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0823ac62-44dd-6f72-d9e8-c6ca6196c282', 1.000, 'd90a3cc5-a11c-115b-a262-38371cee2a84');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d96b6100-2dac-6829-62b7-2c9cd3e14387', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6dfd886c-2a82-d3f0-2f9b-d9ac8960f099', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'd96b6100-2dac-6829-62b7-2c9cd3e14387');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d97a0c25-665b-6669-ab4f-c35e038d59ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5c3a383e-336c-77f6-45ef-606b433838da', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'd97a0c25-665b-6669-ab4f-c35e038d59ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d99b2755-e6e7-5098-2c1d-91cd1d96a204', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fa4dacd2-fcc1-829d-23de-04afb3efb4f9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, 'd99b2755-e6e7-5098-2c1d-91cd1d96a204');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('d9ebcc3b-f8a5-b907-f872-a7fb25c3426f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a86898c2-9734-7e37-9a9a-f3800abf4c1e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'd9ebcc3b-f8a5-b907-f872-a7fb25c3426f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('da9153f8-31d8-feb7-e05e-feedd3be1bab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4a68d0c5-85fb-a7ba-3ae7-4cd206137353', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'da9153f8-31d8-feb7-e05e-feedd3be1bab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dadccbc9-861c-42e2-11d5-839c5c500b27', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('09e21655-f2e6-17d4-5d62-a7f0293352d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, 'dadccbc9-861c-42e2-11d5-839c5c500b27');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('db06bf84-2099-e871-f837-8b644b1827c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('47e98d11-7dc1-1d7a-6a23-46356f5523d8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, 'db06bf84-2099-e871-f837-8b644b1827c0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('db19d4b8-961b-4352-294a-dcc18e8fa893', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '59a5ca57-c4ce-329e-5d2b-5cdc4a2ffafa');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('693b0f71-6545-e159-afde-1b052926c83d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, 'db19d4b8-961b-4352-294a-dcc18e8fa893');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('db70c874-751a-bd62-26b7-d8c208607243', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9dce5eff-4409-5215-736f-cf0347793087', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, 'db70c874-751a-bd62-26b7-d8c208607243');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('db77d2c9-68ca-49a6-46d8-605dcf0b468f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 70.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fcebba6b-90b5-9e63-499e-d87295f97ca3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f5a6e80e-cb72-8527-6cad-7fb0557a45d9', 1.000, 'db77d2c9-68ca-49a6-46d8-605dcf0b468f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dc06cacc-b354-8301-be07-5164df441466', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d387a42f-1e58-95da-19a6-a5a7e8e07254', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'dc06cacc-b354-8301-be07-5164df441466');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dc0c2310-b061-6fea-3617-366ded4f0b28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '3d763d10-f73f-936f-cca4-d8ef8a6beeb6');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('99abafe6-c38c-3b2c-9379-9ae7b427269b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'dc0c2310-b061-6fea-3617-366ded4f0b28');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dc97a4c7-12a4-37f2-b1a6-f7b831deafbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '12c46c66-bba1-e8f6-3985-bbf235c50a77');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a7f8f11b-76a8-ba58-b763-73fc21aea550', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, 'dc97a4c7-12a4-37f2-b1a6-f7b831deafbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dca55d8b-8104-2895-41c4-7ccc7c92194a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1799c3fb-8825-96d1-4242-e54aa7101ae8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, 'dca55d8b-8104-2895-41c4-7ccc7c92194a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dcaf6190-0ab3-f632-3f8b-c85577009cad', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9cfeb92f-7b73-9646-a6b0-99587bdf3717', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'dcaf6190-0ab3-f632-3f8b-c85577009cad');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dce4e3e0-8d0d-c476-6d18-0d059db08e84', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('193ac680-3972-868c-aab7-793928e1ba42', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, 'dce4e3e0-8d0d-c476-6d18-0d059db08e84');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dea08b16-118c-b34f-ee11-5dc6f5e1fc4c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fc0e4796-81a2-8433-5a2d-ab5a8477b1b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, 'dea08b16-118c-b34f-ee11-5dc6f5e1fc4c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ded0d607-8f6f-934e-1b83-0361f5666ebf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 43.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('420c91cb-ba16-e013-d474-9cea5805e46b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c4a84ce-b764-edc4-7218-c2cf661fecf0', 1.000, 'ded0d607-8f6f-934e-1b83-0361f5666ebf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dfa05ba1-53bc-efc4-f310-973de984a16c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('056ae529-846d-9be6-4ef1-425f51f69f79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'dfa05ba1-53bc-efc4-f310-973de984a16c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dfe06f55-02da-08d2-b46a-8664b03dd89c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4bbc1576-c051-d712-fe4d-39b90fe18ce6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, 'dfe06f55-02da-08d2-b46a-8664b03dd89c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('dfeeb013-4e7f-60cf-0182-b7138cc804f1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4b6a9918-0d80-bdcd-f8a3-999f99999052', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd9791cf2-63bf-2024-5510-f5fbe74925a3', 1.000, 'dfeeb013-4e7f-60cf-0182-b7138cc804f1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e01bb848-88a3-8293-bc33-0f96600bdbdb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6a04d7ec-7f41-b936-0f09-34c5094d7e4c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'e01bb848-88a3-8293-bc33-0f96600bdbdb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e01d0cd2-cd12-3d1f-d2dd-4cbbf912bfbe', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, 'e98cf775-079f-6c55-7fe7-f356b8584517');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('354b215e-6e11-2b4a-a3a4-041b188d62a3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'e01d0cd2-cd12-3d1f-d2dd-4cbbf912bfbe');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e0271365-dcba-84b4-06e2-3318fa2b2c5a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('55b397ce-db6f-0071-2d93-1184f3d997df', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, 'e0271365-dcba-84b4-06e2-3318fa2b2c5a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e05feb8d-dd2a-bcb7-2854-e93ae61890cd', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('03a126e2-02b1-4b46-f22f-7b98a1636484', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, 'e05feb8d-dd2a-bcb7-2854-e93ae61890cd');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e0668ef5-9ddf-e231-90d1-e34763834479', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1c8feab6-2b77-606e-6a1a-9dd88c8796c6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, 'e0668ef5-9ddf-e231-90d1-e34763834479');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e072fa97-2507-2137-b36c-1e71df6543bc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c26f17bb-a9f0-3594-fc94-945b7d932891', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, 'e072fa97-2507-2137-b36c-1e71df6543bc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e0849d74-5d88-acf6-9d38-0a2026e389d9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2b06c70a-05ab-aa5d-79e7-750d39c84c30', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'e0849d74-5d88-acf6-9d38-0a2026e389d9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e17b3079-fe19-a5e1-4947-5dad06c26376', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('df9cbc8a-7168-11a7-59b3-aea616798865', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'e17b3079-fe19-a5e1-4947-5dad06c26376');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e1ae0f97-605b-9767-cf85-1ef7f35048e9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b389c3a4-ff3c-04a7-2ac5-45637826c93e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ab9b4388-3751-e3fa-5d03-15790e9f0cd5', 1.000, 'e1ae0f97-605b-9767-cf85-1ef7f35048e9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e1b87110-babd-6edb-5642-1ee165786641', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('6bce613b-9ad9-47c1-749f-c3664a926da4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b4652378-d42b-098e-147b-c69502ab6be4', 1.000, 'e1b87110-babd-6edb-5642-1ee165786641');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e217656f-3b69-6390-b21a-0680178e9133', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('efa1b98c-f019-04d3-bb67-f029cbc8faa1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'ba56ab23-c83b-b03c-53ed-727142aa95c7', 1.000, 'e217656f-3b69-6390-b21a-0680178e9133');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e25456e0-24f8-6e64-349e-bcb501ac49d0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'e132066c-47b9-e62a-ae1c-ece912d7e70d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('30ed3f3b-74f9-4f8c-2cbe-b9195570d064', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, 'e25456e0-24f8-6e64-349e-bcb501ac49d0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e2be500a-95a7-9b72-f824-fa44a6f53443', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3d8f7214-41c7-8d52-0667-5203f4d36ac3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'e2be500a-95a7-9b72-f824-fa44a6f53443');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e2f383de-9abd-f60e-5a9e-77710c7063a2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('20766cfa-33d6-dca4-2f1d-d40bef32fbe9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, 'e2f383de-9abd-f60e-5a9e-77710c7063a2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e35accb1-1dc1-44a7-e3dd-04fee4535f28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('70010c52-5160-fc0d-df60-b3653b54d556', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, 'e35accb1-1dc1-44a7-e3dd-04fee4535f28');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e3d696cc-fad4-3c8c-e10a-2b53a9025146', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b771397f-e07c-57c5-fe15-755448504509', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'e3d696cc-fad4-3c8c-e10a-2b53a9025146');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e3f36083-53e9-1d5b-3df0-5c94ab15838a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, '07c2b7da-8254-5545-a97d-d0e0e271aef9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e841306a-4466-e3a9-35e0-825954f7f42d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, 'e3f36083-53e9-1d5b-3df0-5c94ab15838a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e3fbb3be-0ade-2d08-5b11-09bb36360b13', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ec8213e4-13a7-f153-420c-0dc019a823b9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'e3fbb3be-0ade-2d08-5b11-09bb36360b13');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e4110090-0878-b91f-2c65-a69ff023ff4d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d5e8ad7b-9c10-ffeb-07d1-5b4d61a03bfa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, 'e4110090-0878-b91f-2c65-a69ff023ff4d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e4385c17-8399-913b-68e7-f81cb9e8868e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('64dbc980-d24c-5fb6-b907-a10710320aa2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'e4385c17-8399-913b-68e7-f81cb9e8868e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e451df68-4b7f-ef73-0846-9683ef5441c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 89.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('789cfb53-862f-4b3e-46e0-ac2b3d1281ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f6c849e2-1ce6-ed90-efb4-e801b847d4ba', 1.000, 'e451df68-4b7f-ef73-0846-9683ef5441c7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e476d49d-316d-aa32-4c77-c4c69dcda11b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('92296d9d-60c2-4c7b-653f-713b0790bc99', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'e476d49d-316d-aa32-4c77-c4c69dcda11b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e4f307d2-48ae-8c54-046a-a822b39ff496', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('97134b12-177e-b670-ecbe-321537eaf728', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'e4f307d2-48ae-8c54-046a-a822b39ff496');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e53890ae-85d4-a205-3a88-72cac0daf9b8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e2740d70-b203-8a42-9e74-60adeaa81ef3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, 'e53890ae-85d4-a205-3a88-72cac0daf9b8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e55144b5-6ec1-aff6-2372-cf57a3568f97', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4352e2b2-8e6f-e013-4119-3bc6c266a4cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'e55144b5-6ec1-aff6-2372-cf57a3568f97');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e5610d76-1bd7-b53d-51e8-0b09998ee783', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('66d0d038-d156-dc82-bad7-39055966e43e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, 'e5610d76-1bd7-b53d-51e8-0b09998ee783');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e575f779-685b-7f93-e3da-504ec25d122d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cea976e1-1034-405f-ad08-7eb16ed391c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'e575f779-685b-7f93-e3da-504ec25d122d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e579ca5c-f563-1738-d53e-c125400d0c66', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4e657458-bf9e-0131-c114-5e6228450a4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'e579ca5c-f563-1738-d53e-c125400d0c66');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e5839369-a0ae-11e1-0153-d3a4407ba004', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a2db3897-9551-83fa-62c1-bbcd547cfe98', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cc3e60e3-db0a-312e-3fa3-8199b00868f8', 1.000, 'e5839369-a0ae-11e1-0153-d3a4407ba004');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e5a71e71-d144-02c1-d7a2-3df85491802f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('65d6a8de-ed34-a65b-29f5-71b49931fd40', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61293be0-55ce-40fd-a5d3-5f36898ebb1d', 1.000, 'e5a71e71-d144-02c1-d7a2-3df85491802f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e5dd35f4-3127-42fb-a750-001cbef7982d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0dddeec4-7d1b-e6cf-ad55-32ed510e36ba', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'e5dd35f4-3127-42fb-a750-001cbef7982d');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e5f0870c-917f-2f9a-9c56-4916f8a4fc33', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('277748ff-90e5-dc63-ebd7-aba30d1b5923', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'aee94cac-ac67-b803-5ebd-ecc070af9d6e', 1.000, 'e5f0870c-917f-2f9a-9c56-4916f8a4fc33');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e67b8443-fc80-af3b-1ef7-4f5b8b129f02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'de3e0eb1-c9cf-361e-4f12-df96f3ea6bab');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9a9242a5-7d4b-bf5f-bc8c-b9b6d42f41f8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e71ddcd6-26d0-d150-6320-5d1d045c01fa', 1.000, 'e67b8443-fc80-af3b-1ef7-4f5b8b129f02');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e7800150-2087-a77e-eced-e4c784c7fbcb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '81ba59cf-b35a-a1b8-0522-2a3144682a79');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c532e7fd-1578-76ea-e005-f00cd607cfec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'e7800150-2087-a77e-eced-e4c784c7fbcb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e7988b65-846e-b53b-ec59-841e6675c744', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, '77aa6d9d-6beb-c1ad-7ed9-ddf40efbfc20');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('776dc644-46ba-ce32-f076-fddd47e2280c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, 'e7988b65-846e-b53b-ec59-841e6675c744');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e89f6f4d-9c71-8f84-1a67-32a180e23f9c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 69.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('8c4892fa-ecec-216f-fb97-c919672d63e4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1ea06d70-790c-705b-297e-396cbdf244b7', 1.000, 'e89f6f4d-9c71-8f84-1a67-32a180e23f9c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e8caddb7-5daf-e2bf-9bc7-368e5a70e01c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('4b794903-9154-2b5a-3430-f366a01b0799', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'e8caddb7-5daf-e2bf-9bc7-368e5a70e01c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e9203569-81fe-bd52-775b-dd544fb53d28', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, '92bfb4f7-0840-e917-a7b3-b0546978fece');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('daade8de-4981-41df-20bc-ccc12172f7c8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'e9203569-81fe-bd52-775b-dd544fb53d28');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('e96086b5-e91c-8c78-e306-cc83cc21120e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 51.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b9c0030a-7481-d1ca-71fc-de12600cd19a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '37253216-b17a-ee29-aa13-19055172edeb', 1.000, 'e96086b5-e91c-8c78-e306-cc83cc21120e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ea463e7a-8983-545b-0103-bb525abc0d48', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('79ef242a-b1ae-7079-0131-4a45daa0e349', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'ea463e7a-8983-545b-0103-bb525abc0d48');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eaaf7585-87f8-efea-b0ab-ffced05f1e65', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, '26e3a7ee-30b4-6f9e-960a-9cea33b2c61a');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5795cbc0-e9ab-9619-3ade-b8d1c987bfa5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, 'eaaf7585-87f8-efea-b0ab-ffced05f1e65');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eac6a672-dc9b-bb3b-a620-e1fc230cd394', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d1434970-c6cc-f8dd-45ad-7d1876ee9405', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'eac6a672-dc9b-bb3b-a620-e1fc230cd394');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eb005372-eb9a-4ac5-17d8-bfe3ec891c6e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, '57f4f83a-e111-26d8-5305-b552cdaa32a8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0dc2a983-e7d5-78be-3617-647bfff10051', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '35278d41-cc0d-ca4a-fb43-197455ba2023', 1.000, 'eb005372-eb9a-4ac5-17d8-bfe3ec891c6e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eb105a2e-ea7e-64aa-f11b-0a2f82b049f9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0ad229b1-0ab7-ea6d-fb31-6b13ab02d1c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'eb105a2e-ea7e-64aa-f11b-0a2f82b049f9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eb11b89a-5099-3bf8-309d-12626ea7b15a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 87.00, 'f853261d-507d-49da-15e6-93a1288189c1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e0ec868a-0368-ce4e-7597-e1f9f569ecff', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a6952cf4-8d41-dfbc-65eb-a2f218358cbe', 1.000, 'eb11b89a-5099-3bf8-309d-12626ea7b15a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ebd18147-c970-4db8-c51f-461543c3b95b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e35997ba-d4b8-ce2c-5ac8-1793fa733623', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'ebd18147-c970-4db8-c51f-461543c3b95b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ebeb765a-0a63-a7e1-3f89-04ddcdab555c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('aa5309f0-e000-c921-72bb-a1929bf64639', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a86d8bef-3b27-99d6-6c80-d584516c1343', 1.000, 'ebeb765a-0a63-a7e1-3f89-04ddcdab555c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ec1aa9aa-9a41-bc52-a510-d4fa82a9056b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e8e10734-9ac1-1483-5e5e-33db656c9537', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'ec1aa9aa-9a41-bc52-a510-d4fa82a9056b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ec3b1dbb-4b06-328f-72f4-bc5f9ad4b2e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 62.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('731ad198-a3b6-a730-dd97-adfa5d4d106b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '61d06624-4623-d0b7-d82d-58fc7f8053d2', 1.000, 'ec3b1dbb-4b06-328f-72f4-bc5f9ad4b2e2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ec69af1b-e6e1-8da8-8877-b9493e8ae51f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 68.00, 'c1372ea2-a89e-9070-8b5b-87e21cea9e40');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('86b62962-47c4-d3f1-f5f7-2f1018618209', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5b96a227-fe07-9520-b02e-229142f0939e', 1.000, 'ec69af1b-e6e1-8da8-8877-b9493e8ae51f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ec9d709a-f9a3-6d94-8ad7-4278634e8e0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, '6e94528a-cfa1-ca5d-8793-7fefdeaa112d');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2258ed22-da19-83e0-fad6-55ba236c0dea', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9b7a985b-3f2a-e02e-79a5-ca072702f04a', 1.000, 'ec9d709a-f9a3-6d94-8ad7-4278634e8e0e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eca0a5f4-0292-7a4d-e0ba-cf6074a319f2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 37.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1cab595c-fc61-bda4-dbab-670406635664', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7e85749e-d841-4cc9-1f57-9e96420116b8', 1.000, 'eca0a5f4-0292-7a4d-e0ba-cf6074a319f2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ecfd2232-aa7d-8751-7293-cd80095aa856', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 99.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9bd2f3ff-2c6a-5805-18f4-c4aae9134c11', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a8faa867-175b-6478-2762-a86cd5419308', 1.000, 'ecfd2232-aa7d-8751-7293-cd80095aa856');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ed8b2892-b603-83a6-fdef-219ed8682a3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'bee7c05c-297e-6961-0bb1-6e58bedef538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('530e0a9e-0222-ddb7-ebba-a428e1e577e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'ed8b2892-b603-83a6-fdef-219ed8682a3b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('edbc1994-73dc-9acb-c54f-4e19424c97cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'e5309195-e370-a061-92c9-896fa0a3af03');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e6297757-8471-6b33-6924-4e0383210263', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'edbc1994-73dc-9acb-c54f-4e19424c97cf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('edfff446-ee23-a659-ed01-cc38041ee5db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('005e7f28-55c2-fc33-4f78-da4f7073e17e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'edfff446-ee23-a659-ed01-cc38041ee5db');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ee140fbe-c37a-12b0-f62e-de76fa7a24c9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c68671da-8f36-efdc-15f8-95e30b8d416c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'ee140fbe-c37a-12b0-f62e-de76fa7a24c9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ee33d3b0-a7d4-0b8d-1c6c-a528b49162e0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b5fac8c5-203a-2d31-259d-999d99f95caa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '08568a78-5956-794b-bac0-fb86c2260b33', 1.000, 'ee33d3b0-a7d4-0b8d-1c6c-a528b49162e0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ee373d08-4c82-6d72-8344-986d35aab78c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'a9793be1-9a82-1d0c-13c3-ec6502dff665');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('74887947-2ac8-da3b-29e5-e0ae6e916b56', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '212e2ea3-8125-655f-0947-0622bbb9135c', 1.000, 'ee373d08-4c82-6d72-8344-986d35aab78c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ee865390-2168-a520-a5f7-6322b68ab2a9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a334be71-604f-44dc-c983-7f8cb84131a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'ee865390-2168-a520-a5f7-6322b68ab2a9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('eea18acf-7530-448e-cde2-ae6104efb24b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 91.00, '51a9c499-4089-7195-1f9b-532d51407234');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('85f8d167-fbbb-eb61-b039-b948996b6dae', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f69fdd72-4ede-a2b7-65b6-b7e4066245fc', 1.000, 'eea18acf-7530-448e-cde2-ae6104efb24b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ef15ceed-4835-a028-60dd-7bf365756826', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2dd23357-1d66-ce5e-62fb-038503227708', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'ef15ceed-4835-a028-60dd-7bf365756826');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ef7eea00-6d6d-74af-25e5-b85bbff4641c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('34a93586-35df-9eda-0c51-7b5a574898fb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'ef7eea00-6d6d-74af-25e5-b85bbff4641c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('efc52ea4-c497-e505-a221-d38ea9e57a0e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, '11a3a8d9-87d3-2af7-eff5-1ddfba559721');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e654c9fb-d4cb-aa19-41ef-ad3cb2b13d5e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'efc52ea4-c497-e505-a221-d38ea9e57a0e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('effefedd-e047-6f5a-9e41-557c4bd0faa1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 102.00, 'aed0915a-adb5-6f51-1e14-791a61936926');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('337247a5-ac6c-ab89-344c-2e5d72f9870b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '9c9dda65-77a5-7237-dcae-696ed6d107c8', 1.000, 'effefedd-e047-6f5a-9e41-557c4bd0faa1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f1b42156-f184-0469-a298-508784f3f119', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('53dad23f-ce36-83ca-8623-a686c473c99d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, 'f1b42156-f184-0469-a298-508784f3f119');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f1b86d2d-94f2-4a35-3cd4-c7a295a51c73', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a4730060-d257-620e-f50b-c095cd9a3ef5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'f1b86d2d-94f2-4a35-3cd4-c7a295a51c73');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f1eb36ac-9848-3941-03ad-a1ffed720064', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 47.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5eb4f076-4e02-29d7-fd03-c05bb662923f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5c8d9619-00d2-3245-4403-283dfbadd722', 1.000, 'f1eb36ac-9848-3941-03ad-a1ffed720064');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f2258b3d-169b-cbba-d99b-a6b155bbf5e9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, '14b72f7e-b4d1-e858-578b-5905d8ea9503');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3208ce29-8311-5235-4c42-a9c681100e84', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'f2258b3d-169b-cbba-d99b-a6b155bbf5e9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f24c55a1-484e-b2b6-21a5-38d276921420', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ddbd2797-53ec-30e8-765f-8efc3a965e71', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, 'f24c55a1-484e-b2b6-21a5-38d276921420');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f2849f1b-ed53-e8d7-b5cb-ea9aea03524c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9654eaa4-bf3b-2f84-5e8e-58e8a83b7b7f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'f2849f1b-ed53-e8d7-b5cb-ea9aea03524c');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f2a1026b-e175-ba2d-9ccd-0a2de3904a42', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'ab051234-71cc-64df-6176-c0f81598ba5c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('db654525-717f-bc3d-a3b2-a303fd83ea02', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '63130c6e-0b8c-8192-0adf-066f88e2b63e', 1.000, 'f2a1026b-e175-ba2d-9ccd-0a2de3904a42');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f343684b-88b0-39a4-e0a2-343df631fbbc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, 'da6ea650-f063-d278-3364-47d573b97061');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d9598e49-5182-8826-0c33-0faf4db18e7a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, 'f343684b-88b0-39a4-e0a2-343df631fbbc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f3507fb7-7b0d-982c-f934-1632c9b9c5fa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '99c93564-56a7-4725-769a-c4b606e04237');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f5cfa440-46aa-074a-78d8-00572a8f3379', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'f3507fb7-7b0d-982c-f934-1632c9b9c5fa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f39c47b3-731c-79bb-016e-1489cde0d2e0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('22ecd1b1-f5e0-d051-6794-9e1f61d6b46c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73ec1bbb-df90-018f-beb3-675f00a19274', 1.000, 'f39c47b3-731c-79bb-016e-1489cde0d2e0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f3bf0e33-3cb5-d594-d6b1-32c56b372251', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 22.00, 'dce5a8a4-8d6d-d713-d6eb-601093b64601');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('839d8132-a821-b74e-e2f4-28e9e8d226c7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4927283c-2832-39ea-2ca4-1d2c2346a04b', 1.000, 'f3bf0e33-3cb5-d594-d6b1-32c56b372251');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f46374c6-26a5-cb65-2316-1d99d59d135b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f3a5851b-6a8b-be2a-526f-c446182d1105', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'f46374c6-26a5-cb65-2316-1d99d59d135b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f49b398d-5c3a-9085-76dc-a1a22d396099', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'd617c944-bdd6-8b58-b89d-a6688c26d447');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('cd522076-4ef5-07bd-ac1e-56e4a8505a59', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'f49b398d-5c3a-9085-76dc-a1a22d396099');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f5d88fa2-9123-1e04-17e3-ca488dca83b3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9804fbf2-5377-f657-7a7a-712929241daa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, 'f5d88fa2-9123-1e04-17e3-ca488dca83b3');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f6269182-db79-7b89-bfb7-7531bc1c79e2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 85.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('92e9fb60-0d16-9a27-9f59-221646097e99', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '82d56267-e091-8a0b-2999-71d2521828d3', 1.000, 'f6269182-db79-7b89-bfb7-7531bc1c79e2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f65105cc-0182-4bc1-412f-d16c5e0bd8a7', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '4da3e00d-677d-a581-0364-e80cee433260');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1b523867-b588-19c2-4c52-75bf5d0e5113', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'f65105cc-0182-4bc1-412f-d16c5e0bd8a7');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f67bbdbc-6f46-6265-a4d6-bf365cbcf14e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 65.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('735de754-894a-a930-87b4-18b905c97f99', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'a5676303-0b48-12c3-3204-04d219559a4d', 1.000, 'f67bbdbc-6f46-6265-a4d6-bf365cbcf14e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f6b6e806-1d83-a137-35ed-057c2d687fd1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d4a3b549-eeff-800a-cd11-06b5e75f0e6e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, 'f6b6e806-1d83-a137-35ed-057c2d687fd1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f6cadb23-9836-35b0-530b-af5c839891ec', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 92.00, 'a3deb621-6a29-f032-3df6-1023135f3e57');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b44f53dc-1865-0ac9-f13e-e4f49cdc5d50', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '7fe09adf-5b30-1960-6ab0-efba3554bd5e', 1.000, 'f6cadb23-9836-35b0-530b-af5c839891ec');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f72f0bf7-4c7f-76dd-54b8-a053d7dc4fc5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '6a75b14d-e8c8-b755-6988-8abf1264d41c');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('1bdd5aa0-98e1-1c28-e816-ac7448d616ee', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'f72f0bf7-4c7f-76dd-54b8-a053d7dc4fc5');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f73086ff-eef1-54cf-fc5a-94e189e24ca4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 24.00, '3aa71469-0a4c-f28f-43df-ae1bdf597612');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('102c686c-0235-60fe-23a3-258a5149a7db', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86a907e0-27b9-9a33-fe40-e6a3c9ea9f98', 1.000, 'f73086ff-eef1-54cf-fc5a-94e189e24ca4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f80e8678-a9aa-77a8-b3df-75c724dcb83e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0f38be80-0013-27d1-a8f3-2b3c97e68e38', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'f80e8678-a9aa-77a8-b3df-75c724dcb83e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f8203f5d-9fa6-5152-9bf2-c59bf96debaf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 67.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('49de8d11-842c-9999-2399-a8e25145ec80', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b946c700-9ec5-43bb-91b9-353986a13e81', 1.000, 'f8203f5d-9fa6-5152-9bf2-c59bf96debaf');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f829273a-e465-af83-febc-fafcd914a322', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 39.00, '7711cc5d-d6be-d2d0-a057-0bca2891cc9e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e631437e-d319-e3eb-ffd2-99a59c82f53a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'e0e11aef-ad7d-8869-8ea9-8a5a661aa237', 1.000, 'f829273a-e465-af83-febc-fafcd914a322');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f8c657c3-c9f2-e835-0132-ac200c8617e0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 95.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('0a1a19a9-e45a-3c4e-6c3b-06530927207c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4d611f42-1d3e-e362-ad93-b5f5439e2182', 1.000, 'f8c657c3-c9f2-e835-0132-ac200c8617e0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f8cfe938-d92f-eb5f-b256-8ef7b54d6aa8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 56.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('3662a4df-b5a4-a6dc-9a04-2285595da9b5', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'eca29252-b4c8-5fe7-9794-5a09e3b11971', 1.000, 'f8cfe938-d92f-eb5f-b256-8ef7b54d6aa8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f8d9a0a2-9c7a-e450-de45-6cd0a9874f4a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, 'bf391444-698c-e3cf-f921-cd6204647143');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('17ed4f09-47b0-89e1-43e6-df936d9a9fb2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'f8d9a0a2-9c7a-e450-de45-6cd0a9874f4a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f8f9b843-fca9-f028-b33c-5214096d89e0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '786ce8b2-31dc-79ba-d7da-f1c7f7617fb8');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('03eeb772-5cdd-6a63-7150-a91a73c78f46', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, 'f8f9b843-fca9-f028-b33c-5214096d89e0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f907e9b8-abd9-8766-fa46-e49bc11a5ab9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4babf2e2-40bc-7b0c-b4fd-584a5c2f5208');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('da11ea1e-38a8-94fc-01c4-0bdf57160edb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, 'f907e9b8-abd9-8766-fa46-e49bc11a5ab9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f941881f-8399-f479-c79e-0b75feaef83f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 21.00, 'd9fbb3ce-f357-92fa-d707-b589b1dd7493');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ab34792f-d94d-bbdb-a99e-03f4d989c1b2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '3ab9fa7d-ad8f-432e-64ea-90d8d239011b', 1.000, 'f941881f-8399-f479-c79e-0b75feaef83f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f97fe275-8ef1-64d3-b085-3e204ebba1e6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 96.00, '60aeba66-7a7c-0587-7e50-8340235eb803');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('181120d8-9c31-afa5-dd27-7062e15d6911', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '73395d26-c33c-8b6e-9dd5-695b1c51998d', 1.000, 'f97fe275-8ef1-64d3-b085-3e204ebba1e6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f98d00ac-e17d-3ed5-7e49-317112da314e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'f3322e0c-3ede-c28f-53f0-c790dfd7621b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('836cc2db-87c6-69ea-d575-8f4b2952eb5b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, 'f98d00ac-e17d-3ed5-7e49-317112da314e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('f9b58aee-f4d5-cf37-c6e4-186bb3caf33a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 59.00, '8d26cdca-b8b0-5385-552a-cb6c20141f2f');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('c39a8a58-625f-3f03-0d74-4181adf5413e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '5a5e7359-f5fe-e9f8-781b-981063a769eb', 1.000, 'f9b58aee-f4d5-cf37-c6e4-186bb3caf33a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fa010e43-ed49-4647-8024-b8db59b35f7e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 66.00, 'bf0e74be-8e4f-97fa-0987-ca8ba885e6f7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('dad68d47-30e5-9231-736e-c9354508f00d', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd36cd0e0-b85a-52de-ee71-dae005721bc5', 1.000, 'fa010e43-ed49-4647-8024-b8db59b35f7e');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fa1d7ec0-306f-a4de-4cc4-5513c200593b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('10a433f2-c263-dc17-b8fe-02b965d6ddf9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, 'fa1d7ec0-306f-a4de-4cc4-5513c200593b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fa2c9af5-478f-8f53-acca-e8b05eeb16a9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '6e65022a-f424-8a2c-9a6e-8a01bf8c24cc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('70a30efa-b6f7-4796-440d-7d92667959cf', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'b3202842-a4d6-f841-ba33-ec1cda88f7bc', 1.000, 'fa2c9af5-478f-8f53-acca-e8b05eeb16a9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fa2e038b-c818-322b-0bf1-ce3448186420', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 75.00, 'ea694608-05b5-5fc7-9878-b5f2aeae167b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7ba66e47-43a9-f2f0-5df2-663cdd9bcfb8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1f1dbc03-9c95-e5fb-3066-7787a0066e58', 1.000, 'fa2e038b-c818-322b-0bf1-ce3448186420');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fa86a645-fcae-cda5-36e5-5e65e17fbcf4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 54.00, 'd4323d11-215a-8585-da4c-911960d93af7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9a23444f-6e1c-0b13-e734-00837d6a2480', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '99d94c3e-0ae3-1ba5-4d3b-7b7bc4970756', 1.000, 'fa86a645-fcae-cda5-36e5-5e65e17fbcf4');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fabd6f71-b137-d3ac-ffcb-9a75b75309aa', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 32.00, 'c273b97e-d22a-1fcc-dde9-5264e06cc5a7');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('73d6a559-47bf-30a6-9166-3d576c475541', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '63130c6e-0b8c-8192-0adf-066f88e2b63e', 1.000, 'fabd6f71-b137-d3ac-ffcb-9a75b75309aa');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fb1be5a7-cf19-6184-5d78-12105984cdd6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 103.00, '99e5faad-2f17-eb45-fa56-57f8f815d631');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2eefdf91-a47d-7ec5-38dc-4a760d454da3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '411f017a-faa3-79d2-ab8e-af5422802870', 1.000, 'fb1be5a7-cf19-6184-5d78-12105984cdd6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fb4071d2-fc4f-ef9e-eace-3c344d2456a8', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 16.00, '8b397b48-ceb7-732d-e304-730358b05578');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('74466ede-56c7-b5b7-5c6d-fccb0d0ccb9e', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2effef0e-af2c-229d-eee6-cd3e0afa57ae', 1.000, 'fb4071d2-fc4f-ef9e-eace-3c344d2456a8');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fb6707d8-b981-8214-87ea-8ec9237052cb', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 23.00, 'aac27874-c2d6-5739-5b3f-6d14f9be4879');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('ac766b5c-a794-ed93-ec8b-db27a9156e5c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '423147d8-ab6a-cb34-fad4-8481f67bac27', 1.000, 'fb6707d8-b981-8214-87ea-8ec9237052cb');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fbb06e93-cfc3-75a6-a20a-57b0e3464879', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('fd06fc4c-b527-f864-2a4b-fe44cec23e99', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, 'fbb06e93-cfc3-75a6-a20a-57b0e3464879');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fc288b66-b950-76a1-8325-e27ba689a644', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 27.00, 'e0e00811-51a0-6001-a9eb-2937e646a389');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('f6954ada-3270-5e7b-c785-856de8c999c3', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '0e74a083-b633-6de6-b193-bc9cd972f00f', 1.000, 'fc288b66-b950-76a1-8325-e27ba689a644');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fc6b8640-e63b-308f-8d81-d4924a413ec6', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 57.00, 'b772b191-4d19-7ea2-613b-fb45e66d29b0');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('b209c784-05a0-21b0-a95c-c4c2be143254', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '67dfd8ed-8d53-41a8-27ab-dae5173b9b4b', 1.000, 'fc6b8640-e63b-308f-8d81-d4924a413ec6');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fc7832ab-0976-ebb4-2aba-2a14070da1fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 53.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('21a9fd79-8d49-268d-756a-13eced1f5691', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '18347234-14eb-1d28-ec41-b51dfacd93e8', 1.000, 'fc7832ab-0976-ebb4-2aba-2a14070da1fc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fd069e42-4ad7-dbfd-901a-d73442fe10d2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, '68fcdd2b-275c-e10e-0d5c-389b3b9cae8b');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('12b433d0-e767-39b5-63be-bc9070f69c3b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, 'fd069e42-4ad7-dbfd-901a-d73442fe10d2');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fd4cafa6-e2aa-d868-c9f5-dc92a87d8e9f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 61.00, '5a8f8b83-7b2c-e874-5aae-e47b36895f19');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5a7dceab-264a-4b9d-a249-3669c8ee4628', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '40d1afb7-8536-d8c1-f0f5-ba6441afc1f7', 1.000, 'fd4cafa6-e2aa-d868-c9f5-dc92a87d8e9f');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fd56bc0b-2326-6a26-af5d-de920707d4ab', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 34.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('d8260aaf-23a4-94ce-de67-17a03505b878', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'cf633502-f90c-7d41-9b31-005f5e264992', 1.000, 'fd56bc0b-2326-6a26-af5d-de920707d4ab');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fe3c5b96-5789-5fdc-3ca9-ea0551589f33', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, 'f8521c87-c884-7783-ffb9-b2e2be829d26');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('485c3829-c81d-4d4c-f44e-c933b8b40e07', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '89385658-550c-bfe1-0edf-beb6c7ef4ae5', 1.000, 'fe3c5b96-5789-5fdc-3ca9-ea0551589f33');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fe58c77c-93d2-8426-50cd-9f7c0a4acde1', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 94.00, 'd51dc9e0-c4d0-d5ba-3d7f-213f9071c9a9');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9b11842d-a93a-781b-1231-566a362e4962', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '60cf86f7-c9dc-dfa0-d62e-157719d57622', 1.000, 'fe58c77c-93d2-8426-50cd-9f7c0a4acde1');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fea59b6a-7c40-a892-e31e-dddae0d3aa2b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 84.00, 'd7c4b76b-00d0-25a7-d634-98437ef41b51');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('e49950fc-b678-4b6b-ca5e-b265df3f5884', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '86012552-ceb6-cbc4-8e4c-49003785e0b7', 1.000, 'fea59b6a-7c40-a892-e31e-dddae0d3aa2b');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('feabcc4d-e648-0c76-1b39-1d4d859c55d9', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 33.00, '8b500fe3-4023-d6c8-2a82-18a4c5a4d407');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('9e88285c-002a-6af1-0200-53e4b9d48873', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'd81f34b4-b283-9d48-ff68-8c916a91c5ae', 1.000, 'feabcc4d-e648-0c76-1b39-1d4d859c55d9');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fed5f4bd-e510-6f45-ea26-58d44d96ed79', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 26.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('68532a72-004b-2d0f-432b-74bfb401cab4', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '409932e7-538e-114d-27b2-a06dcb650f05', 1.000, 'fed5f4bd-e510-6f45-ea26-58d44d96ed79');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fee67fb3-ced4-beb0-01db-84b8ef5af005', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'e041f479-b1f7-2d72-06d0-68bfd8fb98bc');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('85fcb305-596a-076d-58a7-0306389bc4a2', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '36f8cc48-aec0-9c66-a11c-c90dbc21beb7', 1.000, 'fee67fb3-ced4-beb0-01db-84b8ef5af005');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('fef7e3a8-0e53-b95d-9904-b5591f4daf55', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 73.00, '7f3d6361-97b3-3f4e-d467-6e331699b936');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('96304c4e-1fba-5cb4-fda9-c67a6a96f06c', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '6a6e19af-b1ac-4d9a-52ff-83c63e6803b3', 1.000, 'fef7e3a8-0e53-b95d-9904-b5591f4daf55');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ff0d6fd0-d031-d705-de7e-e38b853bf465', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, 'f13ca955-e165-eeb7-3310-a645f0fb3538');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('7966e4c3-fa91-faa4-f07e-1e936368fd86', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '693e373f-71c6-f6b2-ec15-c4e175a4d808', 1.000, 'ff0d6fd0-d031-d705-de7e-e38b853bf465');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ff4ec4bc-5142-1094-6148-9a9624b7a1fc', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 86.00, '344468f4-0a88-d699-122e-517a37e1bfdd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('5d4bb44f-5b98-9d8a-e578-eafb769d270f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '1d45b4cb-c040-09da-ba32-f170b333223f', 1.000, 'ff4ec4bc-5142-1094-6148-9a9624b7a1fc');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ff5a4b57-ae9b-5da7-43c9-317831573d16', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 78.00, 'bff97c55-22c7-3923-67bb-6201f890fb16');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('2f3f9f66-7149-608c-dcea-c1c2562e2762', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '01ad0017-a5d4-7553-1207-c55b220412da', 1.000, 'ff5a4b57-ae9b-5da7-43c9-317831573d16');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ff82ba98-261b-7d39-50a0-bd204c8a0b7a', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 83.00, 'd342a2fc-2ed5-1fd3-c718-282015e90acd');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('53a8ae15-6a9e-c255-ee29-c6fb488f5b0b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '4743ea35-bede-1b0c-e6df-b61f92ad0c8a', 1.000, 'ff82ba98-261b-7d39-50a0-bd204c8a0b7a');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ff8b9c8d-eb6f-9df5-882a-3fbddc7fd2c0', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 58.00, '4ee2b66a-07f2-a109-9c44-1af42e2fba70');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('a04aef74-bf29-b389-040e-bbc83c60a2ce', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'fb974b05-4a80-1e71-8d7e-8f95dc728d9e', 1.000, 'ff8b9c8d-eb6f-9df5-882a-3fbddc7fd2c0');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ffa41930-8478-8c4d-5edf-604291060202', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 98.00, 'a10bc14a-cc7c-3b2e-6bcb-99a7c2f4d32e');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('06d00276-72ca-56b7-8040-912becb9b389', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, 'f832af0d-966d-cc86-bf80-53de4a09794e', 1.000, 'ffa41930-8478-8c4d-5edf-604291060202');
+
+insert into BIDEMO_ORDER
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, DATE_, AMOUNT, CUSTOMER_ID)
+values ('ffb4732c-e36f-726a-833b-8ea81726f36f', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2016-12-24 17:20:27', 49.00, '2cd9c97e-d128-653b-3cbb-a179f827fbb1');
+
+insert into BIDEMO_ORDER_LINE
+(ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PRODUCT_ID, QUANTITY, ORDER_ID)
+values ('11ccaee0-070c-fe7e-948e-4c429efb1d0b', 1, '2016-12-24 17:20:27', 'admin', '2016-12-24 17:20:27', null, null, null, '2c4d25d8-fe95-516d-9ef4-a43a512ef97c', 1.000, 'ffb4732c-e36f-726a-833b-8ea81726f36f');

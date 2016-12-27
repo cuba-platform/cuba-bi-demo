@@ -1,4 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
-
+    <view class="com.haulmont.bidemo.entity.Order"
+          name="orderWithCustomer">
+        <property name="date"/>
+        <property name="amount"/>
+        <property name="customer"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.OrderLine"
+          name="orderLine-with-product">
+        <property name="product"
+                  view="_local"/>
+        <property name="quantity"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Order"
+          name="order-edit">
+        <property name="date"/>
+        <property name="amount"/>
+        <property name="customer"
+                  view="_minimal"/>
+        <property name="lines">
+            <property name="product">
+                <property name="name"/>
+                <property name="price"/>
+            </property>
+            <property name="quantity"/>
+        </property>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Country"
+          extends="_local"
+          name="country-browser-view">
+        <property name="territory"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Country"
+          extends="_local"
+          name="country-edit-view">
+        <property name="territory"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.City"
+          extends="_local"
+          name="city-browser-view">
+        <property name="country"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.City"
+          extends="_local"
+          name="city-edit-view">
+        <property name="country"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Product"
+          extends="_local"
+          name="product-edit-view">
+        <property name="productLine"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Customer"
+          extends="_local"
+          name="customer-edit-view">
+        <property name="city"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Customer"
+          extends="_local"
+          name="customer-browser-view">
+        <property name="city"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bidemo.entity.Product"
+          extends="_local"
+          name="product-browser-view">
+        <property name="productLine"
+                  view="_minimal"/>
+    </view>
 </views>

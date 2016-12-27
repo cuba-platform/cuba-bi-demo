@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
-
     <include file="com/haulmont/bidemo/screens.xml"/>
-
+    <screen id="bidemo$Customer.browse"
+            template="com/haulmont/bidemo/web/customer/customer-browse.xml"/>
+    <screen id="bidemo$Customer.edit"
+            template="com/haulmont/bidemo/web/customer/customer-edit.xml"/>
+    <screen id="bidemo$Order.browse"
+            template="com/haulmont/bidemo/web/order/order-browse.xml"/>
+    <screen id="bidemo$Order.edit"
+            template="com/haulmont/bidemo/web/order/order-edit.xml"/>
+    <screen id="bidemo$Product.browse"
+            template="com/haulmont/bidemo/web/product/product-browse.xml"/>
+    <screen id="bidemo$Product.edit"
+            template="com/haulmont/bidemo/web/product/product-edit.xml"/>
+    <screen id="bidemo$OrderLine.edit"
+            template="com/haulmont/bidemo/web/orderline/orderline-edit.xml"/>
+    <screen id="bidemo$Territory.browse"
+            template="com/haulmont/bidemo/web/territory/territory-browse.xml"/>
+    <screen id="bidemo$Territory.edit"
+            template="com/haulmont/bidemo/web/territory/territory-edit.xml"/>
+    <screen id="bidemo$Country.browse"
+            template="com/haulmont/bidemo/web/country/country-browse.xml"/>
+    <screen id="bidemo$Country.edit"
+            template="com/haulmont/bidemo/web/country/country-edit.xml"/>
+    <screen id="bidemo$City.edit"
+            template="com/haulmont/bidemo/web/city/city-edit.xml"/>
+    <screen id="bidemo$City.browse"
+            template="com/haulmont/bidemo/web/city/city-browse.xml"/>
+    <screen id="bidemo$ProductLine.browse"
+            template="com/haulmont/bidemo/web/productline/product-line-browse.xml"/>
+    <screen id="bidemo$ProductLine.edit"
+            template="com/haulmont/bidemo/web/productline/product-line-edit.xml"/>
 </screen-config>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.haulmont.bidemo.web.country.CountryEdit"
+        datasource="countryDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.haulmont.bidemo.web.country">
+    <dsContext>
+        <datasource id="countryDs"
+                    class="com.haulmont.bidemo.entityCountry"
+                    view="country-edit-view"/>
+        <collectionDatasource id="territoriesDs"
+                              class="com.haulmont.bidemo.entityTerritory">
+            <query>
+                <![CDATA[select e from bidemo$Territory e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="countryDs">
+            <column width="250px">
+                <field id="name"/>
+                <field id="territory"
+                       optionsDatasource="territoriesDs"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

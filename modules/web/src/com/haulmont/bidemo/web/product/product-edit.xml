@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ TODO Copyright
+  -->
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.haulmont.bidemo.web.product.ProductEdit"
+        datasource="productDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.haulmont.bidemo.web.product">
+    <dsContext>
+        <datasource id="productDs"
+                    class="com.haulmont.bidemo.entity.Product"
+                    view="product-edit-view"/>
+        <collectionDatasource id="productLinesDs"
+                              class="com.haulmont.bidemo.entity.ProductLine"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from bidemo$ProductLine e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="productDs">
+            <column width="250px">
+                <field id="name"/>
+                <field id="price"/>
+                <field id="productLine"
+                       optionsDatasource="productLinesDs"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.haulmont.bidemo.web.territory.TerritoryBrowse"
+        focusComponent="territoriesTable"
+        lookupComponent="territoriesTable"
+        messagesPack="com.haulmont.bidemo.web.territory">
+    <dsContext>
+        <collectionDatasource id="territoriesDs"
+                              class="com.haulmont.bidemo.entity.Territory"
+                              view="_local">
+            <query>
+                <![CDATA[select e from bidemo$Territory e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="territoriesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="territoriesTable"
+                datasource="territoriesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="territoriesTable"
+               width="100%">
+            <actions>
+                <action id="create"
+                        openType="DIALOG"/>
+                <action id="edit"
+                        openType="DIALOG"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+            </columns>
+            <rows datasource="territoriesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="territoriesTable.create"/>
+                <button id="editBtn"
+                        action="territoriesTable.edit"/>
+                <button id="removeBtn"
+                        action="territoriesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>
