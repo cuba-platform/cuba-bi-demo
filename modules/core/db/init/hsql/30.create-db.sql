@@ -4,8 +4,6 @@ create table BIDEMO_DIM_CUSTOMER (
   NAME varchar(100) not null,
   city_id varchar(36),
   CITY_NAME varchar(255),
-  STATE_ID varchar(36),
-  STATE_NAME varchar(255),
   COUNTRY_ID varchar(36),
   COUNTRY_NAME varchar(255),
   TERRITORY_ID varchar(36),
@@ -23,8 +21,7 @@ create table BIDEMO_DIM_PRODUCT (
   primary key (ID)
 )^
 
-CREATE TABLE BIDEMO_FACT_ORDER_LINE
-(
+CREATE TABLE BIDEMO_FACT_ORDER_LINE (
   ID varchar(36) not null,
   PRODUCT_ID varchar(36) not null,
   QUANTITY numeric(19,3) not null,
