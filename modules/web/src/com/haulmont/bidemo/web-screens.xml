@@ -31,4 +31,6 @@
             template="com/haulmont/bidemo/web/productline/product-line-browse.xml"/>
     <screen id="bidemo$ProductLine.edit"
             template="com/haulmont/bidemo/web/productline/product-line-edit.xml"/>
+    <screen id="bidemoWindow"
+            template="com/haulmont/bidemo/web/bi/bi-demo-window.xml"/>
 </screen-config>

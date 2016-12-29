@@ -11,5 +11,7 @@
         <item id="bidemo$City.browse"/>
         <item id="bidemo$Country.browse"/>
         <item id="bidemo$Territory.browse"/>
+        <separator/>
+        <item id="bidemoWindow"/>
     </menu>
 </menu-config>
