@@ -3,6 +3,7 @@
   -->
 
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        xmlns:cubabi="http://schemas.company.com/cubabi/0.1/ui-component.xsd"
         class="com.haulmont.bidemo.web.bi.BIDemoWindow"
         messagesPack="com.haulmont.bidemo.web.bi"
         caption="msg://biDemoWindowCaption">
@@ -10,7 +11,7 @@
 
     <layout spacing="true">
         <vbox id="box" width="100%" height="100%">
-            <biComponent id="biComponent"
+            <cubabi:biComponent id="biComponent"
                               serverUrl="http://localhost:8081/pentaho"
                               reportPath=":public:Steel Wheels:Product Line Share by Territory.xanalyzer"
                               width="100%"
