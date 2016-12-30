@@ -13,7 +13,7 @@
         <vbox id="box" width="100%" height="100%">
             <cubabi:biComponent id="biComponent"
                               serverUrl="http://localhost:8081/pentaho"
-                              reportPath=":public:Steel Wheels:Product Line Share by Territory.xanalyzer"
+                              reportPath=":home:admin:ProductsByTypeAndLocation.xanalyzer"
                               width="100%"
                               height="100%"/>
         </vbox>
