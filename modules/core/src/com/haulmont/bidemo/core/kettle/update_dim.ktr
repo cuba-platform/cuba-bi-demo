@@ -552,7 +552,7 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema/>
-      <table>BIDEMO_DIM_CUSTOMER</table>
+      <table>PENTAHO_DIM_CUSTOMER</table>
       <key>
         <name>CUSTOMER_ID</name>
         <field>ID</field>
@@ -605,7 +605,7 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema/>
-      <table>bidemo_dim_product</table>
+      <table>pentaho_dim_product</table>
       <key>
         <name>ID</name>
         <field>ID</field>
@@ -661,7 +661,7 @@
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>BIDEMO_DIM_CUSTOMER</table>
+      <table>PENTAHO_DIM_CUSTOMER</table>
       <key>
         <name>CITY_ID_1</name>
         <field>CITY_ID</field>
@@ -710,7 +710,7 @@
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>BIDEMO_DIM_CUSTOMER</table>
+      <table>PENTAHO_DIM_CUSTOMER</table>
       <key>
         <name>COUNTRY_ID_1</name>
         <field>COUNTRY_ID</field>
@@ -759,7 +759,7 @@
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>BIDEMO_DIM_PRODUCT</table>
+      <table>PENTAHO_DIM_PRODUCT</table>
       <key>
         <name>PRODUCT_LINE_ID_1</name>
         <field>PRODUCT_LINE_ID</field>
@@ -804,7 +804,7 @@
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>BIDEMO_DIM_CUSTOMER</table>
+      <table>PENTAHO_DIM_CUSTOMER</table>
       <key>
         <name>TERRITORY_ID_1</name>
         <field>TERRITORY_ID</field>

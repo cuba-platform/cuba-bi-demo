@@ -516,7 +516,7 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema/>
-      <table>BIDEMO_FACT_ORDER_LINE</table>
+      <table>PENTAHO_FACT_ORDER_LINE</table>
       <key>
         <name>ID</name>
         <field>ID</field>
@@ -577,7 +577,7 @@
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>bidemo_fact_order_line</table>
+      <table>pentaho_fact_order_line</table>
       <key>
         <name>order_id_1</name>
         <field>order_id</field>

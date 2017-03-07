@@ -1,5 +1,5 @@
 --create Star Schema
-create table BIDEMO_DIM_CUSTOMER (
+create table PENTAHO_DIM_CUSTOMER (
   ID varchar(36) not null,
   NAME varchar(100) not null,
   city_id varchar(36),
@@ -12,7 +12,7 @@ create table BIDEMO_DIM_CUSTOMER (
   primary key (ID)
 )^
 
-create table BIDEMO_DIM_PRODUCT (
+create table PENTAHO_DIM_PRODUCT (
   ID varchar(36) not null,
   NAME varchar(50) not null,
   PRODUCT_LINE_ID varchar(36),
@@ -21,7 +21,7 @@ create table BIDEMO_DIM_PRODUCT (
   primary key (ID)
 )^
 
-CREATE TABLE BIDEMO_FACT_ORDER_LINE (
+CREATE TABLE PENTAHO_FACT_ORDER_LINE (
   ID varchar(36) not null,
   PRODUCT_ID varchar(36) not null,
   QUANTITY numeric(19,3) not null,
@@ -30,12 +30,12 @@ CREATE TABLE BIDEMO_FACT_ORDER_LINE (
   primary key (ID)
 )^
 
-alter table BIDEMO_FACT_ORDER_LINE add constraint FK_BIDEMO_FACT_ORDER_LINE_PRODUCT_ID foreign key (PRODUCT_ID) references BIDEMO_DIM_PRODUCT(ID)^
-create index IDX_BIDEMO_FACT_ORDER_LINE_PRODUCT on BIDEMO_FACT_ORDER_LINE (PRODUCT_ID)^
+alter table PENTAHO_FACT_ORDER_LINE add constraint FK_PENTAHO_FACT_ORDER_LINE_PRODUCT_ID foreign key (PRODUCT_ID) references PENTAHO_DIM_PRODUCT(ID)^
+create index IDX_PENTAHO_FACT_ORDER_LINE_PRODUCT on PENTAHO_FACT_ORDER_LINE (PRODUCT_ID)^
 
-alter table BIDEMO_FACT_ORDER_LINE add constraint FK_BIDEMO_FACT_ORDER_LINE_CUSTOMER_ID foreign key (CUSTOMER_ID) references BIDEMO_DIM_CUSTOMER(ID)^
-create index IDX_BIDEMO_FACT_ORDER_LINE_CUSTOMER on BIDEMO_FACT_ORDER_LINE (CUSTOMER_ID)^
-create index IDX_BIDEMO_FACT_ORDER_LINE_ORDER on BIDEMO_FACT_ORDER_LINE (ORDER_ID)^
+alter table PENTAHO_FACT_ORDER_LINE add constraint FK_PENTAHO_FACT_ORDER_LINE_CUSTOMER_ID foreign key (CUSTOMER_ID) references PENTAHO_DIM_CUSTOMER(ID)^
+create index IDX_PENTAHO_FACT_ORDER_LINE_CUSTOMER on PENTAHO_FACT_ORDER_LINE (CUSTOMER_ID)^
+create index IDX_PENTAHO_FACT_ORDER_LINE_ORDER on PENTAHO_FACT_ORDER_LINE (ORDER_ID)^
 
 --BIDEMO_TERRITORY
 insert into BIDEMO_TERRITORY
