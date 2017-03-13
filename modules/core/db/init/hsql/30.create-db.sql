@@ -2,11 +2,8 @@
 create table PENTAHO_DIM_CUSTOMER (
   ID varchar(36) not null,
   NAME varchar(100) not null,
-  city_id varchar(36),
   CITY_NAME varchar(255),
-  COUNTRY_ID varchar(36),
   COUNTRY_NAME varchar(255),
-  TERRITORY_ID varchar(36),
   TERRITORY_NAME varchar(255),
   --
   primary key (ID)
@@ -15,7 +12,6 @@ create table PENTAHO_DIM_CUSTOMER (
 create table PENTAHO_DIM_PRODUCT (
   ID varchar(36) not null,
   NAME varchar(50) not null,
-  PRODUCT_LINE_ID varchar(36),
   PRODUCT_LINE_NAME varchar(255),
   --
   primary key (ID)
@@ -25,7 +21,6 @@ CREATE TABLE PENTAHO_FACT_ORDER_LINE (
   ID varchar(36) not null,
   PRODUCT_ID varchar(36) not null,
   QUANTITY numeric(19,3) not null,
-  ORDER_ID varchar(36),
   CUSTOMER_ID varchar(36),
   primary key (ID)
 )^
@@ -35,7 +30,6 @@ create index IDX_PENTAHO_FACT_ORDER_LINE_PRODUCT on PENTAHO_FACT_ORDER_LINE (PRO
 
 alter table PENTAHO_FACT_ORDER_LINE add constraint FK_PENTAHO_FACT_ORDER_LINE_CUSTOMER_ID foreign key (CUSTOMER_ID) references PENTAHO_DIM_CUSTOMER(ID)^
 create index IDX_PENTAHO_FACT_ORDER_LINE_CUSTOMER on PENTAHO_FACT_ORDER_LINE (CUSTOMER_ID)^
-create index IDX_PENTAHO_FACT_ORDER_LINE_ORDER on PENTAHO_FACT_ORDER_LINE (ORDER_ID)^
 
 --BIDEMO_TERRITORY
 insert into BIDEMO_TERRITORY

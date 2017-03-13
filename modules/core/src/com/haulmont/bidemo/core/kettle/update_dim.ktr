@@ -491,48 +491,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Insert &#x2f; Update Product Dim</from>
-      <to>bidemo_product_line</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>bidemo_customer</from>
       <to>Insert &#x2f; Update Customer Dim</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Insert &#x2f; Update Customer Dim</from>
-      <to>bidemo_city</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>bidemo_city</from>
-      <to>Update City Dim</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>bidemo_country</from>
-      <to>Update Country Dim</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Update Country Dim</from>
-      <to>bidemo_territory</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>bidemo_territory</from>
-      <to>Update Territory Dim</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Update City Dim</from>
-      <to>bidemo_country</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>bidemo_product_line</from>
-      <to>Update Product Line Dim</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -554,24 +514,34 @@
       <schema/>
       <table>PENTAHO_DIM_CUSTOMER</table>
       <key>
-        <name>CUSTOMER_ID</name>
+        <name>ID</name>
         <field>ID</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
         <name>ID</name>
-        <rename>CUSTOMER_ID</rename>
+        <rename>ID</rename>
         <update>Y</update>
       </value>
       <value>
         <name>NAME</name>
-        <rename>CUSTOMER_NAME</rename>
+        <rename>NAME</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>CITY_ID</name>
-        <rename>CITY_ID</rename>
+        <name>CITY_NAME</name>
+        <rename>CITY_NAME</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>COUNTRY_NAME</name>
+        <rename>COUNTRY_NAME</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>TERRITORY_NAME</name>
+        <rename>TERRITORY_NAME</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -584,7 +554,7 @@
     </remotesteps>
     <GUI>
       <xloc>256</xloc>
-      <yloc>192</yloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -623,8 +593,8 @@
         <update>Y</update>
       </value>
       <value>
-        <name>PRODUCT_LINE_ID</name>
-        <rename>PRODUCT_LINE_ID</rename>
+        <name>PRODUCT_LINE_NAME</name>
+        <rename>PRODUCT_LINE_NAME</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -637,259 +607,7 @@
     </remotesteps>
     <GUI>
       <xloc>256</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Update City Dim</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo_star_schema</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>Y</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>PENTAHO_DIM_CUSTOMER</table>
-      <key>
-        <name>CITY_ID_1</name>
-        <field>CITY_ID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>CITY_NAME</name>
-        <rename>CITY_NAME</rename>
-        </value>
-      <value>
-        <name>COUNTRY_ID</name>
-        <rename>COUNTRY_ID</rename>
-        </value>
-      </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>528</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Update Country Dim</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo_star_schema</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>Y</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>PENTAHO_DIM_CUSTOMER</table>
-      <key>
-        <name>COUNTRY_ID_1</name>
-        <field>COUNTRY_ID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>COUNTRY_NAME</name>
-        <rename>COUNTRY_NAME</rename>
-        </value>
-      <value>
-        <name>TERRITORY_ID</name>
-        <rename>TERRITORY_ID</rename>
-        </value>
-      </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Update Product Line Dim</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo_star_schema</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>Y</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>PENTAHO_DIM_PRODUCT</table>
-      <key>
-        <name>PRODUCT_LINE_ID_1</name>
-        <field>PRODUCT_LINE_ID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>PRODUCT_LINE_NAME</name>
-        <rename>PRODUCT_LINE_NAME</rename>
-        </value>
-      </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>528</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Update Territory Dim</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo_star_schema</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>N</use_batch>
-    <error_ignored>Y</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>PENTAHO_DIM_CUSTOMER</table>
-      <key>
-        <name>TERRITORY_ID_1</name>
-        <field>TERRITORY_ID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>TERRITORY_NAME</name>
-        <rename>TERRITORY_NAME</rename>
-        </value>
-      </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>128</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>bidemo_city</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo</connection>
-    <sql>SELECT &#xd;&#xa;  city_id_1&#xd;&#xa;, city_name&#xd;&#xa;, country_id&#xd;&#xa;FROM&#xd;&#xa;&#x28;SELECT&#xd;&#xa;  id city_id_1&#xd;&#xa;, name city_name&#xd;&#xa;, country_id&#xd;&#xa;FROM bidemo_city&#xd;&#xa;WHERE delete_ts is null&#x29; tmp&#xd;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>bidemo_country</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo</connection>
-    <sql>SELECT&#xd;&#xa;  country_id_1&#xd;&#xa;, country_name&#xd;&#xa;, territory_id&#xd;&#xa;FROM &#xd;&#xa;&#x28;SELECT&#xd;&#xa;  id country_id_1&#xd;&#xa;, name country_name&#xd;&#xa;, territory_id&#xd;&#xa;FROM bidemo_country&#xd;&#xa;WHERE delete_ts is null&#x29; tmp&#xd;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>528</xloc>
-      <yloc>288</yloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -906,7 +624,7 @@
       <schema_name/>
     </partitioning>
     <connection>bidemo</connection>
-    <sql>SELECT &#xd;&#xa;  customer_id&#xd;&#xa;, customer_name&#xd;&#xa;, city_id&#xd;&#xa;FROM &#xd;&#xa;&#x28;SELECT&#xd;&#xa;  id customer_id&#xd;&#xa;, name customer_name&#xd;&#xa;, city_id&#xd;&#xa;FROM bidemo_customer&#xd;&#xa;WHERE delete_ts is null&#x29; tmp&#xd;&#xa;</sql>
+    <sql>SELECT &#xd;&#xa;  id&#xd;&#xa;, name&#xd;&#xa;, city_name&#xd;&#xa;, country_name&#xd;&#xa;, territory_name&#xd;&#xa;FROM &#x28;SELECT &#xd;&#xa;  c.id as id&#xd;&#xa;, c.name as name&#xd;&#xa;, city.name as city_name&#xd;&#xa;, country.name as country_name&#xd;&#xa;, territory.name as territory_name&#xd;&#xa;FROM bidemo_customer c &#xd;&#xa;LEFT JOIN bidemo_city city ON city.id &#x3d; c.city_id AND city.delete_ts is null&#xd;&#xa;LEFT JOIN bidemo_country country ON country.id &#x3d; city.country_id AND country.delete_ts is null&#xd;&#xa;LEFT JOIN bidemo_territory territory ON territory.id &#x3d; country.territory_id AND territory.delete_ts is null&#xd;&#xa;WHERE c.delete_ts is null&#x29;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -921,7 +639,7 @@
     </remotesteps>
     <GUI>
       <xloc>128</xloc>
-      <yloc>192</yloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -938,7 +656,7 @@
       <schema_name/>
     </partitioning>
     <connection>bidemo</connection>
-    <sql>SELECT&#xd;&#xa;  id&#xd;&#xa;, name&#xd;&#xa;, product_line_id&#xd;&#xa;FROM bidemo_product&#xd;&#xa;WHERE delete_ts is null&#xd;&#xa;</sql>
+    <sql>SELECT &#xd;&#xa;  id&#xd;&#xa;, name&#xd;&#xa;, product_line_name	&#xd;&#xa;FROM &#x28;SELECT&#xd;&#xa;  p.id as id&#xd;&#xa;, p.name as name&#xd;&#xa;, l.name as product_line_name&#xd;&#xa;FROM bidemo_product p&#xd;&#xa;LEFT JOIN bidemo_product_line l ON p.product_line_id &#x3d; l.id AND l.delete_ts is null&#xd;&#xa;WHERE p.delete_ts is null&#x29;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -953,71 +671,7 @@
     </remotesteps>
     <GUI>
       <xloc>128</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>bidemo_product_line</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo</connection>
-    <sql>SELECT &#xd;&#xa;  product_line_id_1&#xd;&#xa;, product_line_name &#xd;&#xa;FROM &#x28;SELECT&#xd;&#xa;  id as product_line_id_1&#xd;&#xa;, name as product_line_name&#xd;&#xa;FROM bidemo_product_line&#xd;&#xa;where delete_ts is null&#x29; tmp&#xd;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>400</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>bidemo_territory</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo</connection>
-    <sql>SELECT &#xd;&#xa;  territory_id_1&#xd;&#xa;, territory_name&#xd;&#xa;FROM &#xd;&#xa;&#x28;SELECT&#xd;&#xa;  id as territory_id_1&#xd;&#xa;, name territory_name&#xd;&#xa;FROM bidemo_territory&#xd;&#xa;WHERE delete_ts is null&#x29; tmp</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>256</xloc>
-      <yloc>288</yloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
     </step>

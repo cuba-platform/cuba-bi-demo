@@ -489,16 +489,6 @@
       <to>Insert &#x2f; Update Facts</to>
       <enabled>Y</enabled>
     </hop>
-    <hop>
-      <from>Insert &#x2f; Update Facts</from>
-      <to>bidemo_order</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>bidemo_order</from>
-      <to>Update customers</to>
-      <enabled>Y</enabled>
-    </hop>
   </order>
   <step>
     <name>Insert &#x2f; Update Facts</name>
@@ -534,8 +524,8 @@
         <update>Y</update>
       </value>
       <value>
-        <name>ORDER_ID</name>
-        <rename>ORDER_ID</rename>
+        <name>CUSTOMER_ID</name>
+        <rename>CUSTOMER_ID</rename>
         <update>Y</update>
       </value>
       <value>
@@ -559,83 +549,6 @@
     </step>
 
   <step>
-    <name>Update customers</name>
-    <type>Update</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo_star_schema</connection>
-    <skip_lookup>N</skip_lookup>
-    <commit>100</commit>
-    <use_batch>Y</use_batch>
-    <error_ignored>Y</error_ignored>
-    <ignore_flag_field/>
-    <lookup>
-      <schema/>
-      <table>pentaho_fact_order_line</table>
-      <key>
-        <name>order_id_1</name>
-        <field>order_id</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-        </key>
-      <value>
-        <name>customer_id</name>
-        <rename>customer_id</rename>
-        </value>
-      </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>560</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>bidemo_order</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bidemo</connection>
-    <sql>SELECT &#xd;&#xa;  order_id_1&#xd;&#xa;, customer_id &#xd;&#xa;FROM &#xd;&#xa;&#x28;SELECT&#xd;&#xa;  id as order_id_1&#xd;&#xa;, customer_id &#xd;&#xa;FROM bidemo_order&#xd;&#xa;WHERE delete_ts is null&#x29; tmp&#xd;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
     <name>bidemo_order_line</name>
     <type>TableInput</type>
     <description/>
@@ -647,7 +560,7 @@
       <schema_name/>
     </partitioning>
     <connection>bidemo</connection>
-    <sql>SELECT&#xd;&#xa;  id&#xd;&#xa;, product_id&#xd;&#xa;, quantity&#xd;&#xa;, order_id&#xd;&#xa;FROM bidemo_order_line&#xd;&#xa;</sql>
+    <sql>SELECT&#xd;&#xa;  l.id as id&#xd;&#xa;, l.product_id&#xd;&#xa;, l.quantity &#xd;&#xa;, o.customer_id&#xd;&#xa;FROM bidemo_order_line l&#xd;&#xa;LEFT JOIN bidemo_order o ON o.id &#x3d; l.order_id AND o.delete_ts is null&#xd;&#xa;WHERE l.delete_ts is null&#xd;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
