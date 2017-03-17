@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.4-SNAPSHOT'
+    ext.cubaVersion = '6.4.2'
     repositories {
         mavenLocal()
         maven {
@@ -33,7 +33,7 @@ cuba {
     artifact {
         group = 'com.haulmont.bidemo'
         version = '0.1'
-        isSnapshot = true
+        isSnapshot = false
     }
     tomcat {
         dir = "$project.rootDir/build/tomcat"
