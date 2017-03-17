@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-        classpath "com.haulmont.addon.bi:cuba-bi-global:0.1-SNAPSHOT"
+        classpath "com.haulmont.addon.bi:cuba-bi-global:1.0.0"
     }
 }
 
@@ -32,7 +32,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.bidemo'
-        version = '0.1'
+        version = '1.0.0'
         isSnapshot = false
     }
     tomcat {
