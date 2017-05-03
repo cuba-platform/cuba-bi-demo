@@ -1,20 +1,24 @@
 
 buildscript {
-    ext.cubaVersion = '6.4.2'
+    ext.cubaVersion = '6.5.0'
     repositories {
-        mavenLocal()
         maven {
-            url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
+            url 'https://repo.cuba-platform.com/content/groups/work'
             credentials {
-                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'developer')
-                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'Haul2010')
+                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'cuba')
+                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
             }
         }
-        
+        maven {
+            url 'https://repo.cuba-platform.com/content/groups/premium'
+            credentials {
+                username(rootProject.hasProperty('premiumRepoUser') ? rootProject['premiumRepoUser'] : System.getenv('CUBA_PREMIUM_USER'))
+                password(rootProject.hasProperty('premiumRepoPass') ? rootProject['premiumRepoPass'] : System.getenv('CUBA_PREMIUM_PASSWORD'))
+            }
+        }
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-        classpath "com.haulmont.addon.bi:cuba-bi-global:1.0.0"
     }
 }
 
@@ -36,9 +40,14 @@ cuba {
         isSnapshot = false
     }
     tomcat {
-        dir = "$project.rootDir/build/tomcat"
+        dir = "$project.rootDir/deploy/tomcat"
     }
 }
+
+dependencies {
+    appComponent("com.haulmont.addon.bi:cuba-bi-global:1.1.0")
+}
+
 
 def hsql = 'org.hsqldb:hsqldb:2.2.9'
 

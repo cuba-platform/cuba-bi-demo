@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="shop"
-          insertBefore="administration">
+          insertBefore="cuba-bi">
         <item id="bidemo$Order.browse"/>
         <separator/>
         <item id="bidemo$Product.browse"/>
