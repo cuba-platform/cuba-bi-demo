@@ -36,7 +36,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.bidemo'
-        version = '1.0.0'
+        version = '1.1.0'
         isSnapshot = false
     }
     tomcat {
