@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.5.0'
+    ext.cubaVersion = '6.6.0'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -36,7 +36,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.bidemo'
-        version = '1.1.0'
+        version = '1.2.0'
         isSnapshot = false
     }
     tomcat {
@@ -45,7 +45,7 @@ cuba {
 }
 
 dependencies {
-    appComponent("com.haulmont.addon.bi:cuba-bi-global:1.1.1")
+    appComponent("com.haulmont.addon.bi:cuba-bi-global:1.2.0")
     appComponent("com.haulmont.charts:charts-global:$cubaVersion")
 }
 
@@ -222,7 +222,7 @@ task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], descrip
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.4'
 }
 
 apply from: 'extra.gradle'
