@@ -33,4 +33,6 @@
             template="com/haulmont/bidemo/web/productline/product-line-edit.xml"/>
     <screen id="bidemoWindow"
             template="com/haulmont/bidemo/web/bi/bi-demo-window.xml"/>
+    <screen id="bidemoSaikuWindow"
+            template="com/haulmont/bidemo/web/bi/bi-demo-saiku-window.xml"/>
 </screen-config>
