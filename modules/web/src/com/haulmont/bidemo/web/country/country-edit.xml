@@ -11,10 +11,10 @@
         messagesPack="com.haulmont.bidemo.web.country">
     <dsContext>
         <datasource id="countryDs"
-                    class="com.haulmont.bidemo.entityCountry"
+                    class="com.haulmont.bidemo.entity.Country"
                     view="country-edit-view"/>
         <collectionDatasource id="territoriesDs"
-                              class="com.haulmont.bidemo.entityTerritory">
+                              class="com.haulmont.bidemo.entity.Territory">
             <query>
                 <![CDATA[select e from bidemo$Territory e]]>
             </query>
