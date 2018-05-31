@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.web.customer;
 
 import com.haulmont.bidemo.entity.Customer;

@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.web.product;
 
 import com.haulmont.bidemo.entity.Product;

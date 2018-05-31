@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.web.orderline;
 
 import com.haulmont.bidemo.entity.OrderLine;

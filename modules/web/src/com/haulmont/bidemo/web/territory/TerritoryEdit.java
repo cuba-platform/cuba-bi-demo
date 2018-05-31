@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.web.territory;
 
 import com.haulmont.bidemo.entity.Territory;

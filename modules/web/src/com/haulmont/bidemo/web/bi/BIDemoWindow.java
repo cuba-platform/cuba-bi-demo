@@ -1,7 +1,3 @@
-/*
- * TODO Copyright
- */
-
 package com.haulmont.bidemo.web.bi;
 
 import com.haulmont.addon.bi.BIConfig;
@@ -16,7 +12,6 @@ public class BIDemoWindow extends AbstractWindow {
     protected BIComponent biComponent;
     @Inject
     protected BIConfig biConfig;
-
 
     @Override
     public void init(Map<String, Object> params) {

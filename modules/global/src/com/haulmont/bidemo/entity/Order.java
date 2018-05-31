@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.entity;
 
 import com.haulmont.chile.core.annotations.Composition;

@@ -46,7 +46,6 @@ cuba {
 
 dependencies {
     appComponent("com.haulmont.addon.bi:cuba-bi-global:1.3.0")
-    appComponent("com.haulmont.charts:charts-global:$cubaVersion")
 }
 
 

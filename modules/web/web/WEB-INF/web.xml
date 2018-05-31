@@ -18,7 +18,7 @@
     <!--Application components-->
     <context-param>
         <param-name>appComponents</param-name>
-        <param-value>com.haulmont.addon.bi com.haulmont.charts</param-value>
+        <param-value>com.haulmont.addon.bi</param-value>
     </context-param>
     <listener>
         <listener-class>com.vaadin.server.communication.JSR356WebsocketInitializer</listener-class>

@@ -1,6 +1,3 @@
-/*
- * TODO Copyright
- */
 package com.haulmont.bidemo.web.city;
 
 import com.haulmont.bidemo.entity.City;
