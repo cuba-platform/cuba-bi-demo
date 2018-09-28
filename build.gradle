@@ -45,7 +45,7 @@ cuba {
 }
 
 dependencies {
-    appComponent("com.haulmont.addon.bi:cuba-bi-global:1.3.0")
+    appComponent("com.haulmont.addon.bi:cuba-bi-global:1.4.0")
 }
 
 
@@ -72,7 +72,9 @@ configure([globalModule, coreModule, guiModule, webModule]) {
 }
 
 configure(globalModule) {
-    task enhance(type: CubaEnhancing)
+    entitiesEnhancing {
+        main { enabled = true }
+    }
     
     
 }
