@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:cubabi="http://schemas.company.com/agd/0.1/ui-component.xsd"
+        caption="msg://biDemoSaikuWindowCaption"
+        messagesPack="com.haulmont.bidemo.web.bi">
+    <layout spacing="true">
+        <vbox id="box" width="100%" height="100%">
+            <cubabi:biComponent id="biComponent"
+                                reportPath=":home:admin:ProductsByTypeAndLocation.saiku"
+                                width="100%"
+                                height="100%"/>
+        </vbox>
+    </layout>
+</window>
